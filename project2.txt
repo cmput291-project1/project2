@@ -49,7 +49,7 @@ https://docs.oracle.com/cd/E17275_01/html/java/com/sleepycat/db/Database.html
 	
 
 -helper methods
-	-get key/data/range from user
+	-get key/data from user
 		-make sure it's all lowercase and letter of the alphabet and between 64-127 bytes inclusive
 		
 		

@@ -119,6 +119,12 @@ public class Sample{
 		ddbt = new DatabaseEntry(s.getBytes());
 		ddbt.setSize(s.length()); 
 
+		//NEW CODE - checks if key already in the database
+		OperationStatus result;
+		result = my_table.exists(null, kdbt);
+		if (!result.toString().equals("OperationStatus.NOTFOUND"))
+			System.out.println("Key is already in the database!");
+
 		/* to insert the key/data pair into the database */
                 my_table.putNoOverwrite(null, kdbt, ddbt);
             }

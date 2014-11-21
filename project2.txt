@@ -1,0 +1,56 @@
+https://docs.oracle.com/cd/E17275_01/html/java/com/sleepycat/db/Database.html
+- show menu
+	  1. Create and populate a database
+	  2. Retrieve records with a given key
+	  3. Retrieve records with a given data
+	  4. Retrieve records with a given range of key values
+	  5. Destroy the database
+	  6. Quit
+	
+1. populate database with list of 100,000 records (key/data pairs)
+	-create /tmp/user_db directory
+	-create DB_BTREE, DB_HASH or IndexFile databases based on given start argument
+	-for IndexFile: use SecondaryDatabase?
+		-https://docs.oracle.com/cd/E17275_01/html/java/com/sleepycat/db/SecondaryDatabase.html
+	-reject any attempts to insert duplicate keys
+	-all key/data pairs are strings of lower case 26 Roman chars
+	-must be generated using a pseudo random number generator
+	-the lengths of key and data are from 64 to 127 bytes, inclusive
+	-can use sample program to help do this
+
+2. Retrieve records with a given key
+	-get key from user
+	-look up the key from the records and get all the sets of data from it
+	-say if key can't be found or if db isn't populated yet
+	-needs to record time to do this and the number of records found
+
+3. Retrieve records with a given data
+	-get data from user
+	-find every key/data pair where the data is the given data
+	-say if data can't be found or if db isn't populated yet
+	-needs to record time to do this and the number of records found
+
+4. Retrieve records with a given range of key values
+	-Randomly select the existing key and/or data values (from your populated database) to make sure that the key/data search is non-empty, and
+         the range search returns 100-200 records.   (Note that lowering the value of the upper limit will reduce the number of records returned.)
+	-find every key with a key value that is within the range
+	-say if bd isn't populated yet
+	-needs to record time to do this and the number of records found
+
+5. Destroy the database
+	-use database.close(); to close database connection
+	-my_table.remove(SAMPLE_TABLE,null,null); to delete table file
+	-needs to record time to do this after user enters 2 and the number of records found
+
+6. Quit
+	-make sure the database is destroyed or destroy it
+	-delete /tmp/user_db directory
+	-System.exit(1);
+	
+
+-helper methods
+	-get key/data/range from user
+		-make sure it's all lowercase and letter of the alphabet and between 64-127 bytes inclusive
+		
+		
+		

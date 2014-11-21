@@ -5,7 +5,6 @@ import java.util.Arrays;
 public class mydbtest {
 	public static void main(String[] args) {
 		Scan scan = Scan.getInstance();
-		Pref pref = Pref.getInstance();
 		int type = 0; 
 		if (args.length > 0) {
     		try{
@@ -19,7 +18,7 @@ public class mydbtest {
 			System.out.println("database type must be selected.");
 			System.exit(-1);
 		}
-		pref.setDbType(type);
+		Pref.setDbType(type);
 		Menu menu = new Menu();
 		scan.close();
 	}

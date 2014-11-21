@@ -40,7 +40,6 @@ https://docs.oracle.com/cd/E17275_01/html/java/com/sleepycat/db/Database.html
 5. Destroy the database
 	-use database.close(); to close database connection
 	-my_table.remove(SAMPLE_TABLE,null,null); to delete table file
-	-needs to record time to do this after user enters 2 and the number of records found
 
 6. Quit
 	-make sure the database is destroyed or destroy it

@@ -56,6 +56,9 @@ public class DataBase{
 		}catch (DatabaseException dbe){
 			System.err.println("unable to create database");
 			dbe.printStackTrace();
+		}catch (FileNotFoundException fnfe){
+			System.err.println("can not find file to create Database");
+			fnfe.printStackTrace();
 		}
 
 		if(this.database == null){
@@ -139,6 +142,9 @@ public class DataBase{
 		}catch(DatabaseException dbe){
 			System.err.println("unable to close database");
 			dbe.printStackTrace();
+		}catch (FileNotFoundException fnfe){
+			System.err.println("can not find file to remove Database");
+			fnfe.printStackTrace();
 		}
 	}
 }

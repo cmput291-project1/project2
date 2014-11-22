@@ -8,9 +8,11 @@ public class DataBase{
 	private static DataBase db = null;	
 	private Database database = null;	
 	private Random random;
+	private int duplicateKeys;
 
 	protected DataBase(){
 		random = new Random(1000000);
+		duplicateKeys = 0;
 		if(!createFile()){
 			System.err.println("Unable to create file for database");
 			System.exit(-1);
@@ -20,7 +22,7 @@ public class DataBase{
 			System.exit(-1);
 		}
 		populateTable();
-
+		System.out.println(duplicateKeys + " number of duplicate keys");
 	}
 
 	public static DataBase getInstance(){
@@ -70,10 +72,6 @@ public class DataBase{
 		}
 		
 		System.out.println(TABLE + " has been created of type: " + dbConfig.getType());
-
-		
-	  System.out.println(NO_RECORDS + " records inserted into" + TABLE);
-	
 		return true;
 	}	
 
@@ -85,6 +83,7 @@ public class DataBase{
 		while(count < NO_RECORDS){
 			count += addEntry();
 		}
+		System.out.println(NO_RECORDS + " records inserted into" + TABLE);
 	}
 	
 	private int addEntry(){
@@ -125,6 +124,7 @@ public class DataBase{
 			}
 			return 1;
 		}
+		duplicateKeys++;
 		return 0;
 	}
 

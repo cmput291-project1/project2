@@ -22,7 +22,7 @@ public class DataBase{
 			System.exit(-1);
 		}
 		populateTable();
-		System.out.println(duplicateKeys + " number of duplicate keys");
+		System.out.println(duplicateKeys + " duplicate keys created (none were inserted don't worry)");
 	}
 
 	public static DataBase getInstance(){

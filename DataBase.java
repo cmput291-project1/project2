@@ -33,8 +33,8 @@ public class DataBase{
 
 	private final boolean createFile(){
 		File dbDirect = new File("/tmp/user_db");
-	  boolean success = dbDirect.mkdirs();
-		return success;
+	  dbDirect.mkdirs();
+		return dbDirect.exists();
 	}
 
 	private final boolean createBase(){

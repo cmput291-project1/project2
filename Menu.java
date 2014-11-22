@@ -24,7 +24,7 @@ public class Menu{
 		int option = this.select();
 		switch(option){
 			case 1 : 
-						DataBase.getInstance()
+						DataBase.getInstance();
 						break;
 			case 2 : 
 						System.out.println("Option 2 executed");	

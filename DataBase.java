@@ -108,8 +108,10 @@ public class DataBase{
 		ddbt = new DatabaseEntry(s.getBytes());
 		ddbt.setSize(s.length()); 
 		
+		OperationStatus result = new OperationStatus();
+
 		try{
-			OperationStatus result = this.database.exists(null, kdbt);
+			result = this.database.exists(null, kdbt);
 		}catch(DatabaseException dbe){
 			System.err.println("Unable to check if key exists");
 			dbe.printStackTrace();

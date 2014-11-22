@@ -21,5 +21,6 @@ public class mydbtest {
 		Pref.setDbType(type);
 		Menu menu = new Menu();
 		scan.close();
+		DataBase.getInstance().close();
 	}
 }

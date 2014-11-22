@@ -108,9 +108,19 @@ public class DataBase{
 		ddbt = new DatabaseEntry(s.getBytes());
 		ddbt.setSize(s.length()); 
 		
-		OperationStatus result = this.database.exists(null, kdbt);
+		try{
+			OperationStatus result = this.database.exists(null, kdbt);
+		}catch(DatabaseException dbe){
+			System.err.println("Unable to check if key exists");
+			dbe.printStackTrace();
+		}
 		if(!result.toString().equals(OperationStatus.NOTFOUND)){
-			this.database.putNoOverwrite(null, kdbt, ddbt);
+			try{
+				this.database.putNoOverwrite(null, kdbt, ddbt);
+			}catch(DatabaseException dbe){
+				System.err.println("Unable to put key/data pair in database");
+				dbe.printStackTrace();
+			}
 			return 1;
 		}
 		return 0;

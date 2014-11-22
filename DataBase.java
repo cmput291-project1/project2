@@ -108,7 +108,7 @@ public class DataBase{
 		ddbt = new DatabaseEntry(s.getBytes());
 		ddbt.setSize(s.length()); 
 		
-		OperationStatus result;
+		OperationStatus result = null;
 
 		try{
 			result = this.database.exists(null, kdbt);

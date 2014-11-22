@@ -7,8 +7,10 @@ public class DataBase{
 	private static final String TABLE = "/tmp/user_db/table";
 	private static DataBase db = null;	
 	private Database database = null;	
+	private Random random;
 
 	protected DataBase(){
+		random = new Random(1000000);
 		if(!createFile()){
 			System.err.println("Unable to create file for database");
 			System.exit(-1);
@@ -17,6 +19,8 @@ public class DataBase{
 			System.err.println("Database was not created properly");
 			System.exit(-1);
 		}
+		populateTable();
+
 	}
 
 	public static DataBase getInstance(){
@@ -27,13 +31,13 @@ public class DataBase{
 		return db;
 	}
 
-	public final boolean createFile(){
+	private final boolean createFile(){
 		File dbDirect = new File("/tmp/user_db");
 	  boolean success = dbDirect.mkdirs();
 		return success;
 	}
 
-	public final boolean createBase(){
+	private final boolean createBase(){
 		// Create the database object.
 		// There is no environment for this simple example.
 		DatabaseConfig dbConfig = new DatabaseConfig();
@@ -65,10 +69,9 @@ public class DataBase{
 			return false;
 		}
 		
-		System.out.println(TABLE + " has been created");
+		System.out.println(TABLE + " has been created of type: " + dbConfig.getType());
 
-		/* populate the new database with NO_RECORDS records */
-		populateTable(this.database,NO_RECORDS);
+		
 	  System.out.println(NO_RECORDS + " records inserted into" + TABLE);
 	
 		return true;
@@ -77,63 +80,42 @@ public class DataBase{
 	 /*
      *  To pouplate the given table with nrecs records
      */
-	static void populateTable(Database my_table, int nrecs ) {
+	private void populateTable() {
+		int count = 0;
+		while(count < NO_RECORDS){
+			count += addEntry();
+		}
+	}
+	
+	private int addEntry(){
 		int range;
     DatabaseEntry kdbt, ddbt;
 		String s;
 
-		/*  
-		 *  generate a random string with the length between 64 and 127,
-		 *  inclusive.
-		 *
-		 *  Seed the random number once and once only.
-		 */
-		Random random = new Random(1000000);
-
-		try {
-			for (int i = 0; i < nrecs; i++) {
-
-			/* to generate a key string */
-			range = 64 + random.nextInt( 64 );
-			s = "";
-			for ( int j = 0; j < range; j++ ) 
-				s+=(new Character((char)(97+random.nextInt(26)))).toString();
-
-			/* to create a DBT for key */
-			kdbt = new DatabaseEntry(s.getBytes());
-			kdbt.setSize(s.length()); 
-
-		  // to print out the key/data pair
-		  //System.out.println("KEY: " + s + " " + s.length());	
-
-			/* to generate a data string */
-			range = 64 + random.nextInt( 64 );
-			s = "";
-			for ( int j = 0; j < range; j++ ) 
-				s+=(new Character((char)(97+random.nextInt(26)))).toString();
-		              // to print out the key/data pair
-		              //System.out.println("DATA: " + s + " " + s.length());	
-		              //System.out.println("");
+		range = 64 + random.nextInt( 64 );
+		s = "";
+		for ( int j = 0; j < range; j++ ) 
+			s+=(new Character((char)(97+random.nextInt(26)))).toString();
 		
-			/* to create a DBT for data */
-			ddbt = new DatabaseEntry(s.getBytes());
-			ddbt.setSize(s.length()); 
+		kdbt = new DatabaseEntry(s.getBytes());
+		kdbt.setSize(s.length()); 
 
-			//NEW CODE - checks if key already in the database
-			OperationStatus result;
-			result = my_table.exists(null, kdbt);
-			if (!result.toString().equals("OperationStatus.NOTFOUND"))
-				System.out.println("Key is already in the database!");
-
-				/* to insert the key/data pair into the database */
-		    my_table.putNoOverwrite(null, kdbt, ddbt);
-			}
+		range = 64 + random.nextInt( 64 );
+		s = "";
+		for ( int j = 0; j < range; j++ ) 
+			s+=(new Character((char)(97+random.nextInt(26)))).toString();
+		              
+		ddbt = new DatabaseEntry(s.getBytes());
+		ddbt.setSize(s.length()); 
+		
+		OperationStatus result = this.database.exists(null, kdbt);
+		if(!resut.toString().equals(OperationStatus.NOTFOUND)){
+			this.database.putNoOverwrite(null, kdbt, ddbt);
+			return 1;
 		}
-		catch (DatabaseException dbe) {
-			System.err.println("Populate the table: "+dbe.toString());
-		  System.exit(1);
-		}
+		return 0;
 	}
+
 
 	public void close(){
 		try{

@@ -42,6 +42,7 @@ public class Menu{
 						break;
 			case 6:
 						System.out.println("Exiting data base");
+						DataBase.getInstance().close();
 						System.exit(-1);	
 						break;
 			default: 

@@ -1,3 +1,6 @@
+import com.sleepycat.db.*;
+import java.io.*;
+import java.util.*;
 
 public class DataBase{
 	private static final int NO_RECORDS = 100000;

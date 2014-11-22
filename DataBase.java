@@ -13,7 +13,10 @@ public class DataBase{
 			System.err.println("Unable to create file for database");
 			System.exit(-1);
 		}
-		createBase();
+		if(!createBase()){
+			System.err.println("Database was not created properly");
+			System.exit(-1);
+		}
 	}
 
 	public static DataBase getInstance(){
@@ -48,8 +51,13 @@ public class DataBase{
 		}
 	  
 		dbConfig.setAllowCreate(true);
-		this.database = new Database(TABLE, null, dbConfig);
-	
+		try{
+			this.database = new Database(TABLE, null, dbConfig);
+		}catch (DatabaseException dbe){
+			System.err.println("unable to create database");
+			dbe.printStackTrace();
+		}
+
 		if(this.database == null){
 			return false;
 		}
@@ -125,9 +133,12 @@ public class DataBase{
 	}
 
 	public void close(){
-		/* cloase the database and the db enviornment */
-		this.database.close();
-		/* to remove the table */
-	 	this.database.remove(TABLE,null,null);
+		try{
+			this.database.close();
+			this.database.remove(TABLE,null,null);
+		}catch(DatabaseException dbe){
+			System.err.println("unable to close database");
+			dbe.printStackTrace();
+		}
 	}
 }

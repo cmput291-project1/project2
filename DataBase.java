@@ -7,6 +7,7 @@ public class DataBase{
 	private static final String TABLE = "/tmp/user_db/table";
 	private static DataBase db = null;	
 	private Database database = null;	
+	private Database secdatabase = null;
 	private Random random;
 	private int duplicateKeys;
 
@@ -33,6 +34,10 @@ public class DataBase{
 		return db;
 	}
 
+	public Database getPrimaryDb(){
+		return this.database;
+	}
+
 	private final boolean createFile(){
 		File dbDirect = new File("/tmp/user_db");
 	  dbDirect.mkdirs();
@@ -49,8 +54,7 @@ public class DataBase{
 		}else if(Pref.getDbType() == 2){
 			dbConfig.setType(DatabaseType.HASH);
 		}else if(Pref.getDbType() == 3){
-			System.out.println(" indexFile not implemented yet");
-			System.exit(-1);
+			configureIndexFileDb();
 		}else{
 			System.err.println("invalid type selected");
 			System.exit(-1);
@@ -75,6 +79,10 @@ public class DataBase{
 		return true;
 	}	
 
+	private void configureIndexFileDb(){
+		System.out.println("not implemented yet");
+		System.exit(-1);
+	}
 	 /*
      *  To pouplate the given table with nrecs records
      */

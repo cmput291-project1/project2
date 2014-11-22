@@ -54,7 +54,7 @@ public class DataBase{
 			return false;
 		}
 		
-		System.out.println(SAMPLE_TABLE + " has been created");
+		System.out.println(TABLE + " has been created");
 
 		/* populate the new database with NO_RECORDS records */
 		populateTable(this.database,NO_RECORDS);
@@ -128,6 +128,6 @@ public class DataBase{
 		/* cloase the database and the db enviornment */
 		this.database.close();
 		/* to remove the table */
-	 	this.database.remove(SAMPLE_TABLE,null,null);
+	 	this.database.remove(TABLE,null,null);
 	}
 }

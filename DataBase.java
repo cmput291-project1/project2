@@ -109,7 +109,7 @@ public class DataBase{
 		ddbt.setSize(s.length()); 
 		
 		OperationStatus result = this.database.exists(null, kdbt);
-		if(!resut.toString().equals(OperationStatus.NOTFOUND)){
+		if(!result.toString().equals(OperationStatus.NOTFOUND)){
 			this.database.putNoOverwrite(null, kdbt, ddbt);
 			return 1;
 		}

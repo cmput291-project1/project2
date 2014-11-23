@@ -6,9 +6,13 @@ public class DataBase{
 	private static final int NO_RECORDS = 100000;
 	private static final String TABLE = "/tmp/user_db/table";
 	private static final String SECONDARY_TABLE = "/tmp/user_db/secondary_table";
+
+		
 	private static DataBase db = null;	
 	private Database database = null;	
-	private Database secdatabase = null;
+	private SecondaryDatabase secdatabase = null;
+
+	
 	private Random random;
 	private int duplicateKeys;
 
@@ -68,7 +72,10 @@ public class DataBase{
 		}else if(Pref.getDbType() == 2){
 			dbConfig.setType(DatabaseType.HASH);
 		}else if(Pref.getDbType() == 3){
-			configureIndexFileDb();
+			if(!configureIndexFileDb()){
+				System.out.println("Unable to set up indexFile database");
+				System.exit(-1);
+			}
 		}else{
 			System.err.println("invalid type selected");
 			System.exit(-1);
@@ -93,14 +100,43 @@ public class DataBase{
 		return true;
 	}	
 
-	private void configureIndexFileDb(){
-		if(!createFile(SECONDARY_TABLE)){
-			System.out.println("unable to create secondary table file");
-			System.exit(-1);
-		}
+	private final boolean configureIndexFileDb(){
+		DatabaseConfig primaryConfig = new DatabaseConfig();
+		SecondaryConfig secConfig = new SecondaryConfig();
+
+				
+		primaryConfig.setAllowCreate(true);
+
 		try{
-				this.database = new Database(TABLE, null  
+			this.database = new Database(TABLE, null, primaryConfig);
+		}catch (DatabaseException dbe){
+			System.err.println("unable to create database");
+			dbe.printStackTrace();
+		}catch (FileNotFoundException fnfe){
+			System.err.println("can not find file to create Database");
+			fnfe.printStackTrace();
+		}
 		
+		if(this.database == null){
+			return false;
+		}
+
+		System.out.println(TABLE + " has been created of type: " + dbConfig.getType());
+		
+		secConfig.setKeyCreator(new FirstCharKeyCreator());
+		secConfig.setAllowCreate(true);
+		
+		try{
+			this.secdatabase = new SecondaryDatabase(SECONDARY_TABLE, null, this.database, secConfig);
+		}catch(DatabaseException dbe){
+			System.err.println("Error while instantiating secondary database: " + dbe.toSting());
+			this.close();
+			System.exit(-1);
+		}catch(FileNotFoundException fnfe){
+			System.err.println("Secondary database file not found: " + fnfe.toString());
+		}
+		
+		System.out.println(SECONDARY_TABLE + " has been created");
 	}
 	 /*
      *  To pouplate the given table with nrecs records
@@ -158,6 +194,10 @@ public class DataBase{
 
 	public void close(){
 		try{
+			if(this.secdatabase != null){
+				this.secdatabase.close();
+				this.secdatabase.remove();
+			}
 			this.database.close();
 			this.database.remove(TABLE,null,null);
 		}catch(DatabaseException dbe){
@@ -167,5 +207,18 @@ public class DataBase{
 			System.err.println("can not find file to remove Database");
 			fnfe.printStackTrace();
 		}
+	}
+
+	private class FirstCharKeyCreator implements SecondaryKeyCreator {
+			public boolean createSecondaryKey(SecondaryDatabase secondary,
+                                      DatabaseEntry key,
+                                      DatabaseEntry data,
+                                      DatabaseEntry result)
+            throws DatabaseException {
+        byte[] firstByte = new byte[1];
+        firstByte[0] = data.getData()[0];
+        result.setData(firstByte);
+        return true;
+    }
 	}
 }

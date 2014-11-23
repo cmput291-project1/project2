@@ -137,6 +137,7 @@ public class DataBase{
 		}
 		
 		System.out.println(SECONDARY_TABLE + " has been created");
+		return true;
 	}
 	 /*
      *  To pouplate the given table with nrecs records

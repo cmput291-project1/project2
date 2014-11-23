@@ -84,7 +84,7 @@ public class DataBase{
 			return false;
 		}
 		
-		System.out.println(TABLE + " has been created of type: " + dbConfig.getType());
+		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
 		return true;
 	}	
 
@@ -110,7 +110,7 @@ public class DataBase{
 			return false;
 		}
 
-		System.out.println(TABLE + " has been created of type: " + primaryConfig.getType());
+		System.out.println(PRIMARY_TABLE + " has been created of type: " + primaryConfig.getType());
 		
 			
 		
@@ -138,7 +138,7 @@ public class DataBase{
 		while(count < NO_RECORDS){
 			count += addEntry();
 		}
-		System.out.println(NO_RECORDS + " records inserted into" + TABLE);
+		System.out.println(NO_RECORDS + " records inserted into" + PRIMARY_TABLE);
 	}
 	
 	private int addEntry(){
@@ -190,7 +190,7 @@ public class DataBase{
 				this.secdatabase.close();
 			}
 			this.database.close();
-			this.database.remove(TABLE,null,null);
+			this.database.remove(PRIMARY_TABLE,null,null);
 		}catch(DatabaseException dbe){
 			System.err.println("unable to close database");
 			dbe.printStackTrace();

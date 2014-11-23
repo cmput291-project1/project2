@@ -44,7 +44,7 @@ public class DataBase{
 	}
 
 	private final boolean createFile(String file){
-		File dbDirect = new File(file);
+		File dbDirect = new File("/tmp/primary_db");
 	  dbDirect.mkdirs();
 		return dbDirect.exists();
 	}

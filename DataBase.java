@@ -4,7 +4,8 @@ import java.util.*;
 
 public class DataBase{
 	private static final int NO_RECORDS = 100000;
-	private static final String TABLE = "/tmp/user_db/primary_table";
+	private static final String DATABASE_DIR = "/tmp/user_db";
+	private static final String PRIMARY_TABLE = "/tmp/user_db/primary_table";
 	private static final String SECONDARY_TABLE = "/tmp/user_db/secondary_table";
 
 		
@@ -19,7 +20,7 @@ public class DataBase{
 	protected DataBase(){
 		random = new Random(1000000);
 		duplicateKeys = 0;
-		if(!createFile(TABLE)){
+		if(!createDirectory(DATABASE_DIR)){
 			System.err.println("Unable to create file for database");
 			System.exit(-1);
 		}
@@ -43,7 +44,7 @@ public class DataBase{
 		return this.database;
 	}
 
-	private final boolean createFile(String file){
+	private final boolean createDirectory(String file){
 		File dbDirect = new File(file);
 	  dbDirect.mkdirs();
 		return dbDirect.exists();
@@ -70,7 +71,7 @@ public class DataBase{
 		
 		dbConfig.setAllowCreate(true);
 		try{
-			this.database = new Database(TABLE, null, dbConfig);
+			this.database = new Database(PRIMARY_TABLE, null, dbConfig);
 		}catch (DatabaseException dbe){
 			System.err.println("unable to create database");
 			dbe.printStackTrace();
@@ -96,7 +97,7 @@ public class DataBase{
 		primaryConfig.setType(DatabaseType.RECNO);
 
 		try{
-			this.database = new Database(TABLE, null, primaryConfig);
+			this.database = new Database(PRIMARY_TABLE, null, primaryConfig);
 		}catch (DatabaseException dbe){
 			System.err.println("unable to create database");
 			dbe.printStackTrace();
@@ -111,7 +112,7 @@ public class DataBase{
 
 		System.out.println(TABLE + " has been created of type: " + primaryConfig.getType());
 		
-		createFile(SECONDARY_TABLE);		
+			
 		
 		secConfig.setKeyCreator(new FirstCharKeyCreator());
 		secConfig.setAllowCreate(true);

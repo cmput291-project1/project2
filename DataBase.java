@@ -4,8 +4,8 @@ import java.util.*;
 
 public class DataBase{
 	private static final int NO_RECORDS = 100000;
-	private static final String TABLE = "/tmp/primary_db";
-	private static final String SECONDARY_TABLE = "/tmp/secondary_db";
+	private static final String TABLE = "/tmp/user_db/primary_table";
+	private static final String SECONDARY_TABLE = "/tmp/user_db/secondary_table";
 
 		
 	private static DataBase db = null;	
@@ -44,7 +44,7 @@ public class DataBase{
 	}
 
 	private final boolean createFile(String file){
-		File dbDirect = new File("/tmp/user_db");
+		File dbDirect = new File(file);
 	  dbDirect.mkdirs();
 		return dbDirect.exists();
 	}
@@ -67,20 +67,7 @@ public class DataBase{
 			default:
 							System.out.println("Unrecognized database type.");
 		}
-		if(Pref.getDbType() == 1){
-			dbConfig.setType(DatabaseType.BTREE);
-		}else if(Pref.getDbType() == 2){
-			dbConfig.setType(DatabaseType.HASH);
-		}else if(Pref.getDbType() == 3){
-			if(!configureIndexFileDb()){
-				System.out.println("Unable to set up indexFile database");
-				System.exit(-1);
-			}
-		}else{
-			System.err.println("invalid type selected");
-			System.exit(-1);
-		}
-	  
+		
 		dbConfig.setAllowCreate(true);
 		try{
 			this.database = new Database(TABLE, null, dbConfig);
@@ -123,6 +110,8 @@ public class DataBase{
 		}
 
 		System.out.println(TABLE + " has been created of type: " + primaryConfig.getType());
+		
+		createFile(SECONDARY_TABLE);		
 		
 		secConfig.setKeyCreator(new FirstCharKeyCreator());
 		secConfig.setAllowCreate(true);

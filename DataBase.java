@@ -121,7 +121,7 @@ public class DataBase{
 			return false;
 		}
 
-		System.out.println(TABLE + " has been created of type: " + dbConfig.getType());
+		System.out.println(TABLE + " has been created of type: " + primaryConfig.getType());
 		
 		secConfig.setKeyCreator(new FirstCharKeyCreator());
 		secConfig.setAllowCreate(true);
@@ -129,7 +129,7 @@ public class DataBase{
 		try{
 			this.secdatabase = new SecondaryDatabase(SECONDARY_TABLE, null, this.database, secConfig);
 		}catch(DatabaseException dbe){
-			System.err.println("Error while instantiating secondary database: " + dbe.toSting());
+			System.err.println("Error while instantiating secondary database: " + dbe.toString());
 			this.close();
 			System.exit(-1);
 		}catch(FileNotFoundException fnfe){

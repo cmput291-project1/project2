@@ -5,3 +5,5 @@ javac:
 
 clean:
 	rm -f *.class
+	rm -f *.java~
+	rm makefile~

@@ -15,7 +15,7 @@ public class DataBase{
 	protected DataBase(){
 		random = new Random(1000000);
 		duplicateKeys = 0;
-		if(!createFile()){
+		if(!createFile(TABLE)){
 			System.err.println("Unable to create file for database");
 			System.exit(-1);
 		}
@@ -39,8 +39,8 @@ public class DataBase{
 		return this.database;
 	}
 
-	private final boolean createFile(){
-		File dbDirect = new File("/tmp/user_db");
+	private final boolean createFile(String file){
+		File dbDirect = new File(file);
 	  dbDirect.mkdirs();
 		return dbDirect.exists();
 	}
@@ -50,6 +50,19 @@ public class DataBase{
 		// There is no environment for this simple example.
 		DatabaseConfig dbConfig = new DatabaseConfig();
 
+		switch(Pref.getDbType()){
+			case 1:
+							dbConfig.setType(DatabaseType.BTREE);
+							break;
+			case 2:
+							dbConfig.setType(DatabaseType.HASH);
+							break;
+			case 3:
+							configureIndexFileDb();
+							break;
+			default:
+							System.out.println("Unrecognized database type.");
+		}
 		if(Pref.getDbType() == 1){
 			dbConfig.setType(DatabaseType.BTREE);
 		}else if(Pref.getDbType() == 2){
@@ -81,8 +94,13 @@ public class DataBase{
 	}	
 
 	private void configureIndexFileDb(){
-		System.out.println("not implemented yet");
-		System.exit(-1);
+		if(!createFile(SECONDARY_TABLE)){
+			System.out.println("unable to create secondary table file");
+			System.exit(-1);
+		}
+		try{
+				this.database = new Database(TABLE, null  
+		
 	}
 	 /*
      *  To pouplate the given table with nrecs records

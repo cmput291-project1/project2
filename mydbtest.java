@@ -18,8 +18,13 @@ public class mydbtest {
 			System.out.println("database type must be selected.");
 			System.exit(-1);
 		}
+		if( (type > 3) || (type < 1) ){
+			System.out.println("database type must be in interval (1,3)");
+			System.exit(-1);
+		}
 		Pref.setDbType(type);
 		Menu menu = new Menu();
+		
 		scan.close();
 		DataBase.getInstance().close();
 	}

@@ -4,8 +4,8 @@ import java.util.*;
 
 public class DataBase{
 	private static final int NO_RECORDS = 100000;
-	private static final String TABLE = "/tmp/user_db/";
-	private static final String SECONDARY_TABLE = "/tmp/user_db/";
+	private static final String TABLE = "/tmp/primary_db";
+	private static final String SECONDARY_TABLE = "/tmp/secondary_db";
 
 		
 	private static DataBase db = null;	

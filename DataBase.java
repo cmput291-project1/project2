@@ -196,7 +196,6 @@ public class DataBase{
 		try{
 			if(this.secdatabase != null){
 				this.secdatabase.close();
-				this.secdatabase.remove();
 			}
 			this.database.close();
 			this.database.remove(TABLE,null,null);

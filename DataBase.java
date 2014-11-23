@@ -106,6 +106,7 @@ public class DataBase{
 
 				
 		primaryConfig.setAllowCreate(true);
+		primaryConfig.setType(DatabaseType.RECNO);
 
 		try{
 			this.database = new Database(TABLE, null, primaryConfig);

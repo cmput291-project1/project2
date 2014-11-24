@@ -29,7 +29,7 @@ public class Menu{
 						makeSelection();
 						break;
 			case 2 : 
-						System.out.println("Option 2 executed");
+						System.out.println("Retrieving records with given key");
 						KeyRetrieve kr = new KeyRetrieve();	
 						kr.getRecords();
 						printHeader();
@@ -42,7 +42,8 @@ public class Menu{
 						System.out.println("Option 4 executed");	
 						break;
 			case 5:
-						System.out.println("Option 5 executed");	
+						System.out.println("Database is destroyed");	
+						DataBase.getInstance().close();
 						break;
 			case 6:
 						System.out.println("Exiting data base");

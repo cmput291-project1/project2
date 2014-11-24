@@ -38,6 +38,10 @@ public class DataBase{
 		}
 		populateTable();
 		System.out.println(duplicateKeys + " duplicate keys created (none were inserted don't worry)");
+		System.out.println("test search data string = " + testData.getDataString() + " it is the " + testData.getDataRecNo() + " record inserted at " +
+								 testData.getDataDate());
+		System.out.println("test search key string = " + testData.getKeyString() + " it is the " + testData.getKeyRecNo() + " record inserted at " +
+								 testData.getKeyDate());
 	}
 
 	public static DataBase getInstance(){
@@ -158,23 +162,24 @@ public class DataBase{
 	private int addEntry(int count){
 		int range;
 		DatabaseEntry kdbt, ddbt;
-		String s;
+		String keyString;
+		String dataString;
 
 		range = 64 + random.nextInt( 64 );
-		s = "";
+		keyString = "";
 		for ( int j = 0; j < range; j++ ) 
-			s+=(new Character((char)(97+random.nextInt(26)))).toString();
+			keyString+=(new Character((char)(97+random.nextInt(26)))).toString();
 		
-		kdbt = new DatabaseEntry(s.getBytes());
-		kdbt.setSize(s.length()); 
+		kdbt = new DatabaseEntry(keyString.getBytes());
+		kdbt.setSize(keyString.length()); 
 
 		range = 64 + random.nextInt( 64 );
-		s = "";
+		dataString = "";
 		for ( int j = 0; j < range; j++ ) 
-			s+=(new Character((char)(97+random.nextInt(26)))).toString();
+			dataString+=(new Character((char)(97+random.nextInt(26)))).toString();
 		              
-		ddbt = new DatabaseEntry(s.getBytes());
-		ddbt.setSize(s.length()); 
+		ddbt = new DatabaseEntry(dataString.getBytes());
+		ddbt.setSize(dataString.length()); 
 		
 		OperationStatus result = null;
 
@@ -189,6 +194,10 @@ public class DataBase{
 		if(!result.toString().equals(OperationStatus.NOTFOUND)){
 			try{
 				this.database.put(null, kdbt, ddbt);
+				if(count == 1){
+					this.testData.setTestData(dataString, count);
+					this.testData.setTestKey(keyString, count);
+				}
 			}catch(DatabaseException dbe){
 				System.err.println("Unable to put key/data pair in database");
 				dbe.printStackTrace();

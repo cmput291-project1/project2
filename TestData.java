@@ -1,4 +1,4 @@
-
+import java.util.Date;
 public class TestData{
 	private TestDatum testData;
 	private TestDatum testKey;
@@ -18,17 +18,17 @@ public class TestData{
 		return dataPackage;
 	}
 	
-	public void setTestData(String testData, long creationTime, int recordNumber){
+	public void setTestData(String testData, int recordNumber){
 		this.testData = new TestDatum();
 		this.testData.setTestString(testData);
-		this.testData.setCreationTime(creationTime);
+		this.testData.setCreationDate();
 		this.testData.setRecordNumber(recordNumber);
 	}
 
-	public void setTestKey(String testKey, long creationTime, int recordNumber){
+	public void setTestKey(String testKey, int recordNumber){
 		this.testKey = new TestDatum();
 		this.testKey.setTestString(testKey);
-		this.testKey.setCreationTime(creationTime);
+		this.testKey.setCreationDate();
 		this.testKey.setRecordNumber(recordNumber);
 	}
 
@@ -36,8 +36,8 @@ public class TestData{
 		return this.testData.getTestString();
 	}
 
-	public long getDataTime(){
-		return this.testData.getCreationTime();
+	public Date getDataDate(){
+		return this.testData.getCreationDate();
 	}
 
 	public int getDataRecNo(){
@@ -48,8 +48,8 @@ public class TestData{
 		return this.testKey.getTestString();
 	}
 
-	public long getKeyTime(){
-		return this.testKey.getCreationTime();
+	public Date getKeyDate(){
+		return this.testKey.getCreationDate();
 	}	
 	
 	public int getKeyRecNo(){
@@ -63,7 +63,7 @@ public class TestData{
 
 	public class TestDatum{
 		private String testString;
-		private long creationTime;
+		private Date creationDate;
 		private int recordNumber;
 
 		public TestDatum(){
@@ -74,8 +74,8 @@ public class TestData{
 			this.testString = testString;
 		}
 
-		public void setCreationTime(long creationTime){
-			this.creationTime = creationTime;
+		public void setCreationDate(){
+			this.creationDate = new Date();
 		}
 
 		public void setRecordNumber(int recordNumber){
@@ -86,8 +86,8 @@ public class TestData{
 			return this.testString;
 		}
 
-		public long getCreationTime(){
-			return this.creationTime;
+		public Date getCreationDate(){
+			return this.creationDate;
 		}
 
 		public int getRecordNumber(){

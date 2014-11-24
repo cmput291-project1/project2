@@ -24,10 +24,16 @@ public class Menu{
 		int option = this.select();
 		switch(option){
 			case 1 : 
-						System.out.println("Option 1 executed");	
+						DataBase.getInstance();
+						printHeader();
+						makeSelection();
 						break;
 			case 2 : 
-						System.out.println("Option 2 executed");	
+						System.out.println("Option 2 executed");
+						KeyRetrieve kr = new KeyRetrieve();	
+						kr.getRecords();
+						printHeader();
+						makeSelection();
 						break;
 			case 3: 
 						System.out.println("Option 3 executed");	
@@ -40,6 +46,7 @@ public class Menu{
 						break;
 			case 6:
 						System.out.println("Exiting data base");
+						DataBase.getInstance().close();
 						System.exit(-1);	
 						break;
 			default: 

@@ -177,7 +177,7 @@ public class DataBase{
 		}
 		if(!result.toString().equals(OperationStatus.NOTFOUND)){
 			try{
-				this.database.putNoOverwrite(null, kdbt, ddbt);
+				this.database.put(null, kdbt, ddbt);
 			}catch(DatabaseException dbe){
 				System.err.println("Unable to put key/data pair in database");
 				dbe.printStackTrace();

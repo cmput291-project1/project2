@@ -4,9 +4,9 @@ import java.util.*;
 
 public class DataBase{
 	private static final int NO_RECORDS = 100000;
-	private static final String DATABASE_DIR = "/tmp/user_db";
-	private static final String PRIMARY_TABLE = "/tmp/user_db/primary_table_file1";
-	private static final String SECONDARY_TABLE = "/tmp/user_db/secondary_table_file2";
+	private static final String DATABASE_DIR = "./tmp/user_db";
+	private static final String PRIMARY_TABLE = "./tmp/user_db/primary_table_file1";
+	private static final String SECONDARY_TABLE = "./tmp/user_db/secondary_table_file2";
 
 		
 	private static DataBase db = null;	

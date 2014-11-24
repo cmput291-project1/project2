@@ -21,8 +21,11 @@ public class DataBase{
 	private Random random;
 	private int duplicateKeys;
 
+	private TestData testData;
+
 	// not sure if all these method calls should be in constructor
 	protected DataBase(){
+		this.testData = TestData.getInstance();
 		random = new Random(1000000);
 		duplicateKeys = 0;
 		if(!createDirectory(DATABASE_DIR)){
@@ -147,14 +150,14 @@ public class DataBase{
 	private void populateTable() {
 		int count = 0;
 		while(count < NO_RECORDS){
-			count += addEntry();
+			count += addEntry(count);
 		}
 		System.out.println(NO_RECORDS + " records inserted into" + PRIMARY_TABLE);
 	}
 	
-	private int addEntry(){
+	private int addEntry(int count){
 		int range;
-    DatabaseEntry kdbt, ddbt;
+		DatabaseEntry kdbt, ddbt;
 		String s;
 
 		range = 64 + random.nextInt( 64 );
@@ -174,6 +177,8 @@ public class DataBase{
 		ddbt.setSize(s.length()); 
 		
 		OperationStatus result = null;
+
+				
 
 		try{
 			result = this.database.exists(null, kdbt);

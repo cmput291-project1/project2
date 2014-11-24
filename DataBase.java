@@ -123,6 +123,7 @@ public class DataBase{
 		secConfig.setAllowCreate(true);
 		secConfig.setType(DatabaseType.HASH);
 		secConfig.setSortedDuplicates(true);
+		secConfig.setAllowPopulate(true);
 
 		try{
 			this.secdatabase = new SecondaryDatabase(SECONDARY_TABLE, null, this.database, secConfig);

@@ -44,6 +44,10 @@ public class DataBase{
 		return this.database;
 	}
 
+	public SecondaryDatabase getSecondaryDb(){
+		return this.secdatabase;
+	}
+
 	private final boolean createDirectory(String file){
 		File dbDirect = new File(file);
 	  dbDirect.mkdirs();
@@ -116,9 +120,10 @@ public class DataBase{
 		
 		secConfig.setKeyCreator(new FirstCharKeyCreator());
 		secConfig.setAllowCreate(true);
-		
+		secConfig.setType(DatabaseType.RECNO);
+
 		try{
-			this.secdatabase = new SecondaryDatabase(SECONDARY_TABLE, null, this.database, secConfig);
+			this.secdatabase = new SecondaryDatabase(SECONDARY_TABLE, null, PRIMARY_TABLE, secConfig);
 		}catch(DatabaseException dbe){
 			System.err.println("Error while instantiating secondary database: " + dbe.toString());
 			this.close();

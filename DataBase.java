@@ -99,6 +99,7 @@ public class DataBase{
 				
 		primaryConfig.setAllowCreate(true);
 		primaryConfig.setType(DatabaseType.HASH);
+		primaryConfig.setSortedDuplicates(false);
 
 		try{
 			this.database = new Database(PRIMARY_TABLE, null, primaryConfig);
@@ -121,6 +122,7 @@ public class DataBase{
 		secConfig.setKeyCreator(new FirstCharKeyCreator());
 		secConfig.setAllowCreate(true);
 		secConfig.setType(DatabaseType.HASH);
+		secConfig.setSortedDuplicates(true);
 
 		try{
 			this.secdatabase = new SecondaryDatabase(SECONDARY_TABLE, null, this.database, secConfig);

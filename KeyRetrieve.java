@@ -1,6 +1,7 @@
 import com.sleepycat.db.*;
 
-//TODO Append key/value pair to file named "answers" in local directory
+//TODO - Append key/value pair to file named "answers" in local directory
+//     - get IndexFile search working
 public class KeyRetrieve {
         //example key that has data: thndjefjyfwgpbmhzbfsfkubphiyvqirxwggmuxhvqnfmczshjaldffddmqyylwfmvbttcpvdjjffawzrdmwzykaspfugguntavetgdszamyogibkekcrvjuf
 	Scan scan = Scan.getInstance();
@@ -17,11 +18,12 @@ public class KeyRetrieve {
 		// start timer, end before returns
 		long timeStart = System.nanoTime();
 		DatabaseEntry dbKey = new DatabaseEntry();
+		DatabaseEntry pKey = new DatabaseEntry();
 		dbKey.setData(key.getBytes()); 
 		dbKey.setSize(key.length());
 		
 		DatabaseEntry data = new DatabaseEntry();
-		Database database2 = null;
+		SecondaryDatabase database2 = null;
 		if (Pref.getDbType() == 3) {
 			database2 = db.getSecondaryDb();
 		}
@@ -32,8 +34,10 @@ public class KeyRetrieve {
 			if (database2 == null) {
 				database.get(null, dbKey, data, LockMode.DEFAULT);
 			}
-			else
-				database2.get(null, dbKey, data, LockMode.DEFAULT);		
+			// may not be correct way to do this, need to get secondary index to be populated first
+			else {
+				database2.get(null, dbKey, pKey, data, LockMode.DEFAULT);
+			}		
 		}
 		catch (DatabaseException e) {
 			System.err.println("unable to get key/value record!");

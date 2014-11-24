@@ -98,7 +98,7 @@ public class DataBase{
 
 				
 		primaryConfig.setAllowCreate(true);
-		primaryConfig.setType(DatabaseType.RECNO);
+		primaryConfig.setType(DatabaseType.HASH);
 
 		try{
 			this.database = new Database(PRIMARY_TABLE, null, primaryConfig);
@@ -120,7 +120,7 @@ public class DataBase{
 		
 		secConfig.setKeyCreator(new FirstCharKeyCreator());
 		secConfig.setAllowCreate(true);
-		secConfig.setType(DatabaseType.RECNO);
+		secConfig.setType(DatabaseType.HASH);
 
 		try{
 			this.secdatabase = new SecondaryDatabase(SECONDARY_TABLE, null, this.database, secConfig);

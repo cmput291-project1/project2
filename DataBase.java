@@ -68,6 +68,7 @@ public class DataBase{
 							break;
 			case 3:
 							configureIndexFileDb();
+							return;
 							break;
 			default:
 							System.out.println("Unrecognized database type.");

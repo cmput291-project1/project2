@@ -19,12 +19,20 @@ public class TestData{
 	}
 	
 	public void setTestData(String testData, long creationTime, int recordNumber){
-
+		this.testData = new TestDatum();
+		this.testData.setTestString = testData;
+		this.testData.setCreationTime = creationTime;
+		this.testData.setRecordNumber = recordNumber;
 	}
 
 	public void setTestKey(String testKey, long creationTime, int recordNumber){
-		
+		this.testKey = new TestDatum();
+		this.testKey.setTestString = testData;
+		this.testKey.setCreationTime = creationTime;
+		this.testKey.setRecordNumber = recordNumber;
 	}
+
+	public String getTestDataString
 	
 	private class TestDatum{
 		private String testString;

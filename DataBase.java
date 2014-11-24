@@ -2,6 +2,10 @@ import com.sleepycat.db.*;
 import java.io.*;
 import java.util.*;
 
+/*
+ * requires refactoring
+*/
+
 public class DataBase{
 	private static final int NO_RECORDS = 100000;
 	private static final String DATABASE_DIR = "./tmp/user_db";
@@ -17,6 +21,7 @@ public class DataBase{
 	private Random random;
 	private int duplicateKeys;
 
+	// not sure if all these method calls should be in constructor
 	protected DataBase(){
 		random = new Random(1000000);
 		duplicateKeys = 0;
@@ -100,7 +105,7 @@ public class DataBase{
 		primaryConfig.setAllowCreate(true);
 		primaryConfig.setType(DatabaseType.HASH);
 		primaryConfig.setSortedDuplicates(false);
-
+		// duplicate code clean up
 		try{
 			this.database = new Database(PRIMARY_TABLE, null, primaryConfig);
 		}catch (DatabaseException dbe){
@@ -138,9 +143,7 @@ public class DataBase{
 		System.out.println(SECONDARY_TABLE + " has been created of type: " + secConfig.getType());
 		return true;
 	}
-	 /*
-     *  To pouplate the given table with nrecs records
-     */
+	 
 	private void populateTable() {
 		int count = 0;
 		while(count < NO_RECORDS){
@@ -208,6 +211,9 @@ public class DataBase{
 		}
 	}
 
+/*
+ * secondary keys are the first char in the primary key string 
+*/
 	private class FirstCharKeyCreator implements SecondaryKeyCreator {
 			public boolean createSecondaryKey(SecondaryDatabase secondary,
                                       DatabaseEntry key,

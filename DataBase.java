@@ -123,7 +123,7 @@ public class DataBase{
 		secConfig.setType(DatabaseType.RECNO);
 
 		try{
-			this.secdatabase = new SecondaryDatabase(SECONDARY_TABLE, null, PRIMARY_TABLE, secConfig);
+			this.secdatabase = new SecondaryDatabase(SECONDARY_TABLE, null, this.database, secConfig);
 		}catch(DatabaseException dbe){
 			System.err.println("Error while instantiating secondary database: " + dbe.toString());
 			this.close();

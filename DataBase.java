@@ -1,7 +1,7 @@
 import com.sleepycat.db.*;
 import java.io.*;
 import java.util.*;
-
+import java.lang.Math;
 /*
  * requires refactoring
  * much cleaning required
@@ -38,16 +38,19 @@ public class DataBase{
 			System.exit(-1);
 		}
 		System.out.println(duplicateKeys + " duplicate keys created (none were inserted don't worry)");
-		System.out.println("test search data string = " + testData.getDataString() + " it is the " + testData.getDataRecNo() + " record inserted at " +
+		System.out.println("test search data string = " + testData.getDataString() + '\n' + " it is the " + testData.getDataRecNo() + " record inserted at " +
 								 testData.getDataDate());
-		System.out.println("test search key string = " + testData.getKeyString() + " it is the " + testData.getKeyRecNo() + " record inserted at " +
+		System.out.println("test search key string = " + testData.getKeyString() + '\n' + " it is the " + testData.getKeyRecNo() + " record inserted at " +
 								 testData.getKeyDate());
 
+		System.out.println("test value one record number : " + this.testData.getVal1RecNo() + " inserted on " + this.testData.getVal1Date());
+		System.out.println("test value two record number : " + this.testData.getVal2RecNo() + " inserted on " + this.testData.getVal2Date());
 		// comment out this block if you dont want key information w.r.t. secondary db
+		/*
 		if(Pref.getDbType() == 3){
 			printKeys();
 		}
-		
+		*/
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -116,8 +119,6 @@ public class DataBase{
 	}
 
 	private final boolean createBase(){
-		// Create the database object.
-		// There is no environment for this simple example.
 		DatabaseConfig dbConfig = new DatabaseConfig();
 
 		switch(Pref.getDbType()){
@@ -128,8 +129,7 @@ public class DataBase{
 							dbConfig.setType(DatabaseType.HASH);
 							break;
 			case 3:
-							configureIndexFileDb();
-							return true;
+							return configureIndexFileDb();
 			default:
 							System.out.println("Unrecognized database type.");
 		}
@@ -213,7 +213,19 @@ public class DataBase{
 		DatabaseEntry kdbt, ddbt;
 		String keyString;
 		String dataString;
-
+		// refactor out this code
+		double firstRecord = 0;
+		double secondRecord = 0;
+		double difference = 0;
+		Random rand = new Random();		
+		while (difference < 10000){
+			firstRecord = (double) rand.nextInt((100000 - 1) + 1) + 1 //  int randomNum = rand.nextInt((max - min) + 1) + min;		
+			secondRecord = (double) rand.nextInt((100000 - 1) + 1) + 1 //  int randomNum = rand.nextInt((max - min) + 1) + min;		
+			difference = Math.abs(secondRecord - firstRecord);
+		}
+		secondRecord -= 1;
+		firstRecord -= 1;
+		// refactor out this code
 		range = 64 + random.nextInt( 64 );
 		keyString = "";
 		for ( int j = 0; j < range; j++ ) 
@@ -221,12 +233,12 @@ public class DataBase{
 		
 		kdbt = new DatabaseEntry(keyString.getBytes());
 		kdbt.setSize(keyString.length()); 
-
+		
 		range = 64 + random.nextInt( 64 );
 		dataString = "";
 		for ( int j = 0; j < range; j++ ) 
 			dataString+=(new Character((char)(97+random.nextInt(26)))).toString();
-		              
+		//end refactoring... I think  
 		ddbt = new DatabaseEntry(dataString.getBytes());
 		ddbt.setSize(dataString.length()); 
 		
@@ -242,10 +254,17 @@ public class DataBase{
 		}
 		if(!result.toString().equals(OperationStatus.NOTFOUND)){
 			try{
-				this.database.put(null, kdbt, ddbt);
+				this.database.putNoOverwrite(null, kdbt, ddbt);
 				if(count == 1){
-					this.testData.setTestData(dataString, count);
-					this.testData.setTestKey(keyString, count);
+					this.testData.setTestData(dataString, count + 1);
+					this.testData.setTestKey(keyString, count + 1);
+				} 
+				
+				if ( (double) count == firstRecord ){
+					this.testData.setValue(keyString, count + 1, 1);
+				} 
+				if ( (double) count == secondRecord){
+					this.testData.setValue(keyString, count + 1, 1);
 				}
 			}catch(DatabaseException dbe){
 				System.err.println("Unable to put key/data pair in database");

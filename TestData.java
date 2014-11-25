@@ -2,8 +2,8 @@ import java.util.Date;
 public class TestData{
 	private TestDatum testData;
 	private TestDatum testKey;
-	private TestDatum lowerValue;
-	private TestDatum upperValue;
+	private TestDatum value1;
+	private TestDatum value2;
 	private boolean dataSet;
 	private static TestData dataPackage = null;	
 
@@ -33,6 +33,49 @@ public class TestData{
 		this.testKey.setCreationDate();
 		this.testKey.setRecordNumber(recordNumber + 1);
 	}
+
+	public void setValue(String testKey, int recordNumber, int valNumber){
+		if(valNumber != 1 || valNumber != 2){
+			System.out.println("TestData.setValue(..., valNumber) valNumber must be 1 or 2");
+			return;
+		}
+
+		if(valNumber == 1){
+			this.value1.setTestString(testKey);
+			this.value1.setCreationDate();
+			this.value1.setRecordNumber(recordNumber + 1);
+		}
+		else if(valNumber == 2){
+			this.value2.setTestString(testKey);
+			this.value2.setCreationDate();
+			this.value2.setRecordNumber(recordNumber + 1);
+		}
+	}
+
+	public String getVal1String(){
+		return this.value1.getTestString();
+	}
+
+	public Date getVal1Date(){
+		return this.value1.getCreationDate();
+	}
+
+	public int getVal1RecNo(){
+		return this.value1.getRecordNumber();
+	}
+
+	public String getVal2String(){
+		return this.value2.getTestString();
+	}
+
+	public Date getVal2Date(){
+		return this.value2.getCreationDate();
+	}
+
+	public int getVal2RecNo(){
+		return this.value2.getRecordNumber();
+	}
+
 
 	public String getDataString(){
 		return this.testData.getTestString();

@@ -2,6 +2,8 @@ import java.util.Date;
 public class TestData{
 	private TestDatum testData;
 	private TestDatum testKey;
+	private TestDatum lowerValue;
+	private TestDatum upperValue;
 	private boolean dataSet;
 	private static TestData dataPackage = null;	
 
@@ -22,14 +24,14 @@ public class TestData{
 		this.testData = new TestDatum();
 		this.testData.setTestString(testData);
 		this.testData.setCreationDate();
-		this.testData.setRecordNumber(recordNumber);
+		this.testData.setRecordNumber(recordNumber + 1);
 	}
 
 	public void setTestKey(String testKey, int recordNumber){
 		this.testKey = new TestDatum();
 		this.testKey.setTestString(testKey);
 		this.testKey.setCreationDate();
-		this.testKey.setRecordNumber(recordNumber);
+		this.testKey.setRecordNumber(recordNumber + 1);
 	}
 
 	public String getDataString(){

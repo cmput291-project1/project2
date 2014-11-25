@@ -253,7 +253,7 @@ public class DataBase{
 /*
  * secondary keys are the first char in the primary key string 
 */
-	private class FirstCharKeyCreator implements SecondaryMultiKeyCreator {
+	public class FirstCharKeyCreator implements SecondaryMultiKeyCreator {
 			public void createSecondaryKeys(SecondaryDatabase secondary,
                                       DatabaseEntry key,
                                       DatabaseEntry data,
@@ -261,7 +261,9 @@ public class DataBase{
             throws DatabaseException {
         byte[] firstByte = new byte[1];
         firstByte[0] = data.getData()[0];
-        results.add(firstByte);
+				DatabaseEntry result = new DatabaseEntry();
+        result.setData(firstByte);
+				results.add(result);
     }
 	}
 }

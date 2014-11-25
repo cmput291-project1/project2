@@ -261,8 +261,7 @@ public class DataBase{
             throws DatabaseException {
         byte[] firstByte = new byte[1];
         firstByte[0] = data.getData()[0];
-        result.add(firstByte);
-        return true;
+        results.add(firstByte);
     }
 	}
 }

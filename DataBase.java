@@ -48,7 +48,7 @@ public class DataBase{
 		System.out.println("printing secondary database keys");
 		DatabaseEntry data = new DatabaseEntry();
 		DatabaseEntry dbKey = new DatabaseEntry();
-		database2 = db.getSecondaryDb();
+		SecondaryDatabase database2 = db.getSecondaryDb();
 		Cursor c = database2.openSecondaryCursor(null, null);
 		OperationStatus oprStatus = c.getFirst(dbKey, data, LockMode.DEFAULT);
 		while (oprStatus == OperationStatus.SUCCESS) {

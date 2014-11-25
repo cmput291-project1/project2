@@ -55,7 +55,7 @@ public class DataBase{
 			try{
 				DatabaseEntry data = new DatabaseEntry();
 				DatabaseEntry dbKey = new DatabaseEntry();
-				Cursor c = this.secdatabase.openSecondaryCursor(null, null);
+				SecondaryCursor c = this.secdatabase.openSecondaryCursor(null, null);
 				OperationStatus oprStatus = c.getFirst(dbKey, data, LockMode.DEFAULT);
 				while (oprStatus == OperationStatus.SUCCESS) {
 					String s = new String(dbKey.getData());
@@ -159,7 +159,7 @@ public class DataBase{
 		secConfig.setKeyCreator(new FirstCharKeyCreator());
 		secConfig.setAllowCreate(true);
 		secConfig.setType(DatabaseType.BTREE);
-		secConfig.setSortedDuplicates(true);
+		secConfig.setSortedDuplicates(false);
 		secConfig.setAllowPopulate(true);
 
 		try{
@@ -253,7 +253,7 @@ public class DataBase{
 /*
  * secondary keys are the first char in the primary key string 
 */
-	private class FirstCharKeyCreator implements SecondaryKeyCreator {
+	private class FirstCharKeyCreator implements SecondaryMultiKeyCreator {
 			public boolean createSecondaryKey(SecondaryDatabase secondary,
                                       DatabaseEntry key,
                                       DatabaseEntry data,

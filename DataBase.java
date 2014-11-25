@@ -45,20 +45,22 @@ public class DataBase{
 								 testData.getKeyDate());
 
 		// get rid of this part later just for testing and in hurry
-		System.out.println("printing secondary database keys");
-		try{
-			DatabaseEntry data = new DatabaseEntry();
-			DatabaseEntry dbKey = new DatabaseEntry();
-			SecondaryDatabase database2 = db.getSecondaryDb();
-			Cursor c = database2.openSecondaryCursor(null, null);
-			OperationStatus oprStatus = c.getFirst(dbKey, data, LockMode.DEFAULT);
-			while (oprStatus == OperationStatus.SUCCESS) {
-				String s = new String(dbKey.getData());
-				System.out.println(s);
-				oprStatus = c.getNext(dbKey, data, LockMode.DEFAULT);
+		if(Pref.getDbType() == 3){
+			System.out.println("printing secondary database keys");
+			try{
+				DatabaseEntry data = new DatabaseEntry();
+				DatabaseEntry dbKey = new DatabaseEntry();
+				SecondaryDatabase database2 = db.getSecondaryDb();
+				Cursor c = database2.openSecondaryCursor(null, null);
+				OperationStatus oprStatus = c.getFirst(dbKey, data, LockMode.DEFAULT);
+				while (oprStatus == OperationStatus.SUCCESS) {
+					String s = new String(dbKey.getData());
+					System.out.println(s);
+					oprStatus = c.getNext(dbKey, data, LockMode.DEFAULT);
+				}
+			}catch(DatabaseException dbe){
+				System.out.println("error printing secondary db keys: " + dbe.toString());
 			}
-		}catch(DatabaseException dbe){
-			System.out.println("error printing secondary db keys: " + dbe.toString());
 		}
 	}
 
@@ -152,7 +154,7 @@ public class DataBase{
 		secConfig.setKeyCreator(new FirstCharKeyCreator());
 		secConfig.setAllowCreate(true);
 		secConfig.setType(DatabaseType.HASH);
-		secConfig.setSortedDuplicates(false);
+		secConfig.setSortedDuplicates(true);
 		secConfig.setAllowPopulate(true);
 
 		try{

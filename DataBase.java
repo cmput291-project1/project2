@@ -37,7 +37,6 @@ public class DataBase{
 			System.err.println("Database was not created properly");
 			System.exit(-1);
 		}
-		populateTable();
 		System.out.println(duplicateKeys + " duplicate keys created (none were inserted don't worry)");
 		System.out.println("test search data string = " + testData.getDataString() + " it is the " + testData.getDataRecNo() + " record inserted at " +
 								 testData.getDataDate());
@@ -125,7 +124,7 @@ public class DataBase{
 		if(this.database == null){
 			return false;
 		}
-		
+		populateTable();
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
 		return true;
 	}	
@@ -152,7 +151,7 @@ public class DataBase{
 		if(this.database == null){
 			return false;
 		}
-
+		populateTable();
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + primaryConfig.getType());
 		
 			

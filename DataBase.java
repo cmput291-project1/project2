@@ -134,7 +134,7 @@ public class DataBase{
 				
 		primaryConfig.setAllowCreate(true);
 		primaryConfig.setType(DatabaseType.HASH);
-		primaryConfig.setSortedDuplicates(true);
+		
 		// duplicate code clean up
 		try{
 			this.database = new Database(PRIMARY_TABLE, null, primaryConfig);

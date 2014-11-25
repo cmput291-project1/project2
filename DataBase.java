@@ -21,8 +21,11 @@ public class DataBase{
 	private Random random;
 	private int duplicateKeys;
 
+	private TestData testData;
+
 	// not sure if all these method calls should be in constructor
 	protected DataBase(){
+		this.testData = TestData.getInstance();
 		random = new Random(1000000);
 		duplicateKeys = 0;
 		if(!createDirectory(DATABASE_DIR)){
@@ -35,6 +38,10 @@ public class DataBase{
 		}
 		populateTable();
 		System.out.println(duplicateKeys + " duplicate keys created (none were inserted don't worry)");
+		System.out.println("test search data string = " + testData.getDataString() + " it is the " + testData.getDataRecNo() + " record inserted at " +
+								 testData.getDataDate());
+		System.out.println("test search key string = " + testData.getKeyString() + " it is the " + testData.getKeyRecNo() + " record inserted at " +
+								 testData.getKeyDate());
 	}
 
 	public static DataBase getInstance(){
@@ -147,33 +154,36 @@ public class DataBase{
 	private void populateTable() {
 		int count = 0;
 		while(count < NO_RECORDS){
-			count += addEntry();
+			count += addEntry(count);
 		}
 		System.out.println(NO_RECORDS + " records inserted into" + PRIMARY_TABLE);
 	}
 	
-	private int addEntry(){
+	private int addEntry(int count){
 		int range;
-    DatabaseEntry kdbt, ddbt;
-		String s;
+		DatabaseEntry kdbt, ddbt;
+		String keyString;
+		String dataString;
 
 		range = 64 + random.nextInt( 64 );
-		s = "";
+		keyString = "";
 		for ( int j = 0; j < range; j++ ) 
-			s+=(new Character((char)(97+random.nextInt(26)))).toString();
+			keyString+=(new Character((char)(97+random.nextInt(26)))).toString();
 		
-		kdbt = new DatabaseEntry(s.getBytes());
-		kdbt.setSize(s.length()); 
+		kdbt = new DatabaseEntry(keyString.getBytes());
+		kdbt.setSize(keyString.length()); 
 
 		range = 64 + random.nextInt( 64 );
-		s = "";
+		dataString = "";
 		for ( int j = 0; j < range; j++ ) 
-			s+=(new Character((char)(97+random.nextInt(26)))).toString();
+			dataString+=(new Character((char)(97+random.nextInt(26)))).toString();
 		              
-		ddbt = new DatabaseEntry(s.getBytes());
-		ddbt.setSize(s.length()); 
+		ddbt = new DatabaseEntry(dataString.getBytes());
+		ddbt.setSize(dataString.length()); 
 		
 		OperationStatus result = null;
+
+				
 
 		try{
 			result = this.database.exists(null, kdbt);
@@ -184,6 +194,10 @@ public class DataBase{
 		if(!result.toString().equals(OperationStatus.NOTFOUND)){
 			try{
 				this.database.put(null, kdbt, ddbt);
+				if(count == 1){
+					this.testData.setTestData(dataString, count);
+					this.testData.setTestKey(keyString, count);
+				}
 			}catch(DatabaseException dbe){
 				System.err.println("Unable to put key/data pair in database");
 				dbe.printStackTrace();

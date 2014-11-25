@@ -18,7 +18,7 @@ public class KeyRetrieve {
 		// start timer, end before returns
 		long timeStart = System.nanoTime();
 		DatabaseEntry dbKey = new DatabaseEntry();
-		DatabaseEntry pKey = new DatabaseEntry();
+		DatabaseEntry sKey = new DatabaseEntry();
 		dbKey.setData(key.getBytes()); 
 		dbKey.setSize(key.length());
 		
@@ -34,9 +34,46 @@ public class KeyRetrieve {
 			if (database2 == null) {
 				database.get(null, dbKey, data, LockMode.DEFAULT);
 			}
-			// may not be correct way to do this, need to get secondary index to be populated first
-			else {
-				database2.get(null, dbKey, pKey, data, LockMode.DEFAULT);
+			// may not be correct way to do this
+			else {	
+				//TODO get code underneath to work for multiple instances of a letter being a secondary index key,
+				// code only works for first instance found currently and finding the right key won't work if it's
+				// in a different key of the same letter
+				/*
+				// parses the first char from the given string
+				String secKey = key.substring(0,1);
+				sKey.setData(secKey.getBytes()); 
+				sKey.setSize(secKey.length());
+
+				Cursor c = database2.openSecondaryCursor(null, null);
+				OperationStatus oprStatus = c.getSearchKeyRange(sKey, data, LockMode.DEFAULT);
+				while (oprStatus == OperationStatus.SUCCESS) {
+					String dCheck = new String (data.getData());
+					if (!(dCheck.equals(key))) {
+						oprStatus = c.getNextDup(sKey, data, LockMode.DEFAULT);
+						continue;
+					}
+					else {
+						System.out.println(dCheck);
+						System.out.println("MATCH");
+						break;
+					}
+				}
+				*/
+
+				// Should work but doesn't find anything
+				//database2.getSearchBoth(null, sKey, dbKey, data, LockMode.DEFAULT);
+
+				// only finds first key with correct letter, can't iterate through
+				//database2.get(null, sKey, dbKey, data, LockMode.DEFAULT);
+
+				Cursor c = database2.openSecondaryCursor(null, null);
+				OperationStatus oprStatus = c.getFirst(dbKey, data, LockMode.DEFAULT);
+				while (oprStatus == OperationStatus.SUCCESS) {
+					String s = new String(dbKey.getData());
+					System.out.println(s);
+					oprStatus = c.getNext(dbKey, data, LockMode.DEFAULT);
+				}
 			}		
 		}
 		catch (DatabaseException e) {
@@ -50,6 +87,7 @@ public class KeyRetrieve {
 		else {
 			System.out.println("Records found: 1");
 			String sData = new String (data.getData());
+			System.out.println(sData);
 		}
 
 		// end timer and print time

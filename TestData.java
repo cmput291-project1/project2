@@ -11,7 +11,7 @@ public class TestData{
 		this.testKey = new TestDatum();
 		this.testData = new TestDatum();
 		this.value1 = new TestDatum();
-		this.value2 = = new TestDatum();
+		this.value2 = new TestDatum();
 	}
 
 	public static TestData getInstance(){

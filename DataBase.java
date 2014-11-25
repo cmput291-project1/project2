@@ -46,12 +46,16 @@ public class DataBase{
 
 		// get rid of this part later just for testing and in hurry
 		if(Pref.getDbType() == 3){
-			System.out.println("printing secondary database keys");
+			printKeys();
+		}
+	}
+
+	public void printKeys(){
+		System.out.println("printing secondary database keys");
 			try{
 				DatabaseEntry data = new DatabaseEntry();
 				DatabaseEntry dbKey = new DatabaseEntry();
-				SecondaryDatabase database2 = db.getSecondaryDb();
-				Cursor c = database2.openSecondaryCursor(null, null);
+				Cursor c = this.secdatabase.openSecondaryCursor(null, null);
 				OperationStatus oprStatus = c.getFirst(dbKey, data, LockMode.DEFAULT);
 				while (oprStatus == OperationStatus.SUCCESS) {
 					String s = new String(dbKey.getData());
@@ -61,7 +65,6 @@ public class DataBase{
 			}catch(DatabaseException dbe){
 				System.out.println("error printing secondary db keys: " + dbe.toString());
 			}
-		}
 	}
 
 	public static DataBase getInstance(){

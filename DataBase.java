@@ -43,12 +43,14 @@ public class DataBase{
 		System.out.println("test search key string = " + testData.getKeyString() + " it is the " + testData.getKeyRecNo() + " record inserted at " +
 								 testData.getKeyDate());
 
-		// get rid of this part later just for testing and in hurry
+		// comment out this block if you dont want key information w.r.t. secondary db
 		if(Pref.getDbType() == 3){
 			printKeys();
 		}
+		
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	public void printKeys(){
 		int count = 0;
 		System.out.println("printing non-unique secondary database keys");
@@ -181,7 +183,7 @@ public class DataBase{
 		secConfig.setMultiKeyCreator(new FirstCharKeyCreator());
 		secConfig.setAllowCreate(true);
 		secConfig.setType(DatabaseType.BTREE);
-		secConfig.setSortedDuplicates(false);
+		secConfig.setSortedDuplicates(true);
 		secConfig.setAllowPopulate(true);
 
 		try{

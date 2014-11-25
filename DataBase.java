@@ -127,7 +127,7 @@ public class DataBase{
 		secConfig.setKeyCreator(new FirstCharKeyCreator());
 		secConfig.setAllowCreate(true);
 		secConfig.setType(DatabaseType.HASH);
-		secConfig.setSortedDuplicates(true);
+		secConfig.setSortedDuplicates(false);
 		secConfig.setAllowPopulate(true);
 
 		try{

@@ -156,7 +156,7 @@ public class DataBase{
 		
 			
 		
-		secConfig.setKeyCreator(new FirstCharKeyCreator());
+		secConfig.setMultiKeyCreator(new FirstCharKeyCreator());
 		secConfig.setAllowCreate(true);
 		secConfig.setType(DatabaseType.BTREE);
 		secConfig.setSortedDuplicates(false);

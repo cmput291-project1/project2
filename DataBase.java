@@ -51,6 +51,7 @@ public class DataBase{
 	}
 
 	public void printKeys(){
+		int count = 0;
 		System.out.println("printing secondary database keys");
 			try{
 				DatabaseEntry data = new DatabaseEntry();
@@ -61,10 +62,12 @@ public class DataBase{
 					String s = new String(dbKey.getData());
 					System.out.println(s);
 					oprStatus = c.getNext(dbKey, data, LockMode.DEFAULT);
+					count++;
 				}
 			}catch(DatabaseException dbe){
 				System.out.println("error printing secondary db keys: " + dbe.toString());
 			}
+			System.out.println("there are " + count + " secondary keys");
 	}
 
 	public static DataBase getInstance(){

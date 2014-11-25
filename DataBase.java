@@ -83,6 +83,9 @@ public class DataBase{
 				oprStatus = c.getNextNoDup(sdbkey,dbKey, data, LockMode.DEFAULT);
 				count++;
 			}
+		}catch(DatabaseException dbe){
+			System.out.println("error printing secondary db keys: " + dbe.toString());
+		}
 		endTime = System.currentTimeMillis();
 		duration = endTime - startTime;
 		System.out.println("there are " + count + " unique secondary keys it took " + duration + " milliseconds");

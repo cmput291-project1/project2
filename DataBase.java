@@ -257,8 +257,7 @@ public class DataBase{
 			public void createSecondaryKeys(SecondaryDatabase secondary,
                                       DatabaseEntry key,
                                       DatabaseEntry data,
-                                      Set<DatabaseEntry> results)
-            throws DatabaseException {
+                                      Set<DatabaseEntry> results){
         byte[] firstByte = new byte[1];
         firstByte[0] = data.getData()[0];
 				DatabaseEntry result = new DatabaseEntry();

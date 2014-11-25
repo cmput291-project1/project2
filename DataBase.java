@@ -60,7 +60,7 @@ public class DataBase{
 			SecondaryCursor c = this.secdatabase.openSecondaryCursor(null, null);
 			OperationStatus oprStatus = c.getFirst(sdbkey, pdbKey, data, LockMode.DEFAULT);
 			while (oprStatus == OperationStatus.SUCCESS) {
-				oprStatus = c.getNext(sdbkey,dbKey, data, LockMode.DEFAULT);
+				oprStatus = c.getNext(sdbkey,pdbKey, data, LockMode.DEFAULT);
 				count++;
 			}
 		}catch(DatabaseException dbe){
@@ -75,10 +75,10 @@ public class DataBase{
 		startTime = System.currentTimeMillis();
 		try{
 			DatabaseEntry data = new DatabaseEntry();
-			DatabaseEntry dbKey = new DatabaseEntry();
+			DatabaseEntry pdbKey = new DatabaseEntry();
 			DatabaseEntry sdbkey = new DatabaseEntry();
 			SecondaryCursor c = this.secdatabase.openSecondaryCursor(null, null);
-			OperationStatus oprStatus = c.getFirst(sdbkey,dbKey, data, LockMode.DEFAULT);
+			OperationStatus oprStatus = c.getFirst(sdbkey, dbKey, data, LockMode.DEFAULT);
 			while( oprStatus == OperationStatus.SUCCESS ) {
 				oprStatus = c.getNextNoDup(sdbkey,dbKey, data, LockMode.DEFAULT);
 				count++;

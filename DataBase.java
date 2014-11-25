@@ -78,9 +78,9 @@ public class DataBase{
 			DatabaseEntry pdbKey = new DatabaseEntry();
 			DatabaseEntry sdbkey = new DatabaseEntry();
 			SecondaryCursor c = this.secdatabase.openSecondaryCursor(null, null);
-			OperationStatus oprStatus = c.getFirst(sdbkey, dbKey, data, LockMode.DEFAULT);
+			OperationStatus oprStatus = c.getFirst(sdbkey, pdbKey, data, LockMode.DEFAULT);
 			while( oprStatus == OperationStatus.SUCCESS ) {
-				oprStatus = c.getNextNoDup(sdbkey,dbKey, data, LockMode.DEFAULT);
+				oprStatus = c.getNextNoDup(sdbkey,pdbKey, data, LockMode.DEFAULT);
 				count++;
 			}
 		}catch(DatabaseException dbe){

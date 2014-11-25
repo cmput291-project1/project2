@@ -35,11 +35,6 @@ public class TestData{
 	}
 
 	public void setValue(String testKey, int recordNumber, int valNumber){
-		if(valNumber != 1 || valNumber != 2){
-			System.out.println("TestData.setValue(..., valNumber) valNumber must be 1 or 2");
-			return;
-		}
-
 		if(valNumber == 1){
 			this.value1.setTestString(testKey);
 			this.value1.setCreationDate();
@@ -49,6 +44,9 @@ public class TestData{
 			this.value2.setTestString(testKey);
 			this.value2.setCreationDate();
 			this.value2.setRecordNumber(recordNumber + 1);
+		}
+		else{
+			System.out.println("TestData.setValue(..., valNumber) valNumber must be 1 or 2");
 		}
 	}
 

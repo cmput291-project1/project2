@@ -264,7 +264,7 @@ public class DataBase{
 					this.testData.setValue(keyString, count + 1, 1);
 				} 
 				if ( (double) count == secondRecord){
-					this.testData.setValue(keyString, count + 1, 1);
+					this.testData.setValue(keyString, count + 1, 2);
 				}
 			}catch(DatabaseException dbe){
 				System.err.println("Unable to put key/data pair in database");

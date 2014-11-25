@@ -135,7 +135,7 @@ public class DataBase{
 
 				
 		primaryConfig.setAllowCreate(true);
-		primaryConfig.setType(DatabaseType.HASH);
+		primaryConfig.setType(DatabaseType.BTREE);
 		
 		// duplicate code clean up
 		try{

@@ -254,14 +254,14 @@ public class DataBase{
  * secondary keys are the first char in the primary key string 
 */
 	private class FirstCharKeyCreator implements SecondaryMultiKeyCreator {
-			public boolean createSecondaryKey(SecondaryDatabase secondary,
+			public void createSecondaryKeys(SecondaryDatabase secondary,
                                       DatabaseEntry key,
                                       DatabaseEntry data,
-                                      DatabaseEntry result)
+                                      Set<DatabaseEntry> results)
             throws DatabaseException {
         byte[] firstByte = new byte[1];
         firstByte[0] = data.getData()[0];
-        result.setData(firstByte);
+        result.add(firstByte);
         return true;
     }
 	}

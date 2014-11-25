@@ -8,8 +8,10 @@ public class TestData{
 	private static TestData dataPackage = null;	
 
 	protected TestData(){
-		testData = null;
-		testKey = null;
+		this.testKey = new TestDatum();
+		this.testData = new TestDatum();
+		this.value1 = new TestDatum();
+		this.value2 = = new TestDatum();
 	}
 
 	public static TestData getInstance(){
@@ -21,14 +23,14 @@ public class TestData{
 	}
 	
 	public void setTestData(String testData, int recordNumber){
-		this.testData = new TestDatum();
+		
 		this.testData.setTestString(testData);
 		this.testData.setCreationDate();
 		this.testData.setRecordNumber(recordNumber + 1);
 	}
 
 	public void setTestKey(String testKey, int recordNumber){
-		this.testKey = new TestDatum();
+		
 		this.testKey.setTestString(testKey);
 		this.testKey.setCreationDate();
 		this.testKey.setRecordNumber(recordNumber + 1);

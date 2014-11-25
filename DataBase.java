@@ -30,7 +30,7 @@ public class DataBase{
 		random = new Random(1000000);
 		duplicateKeys = 0;
 		if(!createDirectory(DATABASE_DIR)){
-			System.err.println("Unable to create file for database");
+			System.err.println("Unable to create file	 for database");
 			System.exit(-1);
 		}
 		if(!createBase()){
@@ -51,22 +51,41 @@ public class DataBase{
 
 	public void printKeys(){
 		int count = 0;
-		System.out.println("printing secondary database keys");
-			try{
-				DatabaseEntry data = new DatabaseEntry();
-				DatabaseEntry dbKey = new DatabaseEntry();
-				SecondaryCursor c = this.secdatabase.openSecondaryCursor(null, null);
-				OperationStatus oprStatus = c.getFirst(dbKey, data, LockMode.DEFAULT);
-				while (oprStatus == OperationStatus.SUCCESS) {
-					String s = new String(dbKey.getData());
-					System.out.println(s);
-					oprStatus = c.getNext(dbKey, data, LockMode.DEFAULT);
-					count++;
-				}
-			}catch(DatabaseException dbe){
-				System.out.println("error printing secondary db keys: " + dbe.toString());
+		System.out.println("printing non-unique secondary database keys");
+		long startTime = System.currentTimeMillis();
+		try{
+			DatabaseEntry data = new DatabaseEntry();
+			DatabaseEntry pdbKey = new DatabaseEntry();
+			DatabaseEntry sdbkey = new DatabaseEntry();
+			SecondaryCursor c = this.secdatabase.openSecondaryCursor(null, null);
+			OperationStatus oprStatus = c.getFirst(sdbkey, pdbKey, data, LockMode.DEFAULT);
+			while (oprStatus == OperationStatus.SUCCESS) {
+				oprStatus = c.getNext(sdbkey,dbKey, data, LockMode.DEFAULT);
+				count++;
 			}
-			System.out.println("there are " + count + " secondary keys");
+		}catch(DatabaseException dbe){
+			System.out.println("error printing secondary db keys: " + dbe.toString());
+		}
+		long endTime = System.currentTimeMillis();
+		long duration = endTime - startTime;
+		System.out.println("there are " + count + " secondary keys it took " + duration + " milliseconds");
+
+		count = 0;
+		System.out.println("printin unique secondary database keys");
+		startTime = System.currentTimeMillis();
+		try{
+			DatabaseEntry data = new DatabaseEntry();
+			DatabaseEntry dbKey = new DatabaseEntry();
+			DatabaseEntry sdbkey = new DatabaseEntry();
+			SecondaryCursor c = this.secdatabase.openSecondaryCursor(null, null);
+			OperationStatus oprStatus = c.getFirst(sdbkey,dbKey, data, LockMode.DEFAULT);
+			while( oprStatus == OperationStatus.SUCCESS ) {
+				oprStatus = c.getNextNoDup(sdbkey,dbKey, data, LockMode.DEFAULT);
+				count++;
+			}
+		endTime = System.currentTimeMillis();
+		duration = endTime - startTime;
+		System.out.println("there are " + count + " unique secondary keys it took " + duration + " milliseconds");
 	}
 
 	public static DataBase getInstance(){
@@ -253,11 +272,13 @@ public class DataBase{
 /*
  * secondary keys are the first char in the primary key string 
 */
-	public class FirstCharKeyCreator implements SecondaryMultiKeyCreator {
+	class FirstCharKeyCreator implements SecondaryMultiKeyCreator {
+
+			
 			public void createSecondaryKeys(SecondaryDatabase secondary,
                                       DatabaseEntry key,
                                       DatabaseEntry data,
-                                      Set<DatabaseEntry> results){
+                                      Set results){
         byte[] firstByte = new byte[1];
         firstByte[0] = data.getData()[0];
 				DatabaseEntry result = new DatabaseEntry();

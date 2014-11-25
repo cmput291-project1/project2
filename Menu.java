@@ -36,7 +36,10 @@ public class Menu{
 						makeSelection();
 						break;
 			case 3: 
-						System.out.println("Option 3 executed");	
+			                        System.out.println("Option 3 executed");				                        	      DataRetrieve dr = new DataRetrieve();	
+						dr.getRecords();
+						printHeader();
+						makeSelection();
 						break;
 			case 4: 
 						System.out.println("Option 4 executed");	

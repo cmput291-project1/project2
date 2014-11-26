@@ -1,7 +1,7 @@
 import com.sleepycat.db.*;
 import java.lang.String;
 import java.util.concurrent.TimeUnit;
-
+import java.io.UnsupportedEncodingException;
 public class RangeSearch{
 	DataBase db;	
 	TestData testData;

@@ -225,9 +225,9 @@ public class Explore{
 			String currentKey = new String();
 			DatabaseEntry data = new DatabaseEntry();
 			DatabaseEntry pdbKey1 = new DatabaseEntry();
-			pdbKey1.setData(key1.getBytes());
+			//pdbKey1.setData(key1.getBytes());
 		
-			oprStatus = c_1.getSearchKey(pdbKey1, data, LockMode.DEFAULT);
+			oprStatus = c_1.getFirst(pdbKey1, data, LockMode.DEFAULT);
 			if( oprStatus == OperationStatus.SUCCESS ){
 				count++;
 				currentKey = new String(pdbKey1.getData());

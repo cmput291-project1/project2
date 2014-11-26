@@ -226,14 +226,14 @@ public class Explore{
 			DatabaseEntry pdbKey1 = new DatabaseEntry();
 			pdbKey1.setData(key1.getBytes());
 		
-			oprStatus = c_1.getSearchKey(pdbKey1, data, LockMode.DEFAULT);
+			oprStatus = c_1.getFirst(pdbKey1, data, LockMode.DEFAULT);
 			if( oprStatus == OperationStatus.SUCCESS ){
 				count++;
 				currentKey = new String(pdbKey1.getData());
 				System.out.println("start key = " + currentKey);
 				System.out.println("length = " + currentKey.length());
 			}
-			while(!currentKey.equals("cagoxktnhjzemzyhrkcuicrxvogrrdzwbsyoqgqzeitzewbvdrdsdgafvfifocuz")){
+			while(count < 100){
 				oprStatus = c_1.getNext(pdbKey1, data, LockMode.DEFAULT);
 				if( oprStatus == OperationStatus.SUCCESS ){
 				count++;
@@ -243,9 +243,12 @@ public class Explore{
 					System.out.println(currentKey);
 				if (currentKey.length() != 64){
 					System.out.println("length is not 64");
+					System.out.println("Current key = " + currentKey);
 				}
-				if (count == 100)
-					break;			
+				if (currentKey.charAt(0) != 'a'){
+					System.out.println("first char is not 'a'");
+					System.out.println("Current key = " + currentKey);
+				}
 			}
 			System.out.println("end key = " + currentKey);
 			System.out.println("there are " + count + " records on this interval");

@@ -163,13 +163,13 @@ public class Explore{
 			SecondaryCursor cursor = secdatabase.openSecondaryCursor(null, null);
 			oprStatus = cursor.getSearchKey(sdbkey, pdbKey, data, LockMode.DEFAULT);
 			if(oprStatus == OperationStatus.SUCCESS){
-				minKey = new String(pdbKey.getData());
+				maxKey = new String(pdbKey.getData());
 			}
 			while(oprStatus == OperationStatus.SUCCESS){
 				oprStatus = cursor.getNextDup(sdbkey, pdbKey, data, LockMode.DEFAULT);
 				currentKey = new String(pdbKey.getData());
 				if(currentKey.compareTo(maxKey) > 0){
-					minKey = currentKey;
+					maxKey = currentKey;
 				}
 			}
 		}catch(DatabaseException dbe){

@@ -16,11 +16,7 @@ public class RangeSearch{
 		int dbtype = Pref.getDbType();
 		
 		if(dbtype == 1 || dbtype == 2){
-			try{
-					primaryRangeSearch(dbtype);
-			}catch(DatabaseException dbe){
-				dbe.printStackTrace();
-			}
+			primaryRangeSearch(dbtype);
 		}
 		else if (dbtype == 3){
 			secondaryRangeSearch();
@@ -30,7 +26,7 @@ public class RangeSearch{
 		}
 	}	
 
-	public void primaryRangeSearch(int type) throws DatabaseException{
+	public void primaryRangeSearch(int type){
 		if(type == 1){
 			btreeSearch();
 		}else if(type == 2){

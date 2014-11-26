@@ -54,6 +54,8 @@ public class Menu{
 						break;
 			case 4: 
 						System.out.println("Option 4 executed");	
+						RangeSearch rs = new RangeSearch();
+						rs.execute();
 						break;
 			case 5:
 						System.out.println("Database is destroyed");	

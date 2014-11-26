@@ -57,7 +57,6 @@ public class RangeSearch{
 		while(oprStatus == OperationStatus.SUCCESS){
 			String retrievedKey = new String(key.getData());
 			if( (retrievedKey.compareTo(lowerLimit) >= 0) && (retrievedKey.compareTo(upperLimit) <= 0) ){
-				String retrievedData = new String(data.getData());
 				resultSet.addResult(retrievedKey, retrievedData);
 			}
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
@@ -68,6 +67,10 @@ public class RangeSearch{
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
 		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
+
+		System.out.println("examining result set")
+		System.out.println("=================================");
+		resultSet.examine();
 	}
 
 	public void secondaryRangeSearch(){

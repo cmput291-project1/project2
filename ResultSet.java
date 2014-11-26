@@ -20,4 +20,31 @@ public class ResultSet{
 	public String getCount(){
 		return new String(Integer.toString(count));
 	}
+
+	public void examine(){
+		countKeysLonger_64();
+		countKeysStartingGreater_b();
+	}
+
+	public void countKeysLonger_64(){
+		int count = 0;
+		for(String key : keyResults){
+			if(key.length() > 64){
+				count++;
+			}
+		}
+		System.out.println("there are " + count + " keys with length greater than 64.");
+	}
+
+	public void countKeysStartingGreater_b(){
+		int count = 0;
+		int c = ' ';
+		for(String key : keyResults){
+			c = key.charAt(0);
+			if(c > 98){
+				count++;
+			}
+		}
+		System.out.println("there are " + count + " keys with that start with a char greater than 'b'");
+	}
 }

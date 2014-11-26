@@ -218,7 +218,7 @@ public class DataBase{
 		double secondRecord = 0;
 		double difference = 0;
 		Random rand = new Random();		
-		while (difference < 10000){
+		while (difference <= 100){
 			firstRecord = (double) rand.nextInt((100000 - 1) + 1) + 1; //  int randomNum = rand.nextInt((max - min) + 1) + min;		
 			secondRecord = (double) rand.nextInt((100000 - 1) + 1) + 1; //  int randomNum = rand.nextInt((max - min) + 1) + min;		
 			difference = Math.abs(secondRecord - firstRecord);

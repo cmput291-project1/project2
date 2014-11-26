@@ -87,7 +87,9 @@ public class Explore{
 		DatabaseEntry sdbkey1 = new DatabaseEntry();
 		DatabaseEntry pdbKey2 = new DatabaseEntry();
 		DatabaseEntry sdbkey2 = new DatabaseEntry();
-		indexFile.configureLengthSecondary();
+		if(indexFile.getLengthSecondary() == null){
+			indexFile.configureLengthSecondary();
+		}
 		SecondaryDatabase secdatabase = indexFile.getLengthSecondary();
 		
 		OperationStatus oprStatus;

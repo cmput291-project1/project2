@@ -18,6 +18,6 @@ public class ResultSet{
 	}
 
 	public String getCount(){
-		return new String(count);
+		return new String(Integer.toString(count));
 	}
 }

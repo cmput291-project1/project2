@@ -182,24 +182,22 @@ public class Explore{
 		byte[] size = new byte[4];
 		byte firstChar = 34;
 		byte[] secKey_1 = new byte[5];		
-		byte[] secKey_2 = new byte[5];
+		
 		
 		size = ByteBuffer.allocate(4).putInt(64).array();
 		for(int i = 0; i < 4; i++){
 			secKey_1[i] = size[i];
-			secKey_2[i] = size[i];
+			
 		}
 
 		secKey_1[4] = 97;
-		secKey_2[4] = 99;
+
 
 		Pref.setDbType(2);
 		db.getInstance();
 		DatabaseEntry data = new DatabaseEntry();
 		DatabaseEntry pdbKey1 = new DatabaseEntry();
 		DatabaseEntry sdbkey1 = new DatabaseEntry();
-		DatabaseEntry pdbKey2 = new DatabaseEntry();
-		DatabaseEntry sdbkey2 = new DatabaseEntry();
 		if(indexFile.getLengthSecondary() == null){
 			indexFile.configureLengthSecondary();
 		}
@@ -208,23 +206,8 @@ public class Explore{
 		OperationStatus oprStatus;
 		
 		sdbkey1.setData(secKey_1);
-		sdbkey2.setData(secKey_2);
-		try{
-			SecondaryCursor c_1 = secdatabase.openSecondaryCursor(null, null);
-			SecondaryCursor c_2 = secdatabase.openSecondaryCursor(null, null);
-			oprStatus = c_1.getSearchKey(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
-			String primaryKey1 = new String(pdbKey1.getData());
-			if( oprStatus == OperationStatus.SUCCESS ){
-				System.out.println("primary key for cursor one = " + primaryKey1);
-			}
-			oprStatus = c_1.getSearchKey(sdbkey2, pdbKey2, data, LockMode.DEFAULT);
-			String primaryKey2 = new String(pdbKey2.getData());
-			if( oprStatus == OperationStatus.SUCCESS ){
-				System.out.println("primary key for cursor two = " + primaryKey2);
-			}
-		}catch(DatabaseException dbe){
-			System.out.println("error inspecting target secondary db keys: " + dbe.toString());
-		}
+
+		
 		int count = 0;
 		
 		try{

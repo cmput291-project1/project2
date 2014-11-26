@@ -30,7 +30,30 @@ public class RangeSearch{
 	}	
 
 	public void primaryRangeSearch(int type) throws DatabaseException{
-					
+		if(type == 1){
+			btreeSearch();
+		}else if(type == 2){
+			hashSearch();
+		}			
+	}
+
+	public void betreeSearch(){
+		System.out.println("not implemented yet");
+	}	
+
+	public void hashSearch(){
+		String lowerLimit = Interval.LOWER_LIMIT;
+		String upperLimit = Interval.UPPER_LIMIT;
+
+		Database db = DataBase.getInstance().getPrimaryDb();
+		Cursor cursor = db.openCursor(null, null);
+
+		OperationStatus oprStatus = OperationStatus.SUCCESS;
+		
+		while(oprStatus == OperationStatus.SUCCESS){
+
+		}
+		
 	}
 
 	public void secondaryRangeSearch(){

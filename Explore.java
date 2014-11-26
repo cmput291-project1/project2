@@ -46,6 +46,10 @@ public class Explore{
 							this.menu();
 							break;
 			case 5:
+							testBtreeSearch();
+							this.menu();
+							break;
+			case 6:
 							db.getInstance().close();
 							System.exit(1);
 			default:
@@ -205,5 +209,38 @@ public class Explore{
 			System.out.println("error counting number of primary keys pointed at by secondary db keys: " + dbe.toString());
 		}
 
+	}
+
+	testBtreeSearch(){
+		Pref.setDbType(1);
+		db.getInstance();
+		OperationStatus oprStatus;
+		try{
+			Cursor c_1 = db.getInstance().getPrimaryDb().openCursor(null, null);
+			String key1 = "aatewknnlyjqxuadonparefxljasaddccsviqfkqzmpxcrhdegktesxvcfcxlkjx";
+			String key2 = "cagoxktnhjzemzyhrkcuicrxvogrrdzwbsyoqgqzeitzewbvdrdsdgafvfifocuz";	
+			String currentKey = new String();
+
+			DatabaseEntry pdbKey1 = new DatabaseEntry();
+			pdbKey1.setData(key1.getBytes());
+		
+			oprStatus = c_1.getSearchKey(pdbKey1, data, LockMode.DEFAULT);
+			if( oprStatus == OperationStatus.SUCCESS ){
+				count++;
+				currentKey = new String(pdbKey1);
+				System.out.println("start key = " + currentKey);
+			}
+			while(!currentKey.equals("cagoxktnhjzemzyhrkcuicrxvogrrdzwbsyoqgqzeitzewbvdrdsdgafvfifocuz"){
+				oprStatus = c_1.getNext(pdbKey1, data, LockMode.DEFAULT);
+				if( oprStatus == OperationStatus.SUCCESS ){
+				count++;
+				currentKey = new String(pdbKey1);
+				}
+			}
+			System.out.println("end key = " + currentKey);
+			System.out.println("there are " + count + " records on this interval");
+		}catch(DatabaseException dbe){
+			System.out.println("error inspecting target secondary db keys: " + dbe.toString());
+		}
 	}
 }

@@ -240,7 +240,7 @@ public class Explore{
 				}
 				if (count <= 10)
 					System.out.println(currentKey);
-				if (count == 200)
+				if (count == 133)
 					break;			
 			}
 			System.out.println("end key = " + currentKey);

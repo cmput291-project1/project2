@@ -235,7 +235,7 @@ public class Explore{
 				System.out.println("length = " + currentKey.length());
 			}
 				previousKey = currentKey;
-			while(count < 100){
+			while(count <= 100){
 				oprStatus = c_1.getNext(pdbKey1, data, LockMode.DEFAULT);
 				if( oprStatus == OperationStatus.SUCCESS ){
 				count++;

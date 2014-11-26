@@ -1,5 +1,6 @@
 import com.sleepycat.db.*;
-
+import java.lang.String;
+import java.util.concurrent.TimeUnit;
 
 public class RangeSearch{
 	DataBase db;	
@@ -37,23 +38,36 @@ public class RangeSearch{
 		}			
 	}
 
-	public void betreeSearch(){
+	public void btreeSearch(){
 		System.out.println("not implemented yet");
 	}	
 
 	public void hashSearch(){
 		String lowerLimit = Interval.LOWER_LIMIT;
 		String upperLimit = Interval.UPPER_LIMIT;
+		ResultSet resultSet = new ResultSet();
 
 		Database db = DataBase.getInstance().getPrimaryDb();
 		Cursor cursor = db.openCursor(null, null);
-
-		OperationStatus oprStatus = OperationStatus.SUCCESS;
+		DatabaseEntry key = new DatabaseEntry();
+		DatabaseEntry data = new DatabaseEntry();
 		
+		long startTime = System.nanoTime();
+		OperationStatus oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
 		while(oprStatus == OperationStatus.SUCCESS){
-
+			String retrievedKey = new String(key.getData());
+			if( (retrievedKey.compareTo(lowerLimit) >= 0) && (retrievedKey.compareTo(upperLimit) <= 0) ){
+				String retrievedData = new String(data.getData());
+				resultSet.add(retrievedKey, retrievedData);
+			}
+			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 		}
-		
+		long endTime = System.nanoTime();
+		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
+		System.out.println("Search type is hashTable interval search.");
+		System.out.println("lower limit is: " + lowerLimit);
+		System.out.println("upper limit is: " + upperLimit);
+		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration " microseconds.");
 	}
 
 	public void secondaryRangeSearch(){

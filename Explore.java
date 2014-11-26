@@ -221,6 +221,7 @@ public class Explore{
 			Cursor c_1 = db.getInstance().getPrimaryDb().openCursor(null, null);
 			String key1 = "aatewknnlyjqxuadonparefxljasaddccsviqfkqzmpxcrhdegktesxvcfcxlkjx";
 			String key2 = "cagoxktnhjzemzyhrkcuicrxvogrrdzwbsyoqgqzeitzewbvdrdsdgafvfifocuz";	
+			String previousKey = new String();
 			String currentKey = new String();
 			DatabaseEntry data = new DatabaseEntry();
 			DatabaseEntry pdbKey1 = new DatabaseEntry();
@@ -233,14 +234,18 @@ public class Explore{
 				System.out.println("start key = " + currentKey);
 				System.out.println("length = " + currentKey.length());
 			}
+				previousKey = currentKey;
 			while(count < 100){
 				oprStatus = c_1.getNext(pdbKey1, data, LockMode.DEFAULT);
 				if( oprStatus == OperationStatus.SUCCESS ){
 				count++;
 				currentKey = new String(pdbKey1.getData());
 				}
-				if (count <= 10)
-					System.out.println(currentKey);
+				if(currentKey.compareTo(previousKey) >= 0){
+					System.out.println("out of order")
+					System.out.println("Current key = " + currentKey);
+					System.out.println("Previous key = " + previousKey);
+				}
 				if (currentKey.length() != 64){
 					System.out.println("length is not 64");
 					System.out.println("Current key = " + currentKey);
@@ -249,6 +254,7 @@ public class Explore{
 					System.out.println("first char is not 'a'");
 					System.out.println("Current key = " + currentKey);
 				}
+				previousKey = currentKey;
 			}
 			System.out.println("end key = " + currentKey);
 			System.out.println("there are " + count + " records on this interval");

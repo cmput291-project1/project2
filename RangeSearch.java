@@ -4,10 +4,11 @@ import com.sleepycat.db.*;
 public class RangeSearch{
 	DataBase db;	
 	TestData testData;
-
+	StringGenerator gen;
 	public RangeSearch(){
 		db = DataBase.getInstance();
 		testData = TestData.getInstance();
+		gen = StringGenerator.getInstance();
 	}
 
 	public void execute(){
@@ -27,15 +28,13 @@ public class RangeSearch{
 			System.out.println("invalid database type");
 		}
 	}	
-
+//TODO unfinished waiting clarification on forums
 	public void primaryRangeSearch() throws DatabaseException{
 		Cursor cursor = db.getPrimaryDb().openCursor(null, null);
-		DatabaseEntry data1 = new DatabaseEntry();
-		DatabaseEntry key1 = new DatabaseEntry();
-		DatabaseEntry data2 = new DatabaseEntry();
-		DatabaseEntry key2 = new DatabaseEntry();
-		DatabaseEntry returnedData = new DatabaseEntry();
-		DatabaseEntry returnedKey = new DatabaseEntry();		
+		Cursor cursorTwo = cursor.dup(false);
+		String key1 = gen.generateString();		
+		String key2 = gen.generateString();
+
 		
 		
 		OperationStatus status = null;		

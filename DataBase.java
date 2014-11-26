@@ -45,9 +45,6 @@ public class DataBase{
 								 testData.getDataDate());
 		System.out.println("test search key string = " + testData.getKeyString() + '\n' + " it is the " + testData.getKeyRecNo() + " record inserted at " +
 								 testData.getKeyDate());
-
-		System.out.println("test value one record number : " + this.testData.getVal1RecNo() + " inserted on " + this.testData.getVal1Date());
-		System.out.println("test value two record number : " + this.testData.getVal2RecNo() + " inserted on " + this.testData.getVal2Date());
 		// comment out this block if you dont want key information w.r.t. secondary db
 		/*
 		if(Pref.getDbType() == 3){

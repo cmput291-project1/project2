@@ -19,7 +19,13 @@ public class FirstCharLengthKeyCreator implements SecondaryKeyCreator {
 					System.exit(-1);
 				}
         byte[] stringLength = ByteBuffer.allocate(4).putInt(str.length()).array();
-				result.setSize(4);
+				byte firstChar = data.getData()[0];
+				byte[] resultArray = new byte[5];
+				for(int i = 0; i < 4; i++){
+						resultArray[i] = stringLength[i];
+				}
+				resultArray[4] = firstChar;
+				result.setSize(5);
         result.setData(stringLength);
 				return true;
    }

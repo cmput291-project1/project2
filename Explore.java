@@ -238,7 +238,10 @@ public class Explore{
 				count++;
 				currentKey = new String(pdbKey1.getData());
 				}
-				System.out.println(currentKey);
+				if (count <= 10)
+					System.out.println(currentKey);
+				if (count == 200)
+					break;			
 			}
 			System.out.println("end key = " + currentKey);
 			System.out.println("there are " + count + " records on this interval");

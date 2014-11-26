@@ -15,6 +15,7 @@ public class Explore{
 		System.out.println("|\t1) Create and populate a database with secondary database");
 		System.out.println("|\t2) Compare string generators between given and developed");
 		System.out.println("|\t3) look for secondary key containing 100 primary keys");
+		System.out.println("|\t4) Exit");
 		System.out.println("======================================");
 	}
 
@@ -36,6 +37,9 @@ public class Explore{
 							inspectSecondaryKeys();
 							this.menu();
 							break;
+			case 4:
+							db.getInstance().close();
+							System.exit(1);
 			default:
 							System.out.println("invalid selection");
 							this.menu();

@@ -1,8 +1,7 @@
 import com.sleepycat.db.*;
 import java.io.*;
 import java.util.*;
-import java.lang.Math;
-import java.nio.ByteBuffer;
+
 /*
  * requires refactoring
  * much cleaning required
@@ -12,16 +11,11 @@ public class DataBase{
 	private static final int NO_RECORDS = 100000;
 	private static final String DATABASE_DIR = "./tmp/user_db";
 	private static final String PRIMARY_TABLE = "./tmp/user_db/primary_table_file1";
-	private static final String SECONDARY_TABLE = "./tmp/user_db/secondary_table_file2";
+	
 
 		
 	private static DataBase db = null;	
 	private Database database = null;	
-	private SecondaryDatabase secdatabase = null;
-
-	
-	private Random random;
-	private int duplicateKeys;
 
 	private TestData testData;
 	private StringGenerator gen;
@@ -41,64 +35,9 @@ public class DataBase{
 			System.err.println("Database was not created properly");
 			System.exit(-1);
 		}
-		// comment out this block if you dont want key information w.r.t. secondary db
-		/*
-		if(Pref.getDbType() == 3){
-			printKeys();
-		}
-		*/
+		
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void printKeys(){
-		int count = 0;
-		System.out.println("printing non-unique secondary database keys");
-		long startTime = System.currentTimeMillis();
-		try{
-			DatabaseEntry data = new DatabaseEntry();
-			DatabaseEntry pdbKey = new DatabaseEntry();
-			DatabaseEntry sdbkey = new DatabaseEntry();
-			SecondaryCursor c = this.secdatabase.openSecondaryCursor(null, null);
-			OperationStatus oprStatus = c.getFirst(sdbkey, pdbKey, data, LockMode.DEFAULT);
-			while (oprStatus == OperationStatus.SUCCESS) {
-				oprStatus = c.getNext(sdbkey,pdbKey, data, LockMode.DEFAULT);
-				if(oprStatus == OperationStatus.SUCCESS){
-					int length = ByteBuffer.wrap(sdbkey.getData()).getInt();
-					count++;
-				}
-			}
-		}catch(DatabaseException dbe){
-			System.out.println("error printing secondary db keys: " + dbe.toString());
-		}
-		long endTime = System.currentTimeMillis();
-		long duration = endTime - startTime;
-		System.out.println("there are " + count + " secondary keys it took " + duration + " milliseconds");
-
-		count = 0;
-		System.out.println("printin unique secondary database keys");
-		startTime = System.currentTimeMillis();
-		try{
-			DatabaseEntry data = new DatabaseEntry();
-			DatabaseEntry pdbKey = new DatabaseEntry();
-			DatabaseEntry sdbkey = new DatabaseEntry();
-			SecondaryCursor c = this.secdatabase.openSecondaryCursor(null, null);
-			OperationStatus oprStatus = c.getFirst(sdbkey, pdbKey, data, LockMode.DEFAULT);
-			while( oprStatus == OperationStatus.SUCCESS ) {
-				oprStatus = c.getNextNoDup(sdbkey,pdbKey, data, LockMode.DEFAULT);
-				if(oprStatus == OperationStatus.SUCCESS){
-					int length = ByteBuffer.wrap(sdbkey.getData()).getInt();
-					System.out.println(count + "th key = " + length);
-					count++;
-				}
-			}
-		}catch(DatabaseException dbe){
-			System.out.println("error printing secondary db keys: " + dbe.toString());
-		}
-		endTime = System.currentTimeMillis();
-		duration = endTime - startTime;
-		System.out.println("there are " + count + " unique secondary keys it took " + duration + " milliseconds");
-	}
-
 	public static DataBase getInstance(){
 		if(db == null){
 			db = new DataBase();
@@ -131,8 +70,6 @@ public class DataBase{
 			case 2:
 							dbConfig.setType(DatabaseType.HASH);
 							break;
-			case 3:
-							return configureIndexFileDb();
 			default:
 							System.out.println("Unrecognized database type.");
 		}
@@ -156,53 +93,6 @@ public class DataBase{
 		return true;
 	}	
 
-	private final boolean configureIndexFileDb(){
-		DatabaseConfig primaryConfig = new DatabaseConfig();
-		SecondaryConfig secConfig = new SecondaryConfig();
-
-				
-		primaryConfig.setAllowCreate(true);
-		primaryConfig.setType(DatabaseType.BTREE);
-		
-		// duplicate code clean up
-		try{
-			this.database = new Database(PRIMARY_TABLE, null, primaryConfig);
-		}catch (DatabaseException dbe){
-			System.err.println("unable to create database");
-			dbe.printStackTrace();
-		}catch (FileNotFoundException fnfe){
-			System.err.println("can not find file to create Database");
-			fnfe.printStackTrace();
-		}
-		
-		if(this.database == null){
-			return false;
-		}
-		populateTable();
-		System.out.println(PRIMARY_TABLE + " has been created of type: " + primaryConfig.getType());
-		
-			
-		
-		secConfig.setKeyCreator(new FirstCharLengthKeyCreator());
-		secConfig.setAllowCreate(true);
-		secConfig.setType(DatabaseType.BTREE);
-		secConfig.setSortedDuplicates(true);
-		secConfig.setAllowPopulate(true);
-
-		try{
-			this.secdatabase = new SecondaryDatabase(SECONDARY_TABLE, null, this.database, secConfig);
-		}catch(DatabaseException dbe){
-			System.err.println("Error while instantiating secondary database: " + dbe.toString());
-			this.close();
-			System.exit(-1);
-		}catch(FileNotFoundException fnfe){
-			System.err.println("Secondary database file not found: " + fnfe.toString());
-		}
-		
-		System.out.println(SECONDARY_TABLE + " has been created of type: " + secConfig.getType());
-		return true;
-	}
-	 
 	private void populateTable() {
 		int count = 0;
 		while(count < NO_RECORDS){
@@ -257,9 +147,6 @@ public class DataBase{
 
 	public void close(){
 		try{
-			if(this.secdatabase != null){
-				this.secdatabase.close();
-			}
 			this.database.close();
 			this.database.remove(PRIMARY_TABLE,null,null);
 		}catch(DatabaseException dbe){
@@ -270,6 +157,5 @@ public class DataBase{
 			fnfe.printStackTrace();
 		}
 		database = null;
-		secdatabase = null;
 	}
 }

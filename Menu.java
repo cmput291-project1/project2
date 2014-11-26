@@ -24,7 +24,17 @@ public class Menu{
 		int option = this.select();
 		switch(option){
 			case 1 : 
-						DataBase.getInstance();
+						if(Pref.getDbType() == 1 || Pref.getDbType() == 2){
+							DataBase.getInstance();
+						}else if(Pref.getDbType() == 3){
+							Pref.setDbType(2);
+							DataBase.getInstance();							
+							IndexFile indexFile = IndexFile.getInstance();
+							if(indexFile.checkDirectory()){
+								indexFile.configureDataSecondary();
+								indexFile.configureLengthSecondary();
+							}
+						}
 						printHeader();
 						makeSelection();
 						break;
@@ -50,12 +60,14 @@ public class Menu{
 						if(DataBase.getInstance().getPrimaryDb() != null){
 							DataBase.getInstance().close();
 						}
+						IndexFile.getInstance.close();
 						this.printHeader();
 						this.makeSelection();
 						break;
 			case 6:
 						System.out.println("Exiting data base");
 						DataBase.getInstance().close();
+						IndexFile.getInstance().close();
 						System.exit(-1);	
 						break;
 			default: 

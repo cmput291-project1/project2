@@ -128,8 +128,14 @@ public class Explore{
 					count++;
 				}else{
 					oprStatus = c_1.getNextNoDup(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
-					count++;
+					if(oprStatus == OperationStatus.SUCCESS){
+						count++;
+					}
 					i++;
+					if(i == 3){
+						String primaryKey1 = new String(pdbKey1.getData());
+						System.out.println("primary key  = " + primaryKey1);
+					}
 				}
 			}
 			System.out.println("there are " + count + " records on this interval");

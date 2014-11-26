@@ -93,12 +93,14 @@ public class Explore{
 			SecondaryCursor c_1 = secdatabase.openSecondaryCursor(null, null);
 			SecondaryCursor c_2 = secdatabase.openSecondaryCursor(null, null);
 			oprStatus = c_1.getSearchKey(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
+			String primaryKey1 = new String(pdbKey1);
 			if( oprStatus == OperationStatus.SUCCESS ){
-				System.out.println("primary key for cursor one = " + pdbKey1.getData());
+				System.out.println("primary key for cursor one = " + primaryKey1);
 			}
 			oprStatus = c_1.getSearchKey(sdbkey2, pdbKey2, data, LockMode.DEFAULT);
+			String primaryKey2 = new String(pdbKey2);
 			if( oprStatus == OperationStatus.SUCCESS ){
-				System.out.println("primary key for cursor one = " + pdbKey2.getData());
+				System.out.println("primary key for cursor two = " + primaryKey2);
 			}
 		}catch(DatabaseException dbe){
 			System.out.println("error inspecting target secondary db keys: " + dbe.toString());

@@ -1,4 +1,5 @@
-
+import java.nio.ByteBuffer;
+import com.sleepycat.db.*;
 public class Explore{
 	Scan scan; 
 	DataBase db;

@@ -19,10 +19,11 @@ public class Explore{
 		System.out.println("|\t1) Create and populate a database with secondary database");
 		System.out.println("|\t2) Compare string generators between given and developed");
 		System.out.println("|\t3) look for secondary key containing 100 primary keys");
-		System.out.println("|\t4) examine 64a to 64c");
+		System.out.println("|\t4) examine 64a to 64b");
 		System.out.println("|\t5) test btree search");
 		System.out.println("|\t6) find min primary key in 64a");
-		System.out.println("|\t7) exit");
+		System.out.println("|\t7) find max primary key in 64b");
+		System.out.println("|\t8) exit");
 		System.out.println("======================================");
 	}
 
@@ -57,6 +58,10 @@ public class Explore{
 							this.menu();
 							break;
 			case 7:
+							getMaxKeyB_64();
+							this.menu();
+							break;
+			case 8:
 							IndexFile.getInstance().close();
 							db.getInstance().close();
 							System.exit(1);
@@ -125,6 +130,53 @@ public class Explore{
 		System.out.println("The min primary key in 64a secondary index is: " + minKey);
 	}
 
+	public void getMaxKeyB_64(){
+		byte[] size = new byte[4];
+		byte firstChar = 34;
+		size = ByteBuffer.allocate(4).putInt(64).array();
+		String currentKey = null;
+		String maxKey = null;
+		byte[] secKey = new byte[5];
+
+		for(int i = 0; i < 4; i++){
+			secKey[i] = size[i];
+		}
+
+		secKey[4] = 98;
+
+		Pref.setDbType(2);
+		db.getInstance();
+
+		DatabaseEntry data = new DatabaseEntry();
+		DatabaseEntry pdbKey = new DatabaseEntry();
+		DatabaseEntry sdbkey = new DatabaseEntry();
+		
+		if(indexFile.getLengthSecondary() == null){
+			indexFile.configureLengthSecondary();
+		}
+		
+		SecondaryDatabase secdatabase = indexFile.getLengthSecondary();
+		sdbkey.setData(secKey);
+		OperationStatus oprStatus;
+
+		try{
+			SecondaryCursor cursor = secdatabase.openSecondaryCursor(null, null);
+			oprStatus = cursor.getSearchKey(sdbkey, pdbKey, data, LockMode.DEFAULT);
+			if(oprStatus == OperationStatus.SUCCESS){
+				minKey = new String(pdbKey.getData());
+			}
+			while(oprStatus == OperationStatus.SUCCESS){
+				oprStatus = cursor.getNextDup(sdbkey, pdbKey, data, LockMode.DEFAULT);
+				currentKey = new String(pdbKey.getData());
+				if(currentKey.compareTo(maxKey) > 0){
+					minKey = currentKey;
+				}
+			}
+		}catch(DatabaseException dbe){
+			dbe.printStackTrace();
+		}
+		System.out.println("The max primary key in 64b secondary index is: " + maxKey);
+	}
 
 	public void examineTargetKeys(){
 		byte[] size = new byte[4];

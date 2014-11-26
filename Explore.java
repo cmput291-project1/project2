@@ -106,6 +106,22 @@ public class Explore{
 		}catch(DatabaseException dbe){
 			System.out.println("error inspecting target secondary db keys: " + dbe.toString());
 		}
+		int count = 0;
+		
+		try{
+			SecondaryCursor c_1 = secdatabase.openSecondaryCursor(null, null);
+			c_1.getSearchKey(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
+			String currentKey = new String(pdbKey1.getData());
+			count++;
+			while(!currentKey.equals("cagoxktnhjzemzyhrkcuicrxvogrrdzwbsyoqgqzeitzewbvdrdsdgafvfifocuz")){
+				c_1.getNext(new DatabaseEntry(), pdbKey1, data, LockMode.DEFAULT);
+				currentKey = new String(pdbKey1.getData());
+				count++;
+			}
+			System.out.println("there are " + count + " records on this interval");
+		}catch(DatabaseException dbe){
+			System.out.println("error inspecting target secondary db keys: " + dbe.toString());
+		}
 	}
 
 	public void inspectSecondaryKeys(){

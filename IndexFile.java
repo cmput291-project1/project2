@@ -58,7 +58,7 @@ public class IndexFile{
 		SecondaryConfig secConfig = new SecondaryConfig();
 		secConfig.setKeyCreator(new FirstCharLengthKeyCreator());
 		secConfig.setAllowCreate(true);
-		secConfig.setType(DatabaseType.HASH);
+		secConfig.setType(DatabaseType.BTREE);
 		secConfig.setSortedDuplicates(true);
 		secConfig.setAllowPopulate(true);
 

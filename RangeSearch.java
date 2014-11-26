@@ -16,7 +16,7 @@ public class RangeSearch{
 		
 		if(dbtype == 1 || dbtype == 2){
 			try{
-					primaryRangeSearch();
+					primaryRangeSearch(dbtype);
 			}catch(DatabaseException dbe){
 				dbe.printStackTrace();
 			}
@@ -29,18 +29,8 @@ public class RangeSearch{
 		}
 	}	
 
-	public void primaryRangeSearch() throws DatabaseException{
-		Cursor cursor = db.getPrimaryDb().openCursor(null, null);
-		Cursor cursorTwo = cursor.dup(false);
-		String key1 = gen.generateString();		
-		String key2 = gen.generateString();
-
-		
-		
-		OperationStatus status = null;		
-
-	
-		
+	public void primaryRangeSearch(int type) throws DatabaseException{
+					
 	}
 
 	public void secondaryRangeSearch(){

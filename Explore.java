@@ -74,8 +74,8 @@ public class Explore{
 			secKey_2[i] = size[i];
 		}
 
-		secKey_1[5] = 97;
-		secKey_2[5] = 99;
+		secKey_1[4] = 97;
+		secKey_2[4] = 99;
 
 		Pref.setDbType(3);
 		DatabaseEntry data = new DatabaseEntry();

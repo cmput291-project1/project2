@@ -59,11 +59,13 @@ public class Explore{
 	public void inspectSecondaryKeys(){
 		System.out.println("Counting number of unique secondary keys");
 		int count = 0;
+		Pref.setDbType(3);
+		SecondaryDatabase secdatabase = db.getInstance().getSecondaryDb();
 		try{
 			DatabaseEntry data = new DatabaseEntry();
 			DatabaseEntry pdbKey = new DatabaseEntry();
 			DatabaseEntry sdbkey = new DatabaseEntry();
-			SecondaryCursor c = this.secdatabase.openSecondaryCursor(null, null);
+			SecondaryCursor c = secdatabase.openSecondaryCursor(null, null);
 			OperationStatus oprStatus = c.getFirst(sdbkey, pdbKey, data, LockMode.DEFAULT);
 			//sloppy can be cleaned up
 			if(oprStatus == OperationStatus.SUCCESS){
@@ -87,7 +89,7 @@ public class Explore{
 			DatabaseEntry data = new DatabaseEntry();
 			DatabaseEntry pdbKey = new DatabaseEntry();
 			DatabaseEntry sdbkey = new DatabaseEntry();
-			SecondaryCursor c = this.secdatabase.openSecondaryCursor(null, null);
+			SecondaryCursor c = secdatabase.openSecondaryCursor(null, null);
 			OperationStatus oprStatus = c.getFirst(sdbkey, pdbKey, data, LockMode.DEFAULT);
 			key = ByteBuffer.wrap(sdbkey.getData()).getInt();
 			while(oprStatus == OperationStatus.SUCCESS){

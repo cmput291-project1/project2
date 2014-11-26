@@ -184,7 +184,10 @@ public class Explore{
 						count++;
 					}
 				}
-				System.out.println("key: " + key + (char)firstChar + " has " + count + " primary keys");
+				String keyString = key + (char)firstChar;
+				if(keyString.equals("64a") || keyString.equals("64b") ){
+					System.out.println("key: " + key + (char)firstChar + " has " + count + " primary keys");
+				}
 				count = 0;
 				oprStatus = c.getNextNoDup(sdbkey,pdbKey, data, LockMode.DEFAULT);
 				count++;

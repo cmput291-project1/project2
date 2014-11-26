@@ -11,7 +11,7 @@ public class RangeSearch{
 	}
 
 	public void execute(){
-		int dbtype = Pref.getDbtype();
+		int dbtype = Pref.getDbType();
 		
 		if(dbtype == 1 || dbtype == 2){
 			primaryRangeSearch();

@@ -81,8 +81,8 @@ public class Explore{
 		byte[] size = new byte[4];
 		byte firstChar = 34;
 		size = ByteBuffer.allocate(4).putInt(64).array();
-		String currentKey;
-		String minKey;
+		String currentKey = null;
+		String minKey = null;
 		byte[] secKey = new byte[5];
 
 		for(int i = 0; i < 4; i++){

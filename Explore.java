@@ -107,6 +107,7 @@ public class Explore{
 				}
 				count = 0;
 				oprStatus = c.getNextNoDup(sdbkey,pdbKey, data, LockMode.DEFAULT);
+				key = ByteBuffer.wrap(sdbkey.getData()).getInt();
 			}
 		}catch(DatabaseException dbe){
 			System.out.println("error counting number of primary keys pointed at by secondary db keys: " + dbe.toString());

@@ -183,7 +183,7 @@ public class DataBase{
 		
 			
 		
-		secConfig.setKeyCreator(new StringLengthKeyCreator());
+		secConfig.setKeyCreator(new FirstCharLengthKeyCreator());
 		secConfig.setAllowCreate(true);
 		secConfig.setType(DatabaseType.BTREE);
 		secConfig.setSortedDuplicates(true);

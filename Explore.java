@@ -118,12 +118,19 @@ public class Explore{
 			SecondaryCursor c_1 = secdatabase.openSecondaryCursor(null, null);
 			c_1.getSearchKey(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
 			String currentKey = new String(pdbKey1.getData());
+			int itterations = 2;
+			int i = 1;
 			count++;
-			while(!currentKey.equals("cagoxktnhjzemzyhrkcuicrxvogrrdzwbsyoqgqzeitzewbvdrdsdgafvfifocuz")){
-				c_1.getNext(new DatabaseEntry(), pdbKey1, data, LockMode.DEFAULT);
-				currentKey = new String(pdbKey1.getData());
-				count++;
-				System.out.println(count);
+			OperationStatus oprStatus;
+			while(i <= itterations){
+				oprStatus = c_1.getNextDup(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
+				if(oprStatus == OperationStatus.SUCCESS){ 
+					count++;
+				}else{
+					oprStatus = c_1.getNextNoDup(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
+					count++;
+					i++;
+				}
 			}
 			System.out.println("there are " + count + " records on this interval");
 		}catch(DatabaseException dbe){

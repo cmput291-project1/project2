@@ -86,6 +86,7 @@ public class Explore{
 		System.out.println("printing secondary keys with 100 - 200 primary keys");
 		count = 0;
 		int key = 0;
+		char firstChar = null;
 		try{
 			DatabaseEntry data = new DatabaseEntry();
 			DatabaseEntry pdbKey = new DatabaseEntry();
@@ -93,6 +94,7 @@ public class Explore{
 			SecondaryCursor c = secdatabase.openSecondaryCursor(null, null);
 			OperationStatus oprStatus = c.getFirst(sdbkey, pdbKey, data, LockMode.DEFAULT);
 			key = ByteBuffer.wrap(sdbkey.getData()).getInt();
+			firstChar = sdbkey.getData()[4];
 			while(oprStatus == OperationStatus.SUCCESS){
 				count++;
 				while( oprStatus == OperationStatus.SUCCESS ) {
@@ -101,7 +103,7 @@ public class Explore{
 						count++;
 					}
 				}
-				System.out.println("key: " + key + " has " + count + " primary keys");
+				System.out.println("key: " + key + firstChar + " has " + count + " primary keys");
 				if(count <= 200){
 					System.out.println("secondary key found: " + key);
 				}

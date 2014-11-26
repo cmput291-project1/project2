@@ -41,17 +41,12 @@ public class DataBase{
 			System.err.println("Database was not created properly");
 			System.exit(-1);
 		}
-		System.out.println(duplicateKeys + " duplicate keys created (none were inserted don't worry)");
-		System.out.println("test search data string = " + testData.getDataString() + '\n' + " it is the " + testData.getDataRecNo() + " record inserted at " +
-								 testData.getDataDate());
-		System.out.println("test search key string = " + testData.getKeyString() + '\n' + " it is the " + testData.getKeyRecNo() + " record inserted at " +
-								 testData.getKeyDate());
 		// comment out this block if you dont want key information w.r.t. secondary db
-		
+		/*
 		if(Pref.getDbType() == 3){
 			printKeys();
 		}
-		
+		*/
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -67,7 +62,10 @@ public class DataBase{
 			OperationStatus oprStatus = c.getFirst(sdbkey, pdbKey, data, LockMode.DEFAULT);
 			while (oprStatus == OperationStatus.SUCCESS) {
 				oprStatus = c.getNext(sdbkey,pdbKey, data, LockMode.DEFAULT);
-				count++;
+				if(oprStatus == OperationStatus.SUCCESS){
+					int length = ByteBuffer.wrap(sdbkey.getData()).getInt();
+					count++;
+				}
 			}
 		}catch(DatabaseException dbe){
 			System.out.println("error printing secondary db keys: " + dbe.toString());
@@ -87,9 +85,11 @@ public class DataBase{
 			OperationStatus oprStatus = c.getFirst(sdbkey, pdbKey, data, LockMode.DEFAULT);
 			while( oprStatus == OperationStatus.SUCCESS ) {
 				oprStatus = c.getNextNoDup(sdbkey,pdbKey, data, LockMode.DEFAULT);
-				int length = ByteBuffer.wrap(sdbkey.getData()).getInt();
-				System.out.println(count + "th key = " + length);
-				count++;
+				if(oprStatus == OperationStatus.SUCCESS){
+					int length = ByteBuffer.wrap(sdbkey.getData()).getInt();
+					System.out.println(count + "th key = " + length);
+					count++;
+				}
 			}
 		}catch(DatabaseException dbe){
 			System.out.println("error printing secondary db keys: " + dbe.toString());
@@ -269,6 +269,8 @@ public class DataBase{
 			System.err.println("can not find file to remove Database");
 			fnfe.printStackTrace();
 		}
+		database = null;
+		secdatabase = null;
 	}
 
 /*

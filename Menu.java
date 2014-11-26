@@ -47,7 +47,11 @@ public class Menu{
 						break;
 			case 5:
 						System.out.println("Database is destroyed");	
-						DataBase.getInstance().close();
+						if(DataBase.getInstance().getPrimaryDb() != null){
+							DataBase.getInstance().close();
+						}
+						this.printHeader();
+						this.makeSelection();
 						break;
 			case 6:
 						System.out.println("Exiting data base");

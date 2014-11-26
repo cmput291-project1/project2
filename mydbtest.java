@@ -23,9 +23,17 @@ public class mydbtest {
 			System.exit(-1);
 		}
 		Pref.setDbType(type);
-		Menu menu = new Menu();
-		
+
+		if(args[1].equals("explore")){
+			Explore = new Explore();
+			explore.menu();
+		}else{
+			Menu menu = new Menu();
+		}
 		scan.close();
+		if(DataBase.getInstance().getPrimaryDb() != null){
+			DataBase.getInstance().close();
+		}
 		DataBase.getInstance().close();
 	}
 }

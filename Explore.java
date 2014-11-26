@@ -26,22 +26,18 @@ public class Explore{
 			case 1:
 							Pref.setDbType(3);
 							db.getInstance();
-							this.printHeader();
 							this.menu();
 							break;
 			case 2:
 							System.out.println("not implemented");
-							this.printHeader();
 							this.menu();
 							break;
 			case 3:
 							inspectSecondaryKeys();
-							this.printHeader();
 							this.menu();
 							break;
 			default:
 							System.out.println("invalid selection");
-							this.printHeader();
 							this.menu();
 		}
 	}
@@ -101,6 +97,7 @@ public class Explore{
 						count++;
 					}
 				}
+				System.out.println("key: " + key + " has " + count + " primary keys");
 				if(count <= 200){
 					System.out.println("secondary key found: " + key);
 				}

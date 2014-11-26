@@ -31,6 +31,9 @@ public class ResultSet{
 		for(String key : keyResults){
 			if(key.length() > 64){
 				count++;
+				if(count % 100 == 0){
+					System.out.println("key with length greater than 64: " + key);
+				}
 			}
 		}
 		System.out.println("there are " + count + " keys with length greater than 64.");

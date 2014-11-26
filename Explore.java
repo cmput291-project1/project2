@@ -128,12 +128,14 @@ public class Explore{
 					count++;
 				}else{
 					oprStatus = c_1.getNextNoDup(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
+					String primaryKey1 = new String(pdbKey1.getData());
+					System.out.println("primary key  = " + primaryKey1);
 					if(oprStatus == OperationStatus.SUCCESS){
 						count++;
 					}
 					i++;
 					if(i == 3){
-						String primaryKey1 = new String(pdbKey1.getData());
+						primaryKey1 = new String(pdbKey1.getData());
 						System.out.println("primary key  = " + primaryKey1);
 					}
 				}

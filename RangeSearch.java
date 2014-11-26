@@ -56,7 +56,9 @@ public class RangeSearch{
 		OperationStatus oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
 		while(oprStatus == OperationStatus.SUCCESS){
 			String retrievedKey = new String(key.getData());
+			
 			if( (retrievedKey.compareTo(lowerLimit) >= 0) && (retrievedKey.compareTo(upperLimit) <= 0) ){
+				String retrievedData = new String(data.getData());
 				resultSet.addResult(retrievedKey, retrievedData);
 			}
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);

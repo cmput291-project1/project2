@@ -15,7 +15,8 @@ public class Explore{
 		System.out.println("|\t1) Create and populate a database with secondary database");
 		System.out.println("|\t2) Compare string generators between given and developed");
 		System.out.println("|\t3) look for secondary key containing 100 primary keys");
-		System.out.println("|\t4) Exit");
+		System.out.println("|\t4) examine 64a to 64c");
+		System.out.println("|\t5) Exit");
 		System.out.println("======================================");
 	}
 
@@ -38,6 +39,10 @@ public class Explore{
 							this.menu();
 							break;
 			case 4:
+							examineTargetKeys();
+							this.menu();
+							break;
+			case 5:
 							db.getInstance().close();
 							System.exit(1);
 			default:
@@ -57,6 +62,48 @@ public class Explore{
 		return selection;		
 	}
 	
+	public void examineTargetKeys(){
+		byte[] size = new byte[4];
+		byte firstChar = 34;
+		byte[] secKey_1 = new byte[5];		
+		byte[] secKey_2 = new byte[5];
+		
+		size = ByteBuffer.allocate(4).putInt(64).array();
+		for(int i = 0; i < 4; i++){
+			secKey_1[i] = size[i];
+			secKey_2[i] = size[i];
+		}
+
+		secKey_1[5] = 97;
+		secKey_2[5] = 99;
+
+		Pref.setDbType(3);
+		DatabaseEntry data = new DatabaseEntry();
+		DatabaseEntry pdbKey1 = new DatabaseEntry();
+		DatabaseEntry sdbkey1 = new DatabaseEntry();
+		DatabaseEntry pdbKey2 = new DatabaseEntry();
+		DatabaseEntry sdbkey2 = new DatabaseEntry();
+		SecondaryDatabase secdatabase = db.getInstance().getSecondaryDb();
+		SecondaryCursor c_1 = secdatabase.openSecondaryCursor(null, null);
+		SecondaryCursor c_2 = secdatabase.openSecondaryCursor(null, null);
+		OperationStatus oprStatus;
+		
+		sdbkey1.setData(secKey_1);
+		sdbkey2.setData(secKey_2);
+		try{
+			oprStatus = c_1.getSearchKey(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
+			if( oprStatus == OperationStatus.SUCCESS ){
+				System.out.println("primary key for cursor one = " + pdbKey1.getData());
+			}
+			oprStatus = c_1.getSearchKey(sdbkey2, pdbKey2, data, LockMode.DEFAULT);
+			if( oprStatus == OperationStatus.SUCCESS ){
+				System.out.println("primary key for cursor one = " + pdbKey2.getData());
+			}
+		}catch(DatabaseException dbe){
+			System.out.println("error inspecting target secondary db keys: " + dbe.toString());
+		}
+	}
+
 	public void inspectSecondaryKeys(){
 		System.out.println("Counting number of unique secondary keys");
 		int count = 0;

@@ -67,7 +67,7 @@ public class RangeSearch{
 		System.out.println("Search type is hashTable interval search.");
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
-		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration " microseconds.");
+		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
 	}
 
 	public void secondaryRangeSearch(){

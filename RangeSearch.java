@@ -28,7 +28,7 @@ public class RangeSearch{
 			System.out.println("invalid database type");
 		}
 	}	
-//TODO unfinished waiting clarification on forums
+
 	public void primaryRangeSearch() throws DatabaseException{
 		Cursor cursor = db.getPrimaryDb().openCursor(null, null);
 		Cursor cursorTwo = cursor.dup(false);

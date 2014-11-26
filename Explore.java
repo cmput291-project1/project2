@@ -29,7 +29,7 @@ public class Explore{
 
 		switch(option){
 			case 1:
-							Pref.setDbType(3);
+							Pref.setDbType(1);
 							db.getInstance();
 							this.menu();
 							break;

@@ -79,11 +79,9 @@ public class IndexFile{
 		try{
 			if(this.dataSecondary != null){
 				this.dataSecondary.close();
-				this.dataSecondary.remove(DATA_SECONDARY_TABLE, null, null);
 			}
 			if(this.lengthSecondary != null){
 				this.lengthSecondary.close();
-				this.lengthSecondary.remove(LENGTH_SECONDARY_TABLE, null, null);
 			}
 		}catch(DatabaseException dbe){
 			System.err.println("unable to close database");

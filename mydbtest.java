@@ -31,6 +31,7 @@ public class mydbtest {
 		}catch(ArrayIndexOutOfBoundsException e){
 			//do nothing they don't want to explore
 		}
+		Menu menu = new Menu();
 		scan.close();
 		if(DataBase.getInstance().getPrimaryDb() != null){
 			DataBase.getInstance().close();

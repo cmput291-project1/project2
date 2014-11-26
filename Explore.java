@@ -231,6 +231,7 @@ public class Explore{
 				count++;
 				currentKey = new String(pdbKey1.getData());
 				System.out.println("start key = " + currentKey);
+				System.out.println("length = " + currentKey.length());
 			}
 			while(!currentKey.equals("cagoxktnhjzemzyhrkcuicrxvogrrdzwbsyoqgqzeitzewbvdrdsdgafvfifocuz")){
 				oprStatus = c_1.getNext(pdbKey1, data, LockMode.DEFAULT);

@@ -58,7 +58,7 @@ public class RangeSearch{
 			String retrievedKey = new String(key.getData());
 			if( (retrievedKey.compareTo(lowerLimit) >= 0) && (retrievedKey.compareTo(upperLimit) <= 0) ){
 				String retrievedData = new String(data.getData());
-				resultSet.add(retrievedKey, retrievedData);
+				resultSet.addResult(retrievedKey, retrievedData);
 			}
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 		}

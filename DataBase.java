@@ -281,10 +281,12 @@ public class DataBase{
                                       DatabaseEntry key,
                                       DatabaseEntry data,
                                       DatabaseEntry result){
+				String str = null;	
 				try{
-					String str = new String(key.getData(), "UTF-8");
+					str = new String(key.getData(), "UTF-8");
 				}catch (UnsupportedEncodingException uee){
 					uee.printStackTrace();
+					System.exit(-1);
 				}
         byte[] stringLength = ByteBuffer.allocate(4).putInt(str.length()).array();
 				result.setSize(4);

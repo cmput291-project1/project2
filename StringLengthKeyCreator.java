@@ -1,5 +1,6 @@
 import java.nio.ByteBuffer;
 import com.sleepycat.db.*;
+import java.io.UnsupportedEncodingException;
 public class StringLengthKeyCreator implements SecondaryKeyCreator {
 	
 	public StringLengthKeyCreator(){

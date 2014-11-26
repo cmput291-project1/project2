@@ -123,6 +123,7 @@ public class Explore{
 				c_1.getNext(new DatabaseEntry(), pdbKey1, data, LockMode.DEFAULT);
 				currentKey = new String(pdbKey1.getData());
 				count++;
+				System.out.println(count);
 			}
 			System.out.println("there are " + count + " records on this interval");
 		}catch(DatabaseException dbe){

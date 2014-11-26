@@ -208,25 +208,12 @@ public class DataBase{
 		System.out.println(NO_RECORDS + " records inserted into" + PRIMARY_TABLE);
 	}
 	
-	private int addEntry(int count){
+	private int addEntry(int count, int firstRecord, int secondRecord){
 		int range;
 		DatabaseEntry kdbt, ddbt;
 		String keyString;
 		String dataString;
-		// refactor out this code
-		double firstRecord = 0;
-		double secondRecord = 0;
-		double difference = 0;
-		Random rand = new Random();		
-		while (difference <= 100){
-			firstRecord = (double) rand.nextInt((100000 - 1) + 1) + 1; //  int randomNum = rand.nextInt((max - min) + 1) + min;		
-			secondRecord = (double) rand.nextInt((100000 - 1) + 1) + 1; //  int randomNum = rand.nextInt((max - min) + 1) + min;		
-			difference = Math.abs(secondRecord - firstRecord);
-		}
-		System.out.println("firstRecord = " + firstRecord);
-		System.out.println("secondRecord = " + secondRecord);
-		secondRecord -= 1;
-		firstRecord -= 1;
+		
 		// refactor out this code
 		range = 64 + random.nextInt( 64 );
 		keyString = "";

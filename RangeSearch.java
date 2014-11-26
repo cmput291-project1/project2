@@ -34,7 +34,11 @@ public class RangeSearch{
 		if(type == 1){
 			btreeSearch();
 		}else if(type == 2){
-			hashSearch();
+			try{
+				hashSearch();
+			}catch(DatabaseException dbe){
+					dbe.printStackTrace();
+			}
 		}			
 	}
 
@@ -42,7 +46,7 @@ public class RangeSearch{
 		System.out.println("not implemented yet");
 	}	
 
-	public void hashSearch(){
+	public void hashSearch() throws DatabaseException{
 		String lowerLimit = Interval.LOWER_LIMIT;
 		String upperLimit = Interval.UPPER_LIMIT;
 		ResultSet resultSet = new ResultSet();

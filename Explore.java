@@ -216,26 +216,27 @@ public class Explore{
 		Pref.setDbType(1);
 		db.getInstance();
 		OperationStatus oprStatus;
+		int count = 0;
 		try{
 			Cursor c_1 = db.getInstance().getPrimaryDb().openCursor(null, null);
 			String key1 = "aatewknnlyjqxuadonparefxljasaddccsviqfkqzmpxcrhdegktesxvcfcxlkjx";
 			String key2 = "cagoxktnhjzemzyhrkcuicrxvogrrdzwbsyoqgqzeitzewbvdrdsdgafvfifocuz";	
 			String currentKey = new String();
-
+			DatabaseEntry data = new DatabaseEntry();
 			DatabaseEntry pdbKey1 = new DatabaseEntry();
 			pdbKey1.setData(key1.getBytes());
 		
 			oprStatus = c_1.getSearchKey(pdbKey1, data, LockMode.DEFAULT);
 			if( oprStatus == OperationStatus.SUCCESS ){
 				count++;
-				currentKey = new String(pdbKey1);
+				currentKey = new String(pdbKey1.getData());
 				System.out.println("start key = " + currentKey);
 			}
 			while(!currentKey.equals("cagoxktnhjzemzyhrkcuicrxvogrrdzwbsyoqgqzeitzewbvdrdsdgafvfifocuz")){
 				oprStatus = c_1.getNext(pdbKey1, data, LockMode.DEFAULT);
 				if( oprStatus == OperationStatus.SUCCESS ){
 				count++;
-				currentKey = new String(pdbKey1);
+				currentKey = new String(pdbKey1.getData());
 				}
 			}
 			System.out.println("end key = " + currentKey);

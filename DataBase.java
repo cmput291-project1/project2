@@ -211,7 +211,7 @@ public class DataBase{
 		System.out.println(NO_RECORDS + " records inserted into" + PRIMARY_TABLE);
 	}
 	
-	private int addEntry(int count, int firstRecord, int secondRecord){
+	private int addEntry(int count){
 		int range;
 		DatabaseEntry kdbt, ddbt;
 		String keyString;
@@ -244,13 +244,6 @@ public class DataBase{
 					this.testData.setTestData(dataString, count + 1);
 					this.testData.setTestKey(keyString, count + 1);
 				} 
-				
-				if ( (double) count == firstRecord ){
-					this.testData.setValue(keyString, count + 1, 1);
-				} 
-				if ( (double) count == secondRecord){
-					this.testData.setValue(keyString, count + 1, 2);
-				}
 			}catch(DatabaseException dbe){
 				System.err.println("Unable to put key/data pair in database");
 				dbe.printStackTrace();

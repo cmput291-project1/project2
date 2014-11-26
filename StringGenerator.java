@@ -9,7 +9,7 @@ public class StringGenerator{
 		random = new Random(1000000);
 	}
 
-	public static StringGenerator(){
+	public static StringGenerator getInstance(){
 		if(gen == null){
 			gen = new StringGenerator();
 		}

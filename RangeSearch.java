@@ -11,7 +11,7 @@ public class RangeSearch{
 	}
 
 	public void execute(){
-		int dbtype = Pref.getInstance().getDbtype();
+		int dbtype = Pref.getDbtype();
 		
 		if(dbtype == 1 || dbtype == 2){
 			primaryRangeSearch();
@@ -25,7 +25,7 @@ public class RangeSearch{
 	}	
 
 	public void primaryRangeSearch() throws DatabaseException{
-		Cursor cursor = db.getPrimaryDb().openCursor();
+		Cursor cursor = db.getPrimaryDb().openCursor(null, null);
 		DatabaseEntry data1 = new DatabaseEntry();
 		DatabaseEntry key1 = new DatabaseEntry();
 		DatabaseEntry data2 = new DatabaseEntry();

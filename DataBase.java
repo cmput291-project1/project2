@@ -140,16 +140,19 @@ public class DataBase{
 
 
 	public void close(){
-		try{
-			this.database.close();
-			this.database.remove(PRIMARY_TABLE,null,null);
-		}catch(DatabaseException dbe){
-			System.err.println("unable to close database");
-			dbe.printStackTrace();
-		}catch (FileNotFoundException fnfe){
-			System.err.println("can not find file to remove Database");
-			fnfe.printStackTrace();
+		if(this.database != null){
+			try{
+				this.database.close();
+				this.database.remove(PRIMARY_TABLE,null,null);
+			}catch(DatabaseException dbe){
+				System.err.println("unable to close database");
+				dbe.printStackTrace();
+			}catch (FileNotFoundException fnfe){
+				System.err.println("can not find file to remove Database");
+				fnfe.printStackTrace();
+			}
+			database = null;
 		}
-		database = null;
+		
 	}
 }

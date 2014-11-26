@@ -121,7 +121,7 @@ public class Explore{
 			int itterations = 2;
 			int i = 1;
 			count++;
-			OperationStatus oprStatus;
+			
 			while(i <= itterations){
 				oprStatus = c_1.getNextDup(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
 				if(oprStatus == OperationStatus.SUCCESS){ 

@@ -29,7 +29,7 @@ public class Explore{
 
 		switch(option){
 			case 1:
-							Pref.setDbType(1);
+							Pref.setDbType(2);
 							db.getInstance();
 							this.menu();
 							break;
@@ -87,6 +87,7 @@ public class Explore{
 		DatabaseEntry sdbkey1 = new DatabaseEntry();
 		DatabaseEntry pdbKey2 = new DatabaseEntry();
 		DatabaseEntry sdbkey2 = new DatabaseEntry();
+		indexFile.configureLengthSecondary();
 		SecondaryDatabase secdatabase = indexFile.getLengthSecondary();
 		
 		OperationStatus oprStatus;
@@ -132,6 +133,7 @@ public class Explore{
 		int count = 0;
 		Pref.setDbType(2);
 		db.getInstance();
+		indexFile.configureLengthSecondary();
 		SecondaryDatabase secdatabase = indexFile.getLengthSecondary();
 		try{
 			DatabaseEntry data = new DatabaseEntry();

@@ -19,6 +19,7 @@ public class Explore{
 	}
 
 	public void menu(){
+		this.printHeader();
 		int option = this.select();
 
 		switch(option){

@@ -2,7 +2,7 @@ import com.sleepycat.db.*;
 import java.io.*;
 import java.util.*;
 
-private class IndexFile{
+public class IndexFile{
 	private static final String DATA_SECONDARY_TABLE = "./tmp/user_db/secondary_table_file2";
 	private static final String LENGTH_SECONDARY_TABLE = "./tmp/user_db/secondary_table_file3";
 

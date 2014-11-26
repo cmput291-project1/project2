@@ -19,7 +19,8 @@ public class Explore{
 		System.out.println("|\t2) Compare string generators between given and developed");
 		System.out.println("|\t3) look for secondary key containing 100 primary keys");
 		System.out.println("|\t4) examine 64a to 64c");
-		System.out.println("|\t5) Exit");
+		System.out.println("|\t5) test btree search");
+		System.out.println("|\t6) exit");
 		System.out.println("======================================");
 	}
 

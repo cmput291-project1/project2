@@ -25,7 +25,7 @@ public class mydbtest {
 		Pref.setDbType(type);
 
 		if(args[1].equals("explore")){
-			Explore = new Explore();
+			Explore explore = new Explore();
 			explore.menu();
 		}else{
 			Menu menu = new Menu();

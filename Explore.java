@@ -212,7 +212,7 @@ public class Explore{
 
 	}
 
-	testBtreeSearch(){
+	public void testBtreeSearch(){
 		Pref.setDbType(1);
 		db.getInstance();
 		OperationStatus oprStatus;
@@ -231,7 +231,7 @@ public class Explore{
 				currentKey = new String(pdbKey1);
 				System.out.println("start key = " + currentKey);
 			}
-			while(!currentKey.equals("cagoxktnhjzemzyhrkcuicrxvogrrdzwbsyoqgqzeitzewbvdrdsdgafvfifocuz"){
+			while(!currentKey.equals("cagoxktnhjzemzyhrkcuicrxvogrrdzwbsyoqgqzeitzewbvdrdsdgafvfifocuz")){
 				oprStatus = c_1.getNext(pdbKey1, data, LockMode.DEFAULT);
 				if( oprStatus == OperationStatus.SUCCESS ){
 				count++;

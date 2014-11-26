@@ -232,14 +232,13 @@ public class Explore{
 			c_1.getSearchKey(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
 			String currentKey = new String(pdbKey1.getData());
 			count++;
-			while(!currentKey.equals("cagoxktnhjzemzyhrkcuicrxvogrrdzwbsyoqgqzeitzewbvdrdsdgafvfifocuz")){
+			while(!currentKey.equals("bzxbsxybbxktwmrfrebazoadgtwjuhhoytafflyinicuksmbrhkohcinjzjklluo")){
 				c_1.getNext(new DatabaseEntry(), pdbKey1, data, LockMode.DEFAULT);
 				currentKey = new String(pdbKey1.getData());
 				count++;
-				if(count == 133){
-					System.out.println("count is 133. current key is: " + currentKey);
+				if(currentKey.equals("bzxbsxybbxktwmrfrebazoadgtwjuhhoytafflyinicuksmbrhkohcinjzjklluo")){
+					System.out.println(currentKey + " is counted");
 				}
-				System.out.println(count);
 			}
 			
 			System.out.println("there are " + count + " records on this interval");

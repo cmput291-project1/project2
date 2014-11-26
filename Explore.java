@@ -225,9 +225,9 @@ public class Explore{
 			String currentKey = new String();
 			DatabaseEntry data = new DatabaseEntry();
 			DatabaseEntry pdbKey1 = new DatabaseEntry();
-			pdbKey1.setData(key1.getBytes());
+			//pdbKey1.setData(key1.getBytes());
 		
-			oprStatus = c_1.getSearchKey(pdbKey1, data, LockMode.DEFAULT);
+			oprStatus = c_1.getFirst(pdbKey1, data, LockMode.DEFAULT);
 			if( oprStatus == OperationStatus.SUCCESS ){
 				count++;
 				currentKey = new String(pdbKey1.getData());
@@ -241,17 +241,17 @@ public class Explore{
 				count++;
 				currentKey = new String(pdbKey1.getData());
 				}
-				if(currentKey.compareTo(previousKey) >= 0){
+				if(currentKey.compareTo(previousKey) <= 0){
 					System.out.println("out of order");
 					System.out.println("Current key = " + currentKey);
 					System.out.println("Previous key = " + previousKey);
 					break;
-				}
+				}/*
 				if (currentKey.length() != 64){
 					System.out.println("length is not 64");
 					System.out.println("Current key = " + currentKey);
 					break;
-				}
+				}*/
 				if (currentKey.charAt(0) != 'a'){
 					System.out.println("first char is not 'a'");
 					System.out.println("Current key = " + currentKey);

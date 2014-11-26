@@ -105,7 +105,7 @@ public class Explore{
 				}
 				System.out.println("key: " + key + (char)firstChar + " has " + count + " primary keys");
 				if(count <= 200){
-					System.out.println("secondary key found: " + key);
+					System.out.println("secondary key found: " + key + (char)firstChar);
 				}
 				count = 0;
 				oprStatus = c.getNextNoDup(sdbkey,pdbKey, data, LockMode.DEFAULT);

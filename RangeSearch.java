@@ -55,10 +55,10 @@ public class RangeSearch{
 		long startTime = System.nanoTime();
 		OperationStatus oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
 		while(oprStatus == OperationStatus.SUCCESS){
-			String retrievedKey = new String(key.getData());
+			String retrievedKey = new String(key.getData(), "UTF-8");
 			
 			if( (retrievedKey.compareTo(lowerLimit) >= 0) && (retrievedKey.compareTo(upperLimit) <= 0) ){
-				String retrievedData = new String(data.getData());
+				String retrievedData = new String(data.getData(), "UTF-8");
 				resultSet.addResult(retrievedKey, retrievedData);
 			}
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);

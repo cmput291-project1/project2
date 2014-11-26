@@ -56,7 +56,7 @@ public class DataBase{
 
 	private final boolean createBase(){
 		DatabaseConfig dbConfig = new DatabaseConfig();
-
+		System.out.println(Pref.getDbType());
 		switch(Pref.getDbType()){
 			case 1:
 							dbConfig.setType(DatabaseType.BTREE);

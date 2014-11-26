@@ -241,6 +241,9 @@ public class Explore{
 				}
 				if (count <= 10)
 					System.out.println(currentKey);
+				if (currentKey.length() != 64){
+					System.out.println("length is not 64");
+				}
 				if (count == 100)
 					break;			
 			}

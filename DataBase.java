@@ -291,6 +291,7 @@ public class DataBase{
         byte[] stringLength = ByteBuffer.allocate(4).putInt(str.length()).array();
 				result.setSize(4);
         result.setData(stringLength);
+				return true;
     }
 	}
 }

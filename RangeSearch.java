@@ -33,7 +33,9 @@ public class RangeSearch{
 			try{
 				hashSearch();
 			}catch(DatabaseException dbe){
-					dbe.printStackTrace();
+				dbe.printStackTrace();
+			}catch(UnsupportedEncodingException uee){
+				uee.printStackTrace();
 			}
 		}			
 	}
@@ -42,7 +44,7 @@ public class RangeSearch{
 		System.out.println("not implemented yet");
 	}	
 
-	public void hashSearch() throws DatabaseException{
+	public void hashSearch() throws DatabaseException, UnsupportedEncodingException{
 		String lowerLimit = Interval.LOWER_LIMIT;
 		String upperLimit = Interval.UPPER_LIMIT;
 		ResultSet resultSet = new ResultSet();

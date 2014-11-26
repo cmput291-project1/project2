@@ -1,3 +1,5 @@
+import java.nio.ByteBuffer;
+import com.sleepycat.db.*;
 public class StringLengthKeyCreator implements SecondaryKeyCreator {
 	
 	public StringLengthKeyCreator(){

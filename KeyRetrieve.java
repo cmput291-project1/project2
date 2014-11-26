@@ -27,7 +27,6 @@ public class KeyRetrieve {
 		if (Pref.getDbType() == 3) {
 			//TODO STEVE COMMENTS
 			//use IndexFile.getInstance().getDataSecondary() for the secondary table you wanted
-			// or IndexFIle.getInstance().getLengthSecondary() for the other one
 			//database2 = db.getSecondaryDb();
 		}
 		

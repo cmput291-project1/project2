@@ -1,6 +1,6 @@
 import java.nio.ByteBuffer;
 import com.sleepycat.db.*;
-import java.lang.String;
+
 public class Explore{
 	Scan scan; 
 	DataBase db;
@@ -94,12 +94,12 @@ public class Explore{
 			SecondaryCursor c_1 = secdatabase.openSecondaryCursor(null, null);
 			SecondaryCursor c_2 = secdatabase.openSecondaryCursor(null, null);
 			oprStatus = c_1.getSearchKey(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
-			String primaryKey1 = new String(pdbKey1);
+			String primaryKey1 = new String(pdbKey1.getData());
 			if( oprStatus == OperationStatus.SUCCESS ){
 				System.out.println("primary key for cursor one = " + primaryKey1);
 			}
 			oprStatus = c_1.getSearchKey(sdbkey2, pdbKey2, data, LockMode.DEFAULT);
-			String primaryKey2 = new String(pdbKey2);
+			String primaryKey2 = new String(pdbKey2.getData());
 			if( oprStatus == OperationStatus.SUCCESS ){
 				System.out.println("primary key for cursor two = " + primaryKey2);
 			}

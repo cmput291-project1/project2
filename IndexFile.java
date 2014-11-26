@@ -14,7 +14,7 @@ public class IndexFile{
 		
 	}
 	
-	public IndexFile getInstance(){
+	public static IndexFile getInstance(){
 		if(indexFile == null){
 			indexFile = new IndexFile();
 		}
@@ -29,11 +29,11 @@ public class IndexFile{
 		return this.lengthSecondary;
 	}		
 
-	private final boolean checkDirectory(){
+	public final boolean checkDirectory(){
 		return new File(DataBase.DATABASE_DIR).exists();
 	}
 
-	private void configureDataSecondary(){
+	public void configureDataSecondary(){
 		SecondaryConfig secConfig = new SecondaryConfig();
 		secConfig.setKeyCreator(new DataKeyCreator());
 		secConfig.setAllowCreate(true);
@@ -54,7 +54,7 @@ public class IndexFile{
 		System.out.println(DATA_SECONDARY_TABLE + " has been created of type: " + secConfig.getType());
 	}
 
-	private void configureLengthSecondary(){
+	public void configureLengthSecondary(){
 		SecondaryConfig secConfig = new SecondaryConfig();
 		secConfig.setKeyCreator(new FirstCharLengthKeyCreator());
 		secConfig.setAllowCreate(true);

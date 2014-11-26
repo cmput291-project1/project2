@@ -9,8 +9,8 @@ import java.util.*;
 
 public class DataBase{
 	private static final int NO_RECORDS = 100000;
-	private static final String DATABASE_DIR = "./tmp/user_db";
-	private static final String PRIMARY_TABLE = "./tmp/user_db/primary_table_file1";
+	public static final String DATABASE_DIR = "./tmp/user_db";
+	public static final String PRIMARY_TABLE = "./tmp/user_db/primary_table_file1";
 	
 
 		
@@ -25,8 +25,6 @@ public class DataBase{
 
 		this.gen = StringGenerator.getInstance();
 		this.testData = TestData.getInstance();
-		random = new Random(1000000);
-		duplicateKeys = 0;
 		if(!createDirectory(DATABASE_DIR)){
 			System.err.println("Unable to create file	 for database");
 			System.exit(-1);
@@ -48,10 +46,6 @@ public class DataBase{
 
 	public Database getPrimaryDb(){
 		return this.database;
-	}
-
-	public SecondaryDatabase getSecondaryDb(){
-		return this.secdatabase;
 	}
 
 	private final boolean createDirectory(String file){
@@ -140,7 +134,7 @@ public class DataBase{
 			}
 			return 1;
 		}
-		duplicateKeys++;
+		
 		return 0;
 	}
 

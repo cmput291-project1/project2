@@ -180,7 +180,7 @@ public class DataBase{
 		
 			
 		
-		secConfig.setMultiKeyCreator(new FirstCharKeyCreator());
+		secConfig.setKeyCreator(new StringLengthKeyCreator());
 		secConfig.setAllowCreate(true);
 		secConfig.setType(DatabaseType.BTREE);
 		secConfig.setSortedDuplicates(true);
@@ -271,18 +271,18 @@ public class DataBase{
 /*
  * secondary keys are the first char in the primary key string 
 */
-	class FirstCharKeyCreator implements SecondaryMultiKeyCreator {
+	class StringLengthKeyCreator implements SecondaryKeyCreator {
 
 			
-			public void createSecondaryKeys(SecondaryDatabase secondary,
+			public void createSecondaryKey(SecondaryDatabase secondary,
                                       DatabaseEntry key,
                                       DatabaseEntry data,
-                                      Set results){
-        byte[] firstByte = new byte[1];
-        firstByte[0] = data.getData()[0];
+                                      DatabaseEntry result){
+				String str = new String(key.getData(), "UTF-8");
+        byte[] stringLength = ByteBuffer.allocate(4).putInt(str.length()).array();
 				DatabaseEntry result = new DatabaseEntry();
-        result.setData(firstByte);
-				results.add(result);
+				result.setSize(4);
+        result.setData(stringLength);
     }
 	}
 }

@@ -184,7 +184,7 @@ public class Explore{
 						count++;
 					}
 				}
-				String keyString = key + (char)firstChar;
+				String keyString = Integer.toString(key) + (char)firstChar;
 				if(keyString.equals("64a") || keyString.equals("64b") ){
 					System.out.println("key: " + key + (char)firstChar + " has " + count + " primary keys");
 				}

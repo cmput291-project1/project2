@@ -4,25 +4,27 @@ import java.lang.Object;
 import java.io.*;
 
 
-
-//TODO - Append key/value pair to file named "answers" in local directory
 public class DataRetrieve {
     //example key that has data: thndjefjyfwgpbmhzbfsfkubphiyvqirxwggmuxhvqnfmczshjaldffddmqyylwfmvbttcpvdjjffawzrdmwzykaspfugguntavetgdszamyogibkekcrvjuf
 
     //Example data values:
     //xeihommyihejcahcpnllqzsorhkervpimgxmfpqpaggerskevsnfcmdwjvtkulrxxckhxcavizjifgewprzxnkfgwdtaqltyxftdsymhmdyagsogpvhoc
+    //hksbsenlqywqfnyephtunhyknikcpfnaxsvpngwiktgbmiyyjgqdauvbdbpdtixbekbfgrbnjtsafqlahbntvxybvnrfxehkiikmnuakxwwlxtcgpvhoc
+    //dhjrxtadxewnvcpkhrgrbowprzblpslzszxhymcofszmagzbwdczkxyonshlmwroavtfpgigddzamcrbqisymyxnpwurpsbeekqvwviskwwlxtcgpvhoc
+    //hvcthszqqdgppcwrcukjggolzfquilcxsssonsfsmgwvpuqthdyyvjsqidgiiyzssxptzmxilxocdqnysrjpetfejkzanpgxfhdubexahmsnfoqvuevfc
     //oedayeovsnubwvewkqwvdvvzticaluuzbcpabwxvsdszypbbxhsafxwftouhrmhowqozxsenbagzvfztlnhhlpnxrkojhscmmglitncrldmznkzcdwrpjaewdawvwe
-    //etxgkoxrnuvwqfmlmkcpkmqofrtllhbavzcikyfekahlxpmzyrpzbbexpnitpqsflwjwiebcpicqhssrhyrhbpnxrkojhscmmglitncrldmznkzcdwrpjaewdawvwe
-    //wymzvrnutnnzitpqkkqbjcsjwzzngbdbqjrixagvcpwudkpxstljtagdsutoijioqbqbpjsudeglpbcyjxiayzcyfbusgdpnsqzujxqzldmznkzcdwrpjaewdawvwe
+    //cjfqwskqagppvgunbuuwjvehsytvyqvgmwxndniiebuccafpweohyzpzcpvpoltixalduhqyjktftelrhyrhbpnxrkojhscmmglitncrldmznkzcdwrpjaewdawvwe
+    //cjfqwskqagppvgunbuuwjvehsytvyqvgmwxndniiebuccafpweohyzpzcpvpoltixalduhqyjktftelrhyrhbpnxrkojhscmmglitncrldmznkzcdwrpjaewdawvwe
 
 
 
     Scan scan = Scan.getInstance();
+
     // creates database or gets instance if it was already created
     DataBase db = DataBase.getInstance();
     Database database = db.getPrimaryDb();
-    File answers = new File("answers.txt");
-    
+    String filename = "answers.txt";
+    WriteToFile fileWrite = new WriteToFile();
     Map<String, String> records = new HashMap<String, String>();
     
     //
@@ -69,30 +71,22 @@ public class DataRetrieve {
 	long time = timeEnd - timeStart;
 	//time = time/1000000;
 	System.out.println("TOTAL SEARCH TIME = " + time);
-	//prints the records found
+	//prints the number of records found
 	System.out.println("Records found: "+ records.size());
 
-
-	Set hashMapKeys = records.keySet();
-	int length = hashMapKeys.size();
-	//iterate through hashMapKeys
+	//get the key values of all records returned
+	Set keys = records.keySet();
+	Integer len = keys.size();
+	String[] hashMapKeys = records.keySet().toArray(new String[len]);
 	
-	//try{
-	//    FileWriter writer = new FileWriter(answers, true);
-	//   for(int i = 0; i < length; i++){
-	//	writer.write(hashMapKeys(i)+"\n"); 
-	//	System.out.println();
-	//	writer.write(records.get(i.next())+"/n");
-	//	writer.write("/n"); 
-      
-	//  }
-	//   writer.flush();
-	//   writer.close();	
-	//}catch(IOException e){
-	//    e.printStackTrace();
-	//}
-	
+	//iterate through hashMapKeys and write key/data pairs to answers.txt
+	for(int i = 0; i < len; i++){
+	    fileWrite.writeString(filename, hashMapKeys[i]); 
+	    fileWrite.writeString(filename, records.get(hashMapKeys[i]));
+	    fileWrite.writeString(filename, ""); 
+    	 }
 	return;
-
     }
+  
+
 }

@@ -241,7 +241,7 @@ public class Explore{
 				count++;
 				currentKey = new String(pdbKey1.getData());
 				}
-				if(currentKey.compareTo(previousKey) >= 0){
+				if(previousKey.compareTo(currentKey) >= 0){
 					System.out.println("out of order");
 					System.out.println("Current key = " + currentKey);
 					System.out.println("Previous key = " + previousKey);

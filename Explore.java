@@ -128,8 +128,12 @@ public class Explore{
 				c_1.getNext(new DatabaseEntry(), pdbKey1, data, LockMode.DEFAULT);
 				currentKey = new String(pdbKey1.getData());
 				count++;
+				if(count == 133){
+					System.out.println("count is 133. current key is: " + currentKey);
+				}
 				System.out.println(count);
 			}
+			
 			System.out.println("there are " + count + " records on this interval");
 		}catch(DatabaseException dbe){
 			System.out.println("error inspecting target secondary db keys: " + dbe.toString());
@@ -185,6 +189,7 @@ public class Explore{
 					}
 				}
 				String keyString = Integer.toString(key) + (char)firstChar;
+				//remove this to print size of all secondary keys
 				if(keyString.equals("64a") || keyString.equals("64b") ){
 					System.out.println("key: " + key + (char)firstChar + " has " + count + " primary keys");
 				}

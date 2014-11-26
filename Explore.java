@@ -84,13 +84,14 @@ public class Explore{
 		DatabaseEntry pdbKey2 = new DatabaseEntry();
 		DatabaseEntry sdbkey2 = new DatabaseEntry();
 		SecondaryDatabase secdatabase = db.getInstance().getSecondaryDb();
-		SecondaryCursor c_1 = secdatabase.openSecondaryCursor(null, null);
-		SecondaryCursor c_2 = secdatabase.openSecondaryCursor(null, null);
+		
 		OperationStatus oprStatus;
 		
 		sdbkey1.setData(secKey_1);
 		sdbkey2.setData(secKey_2);
 		try{
+			SecondaryCursor c_1 = secdatabase.openSecondaryCursor(null, null);
+			SecondaryCursor c_2 = secdatabase.openSecondaryCursor(null, null);
 			oprStatus = c_1.getSearchKey(sdbkey1, pdbKey1, data, LockMode.DEFAULT);
 			if( oprStatus == OperationStatus.SUCCESS ){
 				System.out.println("primary key for cursor one = " + pdbKey1.getData());

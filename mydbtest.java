@@ -23,12 +23,13 @@ public class mydbtest {
 			System.exit(-1);
 		}
 		Pref.setDbType(type);
-
-		if(args[1].equals("explore")){
-			Explore explore = new Explore();
-			explore.menu();
-		}else{
-			Menu menu = new Menu();
+		try{
+			if(args[1].equals("explore")){
+				Explore explore = new Explore();
+				explore.menu();
+			}
+		}catch(ArrayIndexOutOfBoundsException e){
+			//do nothing they don't want to explore
 		}
 		scan.close();
 		if(DataBase.getInstance().getPrimaryDb() != null){

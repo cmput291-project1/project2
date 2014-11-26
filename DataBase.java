@@ -223,6 +223,8 @@ public class DataBase{
 			secondRecord = (double) rand.nextInt((100000 - 1) + 1) + 1; //  int randomNum = rand.nextInt((max - min) + 1) + min;		
 			difference = Math.abs(secondRecord - firstRecord);
 		}
+		System.out.println("firstRecord = " + firstRecord);
+		System.out.println("secondRecord = " + secondRecord);
 		secondRecord -= 1;
 		firstRecord -= 1;
 		// refactor out this code

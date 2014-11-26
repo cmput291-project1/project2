@@ -245,14 +245,17 @@ public class Explore{
 					System.out.println("out of order");
 					System.out.println("Current key = " + currentKey);
 					System.out.println("Previous key = " + previousKey);
+					break;
 				}
 				if (currentKey.length() != 64){
 					System.out.println("length is not 64");
 					System.out.println("Current key = " + currentKey);
+					break;
 				}
 				if (currentKey.charAt(0) != 'a'){
 					System.out.println("first char is not 'a'");
 					System.out.println("Current key = " + currentKey);
+					break;
 				}
 				previousKey = currentKey;
 			}

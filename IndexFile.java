@@ -86,9 +86,6 @@ public class IndexFile{
 		}catch(DatabaseException dbe){
 			System.err.println("unable to close database");
 			dbe.printStackTrace();
-		}catch (FileNotFoundException fnfe){
-			System.err.println("can not find file to remove Database");
-			fnfe.printStackTrace();
 		}
 		dataSecondary = null;
 		lengthSecondary = null;

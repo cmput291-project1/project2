@@ -26,7 +26,7 @@ public class FirstCharLengthKeyCreator implements SecondaryKeyCreator {
 				}
 				resultArray[4] = firstChar;
 				result.setSize(5);
-        result.setData(stringLength);
+        result.setData(resultArray);
 				return true;
    }
 }

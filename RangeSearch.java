@@ -14,7 +14,11 @@ public class RangeSearch{
 		int dbtype = Pref.getDbType();
 		
 		if(dbtype == 1 || dbtype == 2){
-			primaryRangeSearch();
+			try{
+					primaryRangeSearch();
+			}catch(DatabaseException dbe){
+				dbe.printStackTrace();
+			}
 		}
 		else if (dbtype == 3){
 			secondaryRangeSearch();

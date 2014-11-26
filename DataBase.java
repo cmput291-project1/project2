@@ -23,9 +23,12 @@ public class DataBase{
 	private int duplicateKeys;
 
 	private TestData testData;
+	private StringGenerator gen;
 
 	// not sure if all these method calls should be in constructor
 	protected DataBase(){
+
+		this.gen = StringGenerator.getInstance();
 		this.testData = TestData.getInstance();
 		random = new Random(1000000);
 		duplicateKeys = 0;
@@ -214,20 +217,13 @@ public class DataBase{
 		String keyString;
 		String dataString;
 		
-		// refactor out this code
-		range = 64 + random.nextInt( 64 );
-		keyString = "";
-		for ( int j = 0; j < range; j++ ) 
-			keyString+=(new Character((char)(97+random.nextInt(26)))).toString();
 		
+		keyString = gen.generateString();
 		kdbt = new DatabaseEntry(keyString.getBytes());
 		kdbt.setSize(keyString.length()); 
 		
-		range = 64 + random.nextInt( 64 );
-		dataString = "";
-		for ( int j = 0; j < range; j++ ) 
-			dataString+=(new Character((char)(97+random.nextInt(26)))).toString();
-		//end refactoring... I think  
+		
+		dataString = gen.generateString();
 		ddbt = new DatabaseEntry(dataString.getBytes());
 		ddbt.setSize(dataString.length()); 
 		

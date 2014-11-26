@@ -4,8 +4,10 @@ import com.sleepycat.db.*;
 public class Explore{
 	Scan scan; 
 	DataBase db;
+	IndexFile indexFile;
 	public Explore(){
 		scan = Scan.getInstance();
+		indexFile = indexFile.getInstance();
 	}
 
 	public void printHeader(){
@@ -78,13 +80,14 @@ public class Explore{
 		secKey_1[4] = 97;
 		secKey_2[4] = 99;
 
-		Pref.setDbType(3);
+		Pref.setDbType(2);
+		db.getInstance();
 		DatabaseEntry data = new DatabaseEntry();
 		DatabaseEntry pdbKey1 = new DatabaseEntry();
 		DatabaseEntry sdbkey1 = new DatabaseEntry();
 		DatabaseEntry pdbKey2 = new DatabaseEntry();
 		DatabaseEntry sdbkey2 = new DatabaseEntry();
-		SecondaryDatabase secdatabase = db.getInstance().getSecondaryDb();
+		SecondaryDatabase secdatabase = indexFile.getLengthSecondary();
 		
 		OperationStatus oprStatus;
 		
@@ -127,8 +130,9 @@ public class Explore{
 	public void inspectSecondaryKeys(){
 		System.out.println("Counting number of unique secondary keys");
 		int count = 0;
-		Pref.setDbType(3);
-		SecondaryDatabase secdatabase = db.getInstance().getSecondaryDb();
+		Pref.setDbType(2);
+		db.getInstance();
+		SecondaryDatabase secdatabase = indexFile.getLengthSecondary();
 		try{
 			DatabaseEntry data = new DatabaseEntry();
 			DatabaseEntry pdbKey = new DatabaseEntry();

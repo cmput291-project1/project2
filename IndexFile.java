@@ -75,7 +75,7 @@ public class IndexFile{
 		System.out.println(DATA_SECONDARY_TABLE + " has been created of type: " + secConfig.getType());
 	}
 
-	private void close(){
+	public void close(){
 		try{
 			if(this.dataSecondary != null){
 				this.dataSecondary.close();

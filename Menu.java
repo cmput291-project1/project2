@@ -60,7 +60,7 @@ public class Menu{
 						if(DataBase.getInstance().getPrimaryDb() != null){
 							DataBase.getInstance().close();
 						}
-						IndexFile.getInstance.close();
+						IndexFile.getInstance().close();
 						this.printHeader();
 						this.makeSelection();
 						break;

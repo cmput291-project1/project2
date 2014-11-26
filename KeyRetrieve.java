@@ -25,7 +25,10 @@ public class KeyRetrieve {
 		DatabaseEntry data = new DatabaseEntry();
 		SecondaryDatabase database2 = null;
 		if (Pref.getDbType() == 3) {
-			database2 = db.getSecondaryDb();
+			//TODO STEVE COMMENTS
+			//use IndexFile.getInstance().getDataSecondary() for the secondary table you wanted
+			// or IndexFIle.getInstance().getLengthSecondary() for the other one
+			//database2 = db.getSecondaryDb();
 		}
 		
 		System.out.println("Searching for key in database");

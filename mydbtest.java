@@ -34,6 +34,6 @@ public class mydbtest {
 		if(DataBase.getInstance().getPrimaryDb() != null){
 			DataBase.getInstance().close();
 		}
-		IndexFile.getInstance.close();
+		IndexFile.getInstance().close();
 	}
 }

@@ -26,26 +26,7 @@ public class RangeSearch{
 
 	public void execute(){
 		int dbtype = Pref.getDbType();
-		
-		if(dbtype == 1 || dbtype == 2){
-			primaryRangeSearch(dbtype);
-		}
-		else if (dbtype == 3){
-			try{
-				secondaryRangeSearch();
-			}catch(DatabaseException dbe){
-				dbe.printStackTrace();
-			}catch(UnsupportedEncodingException uee){
-				uee.printStackTrace();
-			}
-		}
-		else{
-			System.out.println("invalid database type");
-		}
-	}	
-
-	public void primaryRangeSearch(int type){
-		if(type == 1){
+		if(type == 1 || type == 3){
 			try{
 				btreeSearch();
 			}catch(DatabaseException dbe){
@@ -61,8 +42,8 @@ public class RangeSearch{
 			}catch(UnsupportedEncodingException uee){
 				uee.printStackTrace();
 			}
-		}			
-	}
+		}		
+	}	
 
 	public void btreeSearch() throws DatabaseException, UnsupportedEncodingException{
 		System.out.println("Search type is BTREE interval search.");
@@ -115,54 +96,6 @@ public class RangeSearch{
 			}
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 		}
-		long endTime = System.nanoTime();
-		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
-		
-		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
-	}
-
-	public void secondaryRangeSearch() throws DatabaseException, UnsupportedEncodingException{
-		System.out.println("Search type is indexFile interval search.");
-		System.out.println("lower limit is: " + lowerLimit);
-		System.out.println("upper limit is: " + upperLimit);
-			
-		String firstChar = "a";
-		DatabaseEntry data = new DatabaseEntry();
-		DatabaseEntry pdbKey = new DatabaseEntry();
-		DatabaseEntry sdbkey = new DatabaseEntry();
-
-		sdbkey.setData(firstChar.getBytes());
-		sdbkey.setSize(1);
-
-		IndexFile indexFile = null;
-		indexFile = indexFile.getInstance();
-
-
-		if(indexFile.getFirstCharSecondary() == null){
-			indexFile.configureFirstCharSecondary();
-		}
-		
-		SecondaryDatabase secdatabase = indexFile.getFirstCharSecondary();
-		SecondaryCursor cursor = secdatabase.openSecondaryCursor(null, null);
-		int count = 0;
-		long startTime = System.nanoTime();
-		oprStatus = cursor.getSearchKey(sdbkey, pdbKey, data, LockMode.DEFAULT);
-		if(oprStatus == OperationStatus.SUCCESS){
-			retrievedData = new String(data.getData(), "UTF-8");
-			retrievedKey = new String(pdbKey.getData(), "UTF-8");
-			resultSet.addResult(retrievedKey, retrievedData);
-			count++;
-		}
-		while(oprStatus == OperationStatus.SUCCESS && count <= 150){
-			oprStatus = cursor.getNextDup(sdbkey, pdbKey, data, LockMode.DEFAULT);
-			if(oprStatus == OperationStatus.SUCCESS){
-				retrievedData = new String(data.getData(), "UTF-8");
-				retrievedKey = new String(pdbKey.getData(), "UTF-8");
-				resultSet.addResult(retrievedKey, retrievedData);
-				count++;
-			}
-		}
-		
 		long endTime = System.nanoTime();
 		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
 		

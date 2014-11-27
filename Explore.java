@@ -23,7 +23,8 @@ public class Explore{
 		System.out.println("|\t5) test btree search");
 		System.out.println("|\t6) find min primary key in 64a");
 		System.out.println("|\t7) find max primary key in 64b");
-		System.out.println("|\t8) exit");
+		System.out.println("|\t8) find 100 key interval in firstCharKey secondary databse for secondary key 'a'");
+		System.out.println("|\t9) exit");
 		System.out.println("======================================");
 	}
 
@@ -62,6 +63,10 @@ public class Explore{
 							this.menu();
 							break;
 			case 8:
+							determineIntervalFirstCharKey();
+							this.menu();
+							break;
+			case 9:
 							IndexFile.getInstance().close();
 							db.getInstance().close();
 							System.exit(1);
@@ -82,6 +87,53 @@ public class Explore{
 		return selection;		
 	}
 	
+	public void determineIntervalFirstCharKey(){
+		String firstChar = "a";
+		DatabaseEntry data = new DatabaseEntry();
+		DatabaseEntry pdbKey = new DatabaseEntry();
+		DatabaseEntry sdbkey = new DatabaseEntry();
+		//set secondary database key = 'a'
+		sdbKey.setData(firstChar.getBytes());
+		sdbKey.setSize(1);
+		//set primary database to hash with 100k records		
+		Pref.setDbType(2);
+		db.getInstance();
+		
+		if(indexFile.getFirstCharSecondary() == null){
+			indexFile.configureFirstCharSecondary();
+		}
+		
+		SecondaryDatabase secdatabase = indexFile.getFirstCharSecondary();
+		sdbkey.setData(secKey);
+		OperationStatus oprStatus;
+		int count = 0;
+		String lowerLimit = null;
+		String upperLimit = null;
+		try{
+			SecondaryCursor cursor = secdatabase.openSecondaryCursor(null, null);
+			oprStatus = cursor.getSearchKey(sdbkey, pdbKey, data, LockMode.DEFAULT);
+			if(oprStatus == OperationStatus.SUCCESS){
+				count++;
+				lowerLimit = new String(pdbKey.getData());
+			}
+			while(oprStatus == OperationStatus.SUCCESS && count <= 100){
+				oprStatus = cursor.getNextDup(sdbkey, pdbKey, data, LockMode.DEFAULT);
+				if(oprStatus == OperationStatus.SUCCESS){
+					count++;
+					if(count == 100){
+						upperLimit = new String(pdbKey.getData());
+					}
+				}
+			}
+		}catch(DatabaseException dbe){
+			dbe.printStackTrace();
+		}
+				
+		System.out.println("Lower limit = " + lowerLimit);
+		System.out.println("Upper limit = " + upperLimit);
+	}	
+
+
 	public void getMinKeyA_64(){
 		byte[] size = new byte[4];
 		byte firstChar = 34;

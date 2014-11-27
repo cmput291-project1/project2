@@ -71,10 +71,6 @@ public class RangeSearch{
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
 		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
-
-		System.out.println("examining result set");
-		System.out.println("=================================");
-		resultSet.examine();
 	}
 
 	public void secondaryRangeSearch(){

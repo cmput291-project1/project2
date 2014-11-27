@@ -64,7 +64,7 @@ public class RangeSearch{
 			retrievedData = new String(data.getData(), "UTF-8");
 			resultSet.addResult(retrievedKey, retrievedData);
 		}
-		while(oprStatus == OperationStatus.SUCCESS && (retrievedKey.compareTo(upperLimit) <= 0) ){
+		while(oprStatus == OperationStatus.SUCCESS && (retrievedKey.compareTo(upperLimit) <= 0) && (retrievedKey.compareTo(lowerLimit) >= 0) ){
 			retrievedKey = new String(key.getData(), "UTF-8");
 			retrievedData = new String(data.getData(), "UTF-8");
 			resultSet.addResult(retrievedKey, retrievedData);

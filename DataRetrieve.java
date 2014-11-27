@@ -70,10 +70,10 @@ public class DataRetrieve {
 		Cursor c = db2.openCursor(null, null);
 		dbKey.setData(searchData.getBytes());
 		c.getSearchKey(dbKey, data, LockMode.DEFAULT);
-		//db2.get(null, dbKey, data, LockMode.DEFAULT);
+		//Getting a Null pointer exception from next line
 		sKey = new String (data.getData());
 		sData = new String (dbKey.getData());
-		System.out.println(sData);
+		//System.out.println(sData);
 		records.put(sKey, sData);
 		/*
 		while(c.getNext(dbKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){

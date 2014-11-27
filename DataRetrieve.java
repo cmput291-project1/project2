@@ -19,46 +19,72 @@ public class DataRetrieve {
 
 
     Scan scan = Scan.getInstance();
-
-    // creates database or gets instance if it was already created
-    DataBase db = DataBase.getInstance();
-    Database database = db.getPrimaryDb();
+    Database database = null;
     String filename = "answers.txt";
     WriteToFile fileWrite = new WriteToFile();
     Map<String, String> records = new HashMap<String, String>();
-    
+
+    public DataRetrieve(){
+	if (Pref.getDbType() == 3) {
+	    DataBase db = DataBase.getInstance();
+	    database = db.getPrimaryDb();
+	    database = IndexFile.getInstance().getDataSecondary();     
+	}else{
+	    DataBase db = DataBase.getInstance();
+	    database = db.getPrimaryDb();
+	}	
+
+
+    }
+
     //
     public void getRecords() {
 	// gets user input for record to search for  
 	System.out.print("Please enter data you want to search for: ");
 	String searchData = scan.getString();
-		
+	
 	// start timer, end before returns
 	long timeStart = System.nanoTime();
 	DatabaseEntry dbKey = new DatabaseEntry();
 	DatabaseEntry pKey = new DatabaseEntry();
-		
+	
+	//OperationStatus success = ;
+
 	DatabaseEntry data = new DatabaseEntry();
 	SecondaryDatabase database2 = null;
 
+	String sData = null;
+	String sKey = null;
 		
 	System.out.println("Searching for data in database");
-	//if (Pref.getDbType() == 3) {
-	//    database = db.getSecondaryDb(); 
-	//}
+	
 	try {
-	   	    
-	    Cursor c = database.openCursor(null, null);
-	    c.getFirst(dbKey, data, LockMode.DEFAULT);
-	    	 
-	    for(int i = 0; i < 100000; i++){
-		String sData = new String (data.getData());
-		String sKey = new String (dbKey.getData());
-		
-		if(sData.equals(searchData)){
+	    //if there is a index file then we can use key search
+	    if (Pref.getDbType() == 3) {
+		//database = IndexFile.getInstance().getDataSecondary(); 	
+		Cursor c = database.openCursor(null, null);
+		c.getSearchKey(dbKey, data, LockMode.DEFAULT);
+		sKey = new String (data.getData());
+		sData = new String (dbKey.getData());
+		records.put(sKey, sData);
+		while(c.getNextDup(dbKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
+		    sData = new String (data.getData());
+		    sKey = new String (dbKey.getData());
 		    records.put(sKey, sData);
 		}
-		c.getNext(dbKey, data, LockMode.DEFAULT);
+	    }else{    
+		Cursor c = database.openCursor(null, null);
+		c.getFirst(dbKey, data, LockMode.DEFAULT);
+	    	 
+		for(int i = 0; i < 100000; i++){
+		    sData = new String (data.getData());
+		    sKey = new String (dbKey.getData());
+		
+		    if(sData.equals(searchData)){
+			records.put(sKey, sData);
+		    }
+		    c.getNext(dbKey, data, LockMode.DEFAULT);
+		}
 	    }
 	    
 	}

@@ -31,7 +31,7 @@ public class IndexFile{
 		return this.lengthSecondary;
 	}
 	
-	public SecondaryDatabase getLengthSecondary(){
+	public SecondaryDatabase getFirstCharSecondary(){
 		return this.firstCharSecondary;
 	}		
 

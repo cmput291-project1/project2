@@ -93,8 +93,8 @@ public class Explore{
 		DatabaseEntry pdbKey = new DatabaseEntry();
 		DatabaseEntry sdbkey = new DatabaseEntry();
 		//set secondary database key = 'a'
-		sdbKey.setData(firstChar.getBytes());
-		sdbKey.setSize(1);
+		sdbkey.setData(firstChar.getBytes());
+		sdbkey.setSize(1);
 		//set primary database to hash with 100k records		
 		Pref.setDbType(2);
 		db.getInstance();

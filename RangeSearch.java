@@ -57,7 +57,34 @@ public class RangeSearch{
 	}
 
 	public void btreeSearch(){
-		System.out.println("not implemented yet");
+		System.out.println("Search type is BTREE interval search.");
+		System.out.println("lower limit is: " + lowerLimit);
+		System.out.println("upper limit is: " + upperLimit);
+
+		Cursor cursor = dataBase.openCursor(null, null);
+		DatabaseEntry key = new DatabaseEntry();
+		DatabaseEntry data = new DatabaseEntry();
+		
+		key.setData(lowerLimit.getBytes());
+		key.setSize(lowerLimit.length());
+
+		long startTime = System.nanoTime();
+		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
+		if(oprStatus == OperationStatus.SUCCESS){
+			String retrievedKey = new String(key.getData(), "UTF-8");
+			String retrievedData = new String(data.getData(), "UTF-8");
+			resultSet.addResult(retrievedKey, retrievedData);
+		}
+		while(oprStatus == OperationStatus.SUCCESS && (retrievedKey.compareTo(upperLimit) <= 0) ){
+			String retrievedKey = new String(key.getData(), "UTF-8");
+			String retrievedData = new String(data.getData(), "UTF-8");
+			resultSet.addResult(retrievedKey, retrievedData);
+			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
+		}
+		long endTime = System.nanoTime();
+		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
+		
+		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
 	}	
 
 	public void hashSearch() throws DatabaseException, UnsupportedEncodingException{

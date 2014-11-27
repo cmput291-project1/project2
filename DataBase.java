@@ -85,8 +85,9 @@ public class DataBase{
 		if(this.database == null){
 			return false;
 		}
-		populateTable();
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
+		populateTable();
+		
 		return true;
 	}	
 

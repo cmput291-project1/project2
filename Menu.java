@@ -32,7 +32,7 @@ public class Menu{
 							IndexFile indexFile = IndexFile.getInstance();
 							if(indexFile.checkDirectory()){
 								indexFile.configureDataSecondary();
-								indexFile.configureLengthSecondary();
+								indexFile.configureFirstCharSecondary();
 							}
 						}
 						printHeader();

@@ -80,6 +80,28 @@ public class IndexFile{
 		
 		System.out.println(DATA_SECONDARY_TABLE + " has been created of type: " + secConfig.getType());
 	}
+	
+	public void configureFirstCharSecondary(){
+		SecondaryConfig secConfig = new SecondaryConfig();
+		secConfig.setKeyCreator(new FirstCharKeyCreator());
+		secConfig.setAllowCreate(true);
+		secConfig.setType(DatabaseType.HASH);
+		secConfig.setSortedDuplicates(true);
+		secConfig.setAllowPopulate(true);
+
+		try{
+			this.firstCharSecondary = new SecondaryDatabase(FIRST_CHAR_SECONDARY, null, DataBase.getInstance().getPrimaryDb(), secConfig);
+		}catch(DatabaseException dbe){
+			System.err.println("Error while instantiating secondary 'first char' database: " + dbe.toString());
+			this.close();
+			System.exit(-1);
+		}catch(FileNotFoundException fnfe){
+			System.err.println("Secondary database file not found: " + fnfe.toString());
+		}
+		
+		System.out.println(FIRST_CHAR_SECONDARY + " has been created of type: " + secConfig.getType());
+	}
+
 
 	public void close(){
 		try{
@@ -101,24 +123,5 @@ public class IndexFile{
 		firstCharSecondary = null;
 	}
 
-	public void configureFirstCharSecondary(){
-		SecondaryConfig secConfig = new SecondaryConfig();
-		secConfig.setKeyCreator(new FirstCharKeyCreator());
-		secConfig.setAllowCreate(true);
-		secConfig.setType(DatabaseType.HASH);
-		secConfig.setSortedDuplicates(true);
-		secConfig.setAllowPopulate(true);
-
-		try{
-			this.firstCharSecondary = new SecondaryDatabase(FIRST_CHAR_SECONDARY, null, DataBase.getInstance().getPrimaryDb(), secConfig);
-		}catch(DatabaseException dbe){
-			System.err.println("Error while instantiating secondary 'first char' database: " + dbe.toString());
-			this.close();
-			System.exit(-1);
-		}catch(FileNotFoundException fnfe){
-			System.err.println("Secondary database file not found: " + fnfe.toString());
-		}
-		
-		System.out.println(FIRST_CHAR_SECONDARY + " has been created of type: " + secConfig.getType());
-	}
+	
 }

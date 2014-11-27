@@ -23,7 +23,7 @@ public class Explore{
 		System.out.println("|\t5) test btree search");
 		System.out.println("|\t6) find min primary key in 64a");
 		System.out.println("|\t7) find max primary key in 64b");
-		System.out.println("|\t8) find 100 key interval in firstCharKey secondary databse for secondary key 'a'");
+		System.out.println("|\t8) find 150 key interval in firstCharKey secondary databse for secondary key 'a'");
 		System.out.println("|\t9) exit");
 		System.out.println("======================================");
 	}

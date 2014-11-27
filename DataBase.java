@@ -64,6 +64,9 @@ public class DataBase{
 			case 2:
 							dbConfig.setType(DatabaseType.HASH);
 							break;
+			case 3:
+							dbConfig.setType(DatabaseType.BTREE);
+							break;
 			default:
 							System.out.println("Unrecognized database type.");
 		}
@@ -82,8 +85,9 @@ public class DataBase{
 		if(this.database == null){
 			return false;
 		}
-		populateTable();
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
+		populateTable();
+		
 		return true;
 	}	
 

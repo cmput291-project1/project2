@@ -6,30 +6,35 @@ public class RangeSearch{
 	DataBase db;	
 	TestData testData;
 	StringGenerator gen;
+	String lowerLimit;
+	String upperLimit;
+	ResultSet resultSet;
+	Database dataBase;
+	OperationStatus oprStatus;
+	String retrievedKey;
+	String retrievedData;
+
 	public RangeSearch(){
 		db = DataBase.getInstance();
+		dataBase = DataBase.getInstance().getPrimaryDb();
 		testData = TestData.getInstance();
 		gen = StringGenerator.getInstance();
+		lowerLimit = Interval.LOWER_LIMIT;
+		upperLimit = Interval.UPPER_LIMIT;
+		resultSet = new ResultSet();
 	}
 
 	public void execute(){
 		int dbtype = Pref.getDbType();
-		
-		if(dbtype == 1 || dbtype == 2){
-			primaryRangeSearch(dbtype);
-		}
-		else if (dbtype == 3){
-			secondaryRangeSearch();
-		}
-		else{
-			System.out.println("invalid database type");
-		}
-	}	
-
-	public void primaryRangeSearch(int type){
-		if(type == 1){
-			btreeSearch();
-		}else if(type == 2){
+		if(dbtype == 1 || dbtype == 3){
+			try{
+				btreeSearch();
+			}catch(DatabaseException dbe){
+				dbe.printStackTrace();
+			}catch(UnsupportedEncodingException uee){
+				uee.printStackTrace();
+			}
+		}else if(dbtype == 2){
 			try{
 				hashSearch();
 			}catch(DatabaseException dbe){
@@ -37,34 +42,56 @@ public class RangeSearch{
 			}catch(UnsupportedEncodingException uee){
 				uee.printStackTrace();
 			}
-		}			
-	}
-
-	public void btreeSearch(){
-		System.out.println("not implemented yet");
+		}		
 	}	
 
-	public void hashSearch() throws DatabaseException, UnsupportedEncodingException{
-		String lowerLimit = Interval.LOWER_LIMIT;
-		String upperLimit = Interval.UPPER_LIMIT;
-		ResultSet resultSet = new ResultSet();
-
-		System.out.println("Search type is hashTable interval search.");
+	public void btreeSearch() throws DatabaseException, UnsupportedEncodingException{
+		System.out.println("Search type is BTREE interval search.");
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
 
-		Database db = DataBase.getInstance().getPrimaryDb();
-		Cursor cursor = db.openCursor(null, null);
+		Cursor cursor = dataBase.openCursor(null, null);
+		DatabaseEntry key = new DatabaseEntry();
+		DatabaseEntry data = new DatabaseEntry();
+		
+		key.setData(lowerLimit.getBytes());
+		key.setSize(lowerLimit.length());
+
+		long startTime = System.nanoTime();
+		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
+		if(oprStatus == OperationStatus.SUCCESS){
+			retrievedKey = new String(key.getData(), "UTF-8");
+			retrievedData = new String(data.getData(), "UTF-8");
+			resultSet.addResult(retrievedKey, retrievedData);
+		}
+		while(oprStatus == OperationStatus.SUCCESS && (retrievedKey.compareTo(upperLimit) <= 0) && (retrievedKey.compareTo(lowerLimit) >= 0) ){
+			retrievedKey = new String(key.getData(), "UTF-8");
+			retrievedData = new String(data.getData(), "UTF-8");
+			resultSet.addResult(retrievedKey, retrievedData);
+			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
+		}
+		long endTime = System.nanoTime();
+		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
+		
+		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
+	}	
+
+	public void hashSearch() throws DatabaseException, UnsupportedEncodingException{
+		System.out.println("Search type is hashTable interval search.");
+		System.out.println("lower limit is: " + lowerLimit);
+		System.out.println("upper limit is: " + upperLimit);
+	
+		Cursor cursor = dataBase.openCursor(null, null);
 		DatabaseEntry key = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();
 		
 		long startTime = System.nanoTime();
-		OperationStatus oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
+		oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
 		while(oprStatus == OperationStatus.SUCCESS){
-			String retrievedKey = new String(key.getData(), "UTF-8");
+			retrievedKey = new String(key.getData(), "UTF-8");
 			
 			if( (retrievedKey.compareTo(lowerLimit) >= 0) && (retrievedKey.compareTo(upperLimit) <= 0) ){
-				String retrievedData = new String(data.getData(), "UTF-8");
+				retrievedData = new String(data.getData(), "UTF-8");
 				resultSet.addResult(retrievedKey, retrievedData);
 			}
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
@@ -73,9 +100,5 @@ public class RangeSearch{
 		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
 		
 		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
-	}
-
-	public void secondaryRangeSearch(){
-		System.out.println("not implemented yet");
 	}
 }

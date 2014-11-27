@@ -11,6 +11,8 @@ public class RangeSearch{
 	ResultSet resultSet;
 	Database dataBase;
 	OperationStatus oprStatus;
+	String retrievedKey;
+	String retrievedData;
 
 	public RangeSearch(){
 		db = DataBase.getInstance();
@@ -44,7 +46,13 @@ public class RangeSearch{
 
 	public void primaryRangeSearch(int type){
 		if(type == 1){
-			btreeSearch();
+			try{
+				btreeSearch();
+			}catch(DatabaseException dbe){
+				dbe.printStackTrace();
+			}catch(UnsupportedEncodingException uee){
+				uee.printStackTrace();
+			}
 		}else if(type == 2){
 			try{
 				hashSearch();
@@ -56,7 +64,7 @@ public class RangeSearch{
 		}			
 	}
 
-	public void btreeSearch(){
+	public void btreeSearch() throws DatabaseException, UnsupportedEncodingException{
 		System.out.println("Search type is BTREE interval search.");
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
@@ -71,13 +79,13 @@ public class RangeSearch{
 		long startTime = System.nanoTime();
 		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
 		if(oprStatus == OperationStatus.SUCCESS){
-			String retrievedKey = new String(key.getData(), "UTF-8");
-			String retrievedData = new String(data.getData(), "UTF-8");
+			retrievedKey = new String(key.getData(), "UTF-8");
+			retrievedData = new String(data.getData(), "UTF-8");
 			resultSet.addResult(retrievedKey, retrievedData);
 		}
 		while(oprStatus == OperationStatus.SUCCESS && (retrievedKey.compareTo(upperLimit) <= 0) ){
-			String retrievedKey = new String(key.getData(), "UTF-8");
-			String retrievedData = new String(data.getData(), "UTF-8");
+			retrievedKey = new String(key.getData(), "UTF-8");
+			retrievedData = new String(data.getData(), "UTF-8");
 			resultSet.addResult(retrievedKey, retrievedData);
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 		}
@@ -99,10 +107,10 @@ public class RangeSearch{
 		long startTime = System.nanoTime();
 		oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
 		while(oprStatus == OperationStatus.SUCCESS){
-			String retrievedKey = new String(key.getData(), "UTF-8");
+			retrievedKey = new String(key.getData(), "UTF-8");
 			
 			if( (retrievedKey.compareTo(lowerLimit) >= 0) && (retrievedKey.compareTo(upperLimit) <= 0) ){
-				String retrievedData = new String(data.getData(), "UTF-8");
+				retrievedData = new String(data.getData(), "UTF-8");
 				resultSet.addResult(retrievedKey, retrievedData);
 			}
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
@@ -129,8 +137,6 @@ public class RangeSearch{
 		IndexFile indexFile = null;
 		indexFile = indexFile.getInstance();
 
-		String retrievedKey = null;
-		String retrievedData = null;
 
 		if(indexFile.getFirstCharSecondary() == null){
 			indexFile.configureFirstCharSecondary();

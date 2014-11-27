@@ -6,10 +6,19 @@ public class RangeSearch{
 	DataBase db;	
 	TestData testData;
 	StringGenerator gen;
+	String lowerLimit;
+	String upperLimit;
+	ResultSet resultSet;
+	Database dataBase;
+
 	public RangeSearch(){
 		db = DataBase.getInstance();
+		dataBase = DataBase.getInstance().getPrimaryDb();
 		testData = TestData.getInstance();
 		gen = StringGenerator.getInstance();
+		lowerLimit = Interval.LOWER_LIMIT;
+		upperLimit = Interval.UPPER_LIMIT;
+		resultSet = new ResultSet();
 	}
 
 	public void execute(){
@@ -45,16 +54,11 @@ public class RangeSearch{
 	}	
 
 	public void hashSearch() throws DatabaseException, UnsupportedEncodingException{
-		String lowerLimit = Interval.LOWER_LIMIT;
-		String upperLimit = Interval.UPPER_LIMIT;
-		ResultSet resultSet = new ResultSet();
-
 		System.out.println("Search type is hashTable interval search.");
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
-
-		Database db = DataBase.getInstance().getPrimaryDb();
-		Cursor cursor = db.openCursor(null, null);
+	
+		Cursor cursor = dataBase.openCursor(null, null);
 		DatabaseEntry key = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();
 		
@@ -75,7 +79,38 @@ public class RangeSearch{
 		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
 	}
 
-	public void secondaryRangeSearch(){
-		System.out.println("not implemented yet");
+	public void secondaryRangeSearch() throws DatabaseException{
+		System.out.println("Search type is indexFile interval search.");
+		System.out.println("lower limit is: " + lowerLimit);
+		System.out.println("upper limit is: " + upperLimit);
+			
+		String firstChar = "a";
+		DatabaseEntry data = new DatabaseEntry();
+		DatabaseEntry pdbKey = new DatabaseEntry();
+		DatabaseEntry sdbkey = new DatabaseEntry();
+
+		sdbkey.setData(firstChar.getBytes());
+		sdbkey.setSize(1);
+
+		if(indexFile.getFirstCharSecondary() == null){
+			indexFile.configureFirstCharSecondary();
+		}
+		
+		SecondaryDatabase secdatabase = indexFile.getFirstCharSecondary();
+		SecondaryCursor cursor = secdatabase.openSecondaryCursor(null, null);
+		int count = 0;
+		long startTime = System.nanoTime();
+		oprStatus = cursor.getSearchKey(sdbkey, pdbKey, data, LockMode.DEFAULT);
+		if(oprStatus == OperationStatus.SUCCESS)
+			count++;
+		while(oprStatus == OperationStatus.SUCCESS && count <= 150){
+			oprStatus = cursor.getNextDup(sdbkey, pdbKey, data, LockMode.DEFAULT);
+			count++;
+		}
+		
+		long endTime = System.nanoTime();
+		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
+		
+		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
 	}
 }

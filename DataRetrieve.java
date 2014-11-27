@@ -20,17 +20,22 @@ public class DataRetrieve {
 
     Scan scan = Scan.getInstance();
     Database database = null;
+    Database db2 = null;
     String filename = "answers.txt";
     WriteToFile fileWrite = new WriteToFile();
     Map<String, String> records = new HashMap<String, String>();
 
     public DataRetrieve(){
+
+	DataBase db = DataBase.getInstance();
+	
+
 	if (Pref.getDbType() == 3) {
-	    DataBase db = DataBase.getInstance();
-	    database = db.getPrimaryDb();
-	    database = IndexFile.getInstance().getDataSecondary();     
+	    IndexFile index = IndexFile.getInstance();
+	    index.configureDataSecondary();
+	    db2 = index.getDataSecondary();
+
 	}else{
-	    DataBase db = DataBase.getInstance();
 	    database = db.getPrimaryDb();
 	}	
 
@@ -61,17 +66,27 @@ public class DataRetrieve {
 	try {
 	    //if there is a index file then we can use key search
 	    if (Pref.getDbType() == 3) {
-		//database = IndexFile.getInstance().getDataSecondary(); 	
-		Cursor c = database.openCursor(null, null);
+		
+		Cursor c = db2.openCursor(null, null);
+		dbKey.setData(searchData.getBytes());
 		c.getSearchKey(dbKey, data, LockMode.DEFAULT);
+		//db2.get(null, dbKey, data, LockMode.DEFAULT);
 		sKey = new String (data.getData());
 		sData = new String (dbKey.getData());
+		System.out.println(sData);
 		records.put(sKey, sData);
-		while(c.getNextDup(dbKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
-		    sData = new String (data.getData());
-		    sKey = new String (dbKey.getData());
-		    records.put(sKey, sData);
+		/*
+		while(c.getNext(dbKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
+		    sData = new String (dbKey.getData());
+		    sKey = new String (data.getData());
+		    if(sData.equals(searchData)){
+		      records.put(sKey, sData);
+		    }else{
+			break;
+		    }
 		}
+		*/
+		c.close();
 	    }else{    
 		Cursor c = database.openCursor(null, null);
 		c.getFirst(dbKey, data, LockMode.DEFAULT);
@@ -85,6 +100,7 @@ public class DataRetrieve {
 		    }
 		    c.getNext(dbKey, data, LockMode.DEFAULT);
 		}
+		c.close();
 	    }
 	    
 	}

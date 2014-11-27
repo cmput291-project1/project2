@@ -98,7 +98,7 @@ public class RangeSearch{
 		sdbkey.setSize(1);
 
 		IndexFile indexFile = null;
-		indexFIle = indexFile.getInstance();
+		indexFile = indexFile.getInstance();
 
 		if(indexFile.getFirstCharSecondary() == null){
 			indexFile.configureFirstCharSecondary();

@@ -110,7 +110,7 @@ public class IndexFile{
 		secConfig.setAllowPopulate(true);
 
 		try{
-			this.lengthSecondary = new SecondaryDatabase(FIRST_CHAR_SECONDARY, null, DataBase.getInstance().getPrimaryDb(), secConfig);
+			this.firstCharSecondary = new SecondaryDatabase(FIRST_CHAR_SECONDARY, null, DataBase.getInstance().getPrimaryDb(), secConfig);
 		}catch(DatabaseException dbe){
 			System.err.println("Error while instantiating secondary 'first char' database: " + dbe.toString());
 			this.close();

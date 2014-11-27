@@ -10,6 +10,7 @@ public class RangeSearch{
 	String upperLimit;
 	ResultSet resultSet;
 	Database dataBase;
+	OperationStatus oprStatus;
 
 	public RangeSearch(){
 		db = DataBase.getInstance();
@@ -63,7 +64,7 @@ public class RangeSearch{
 		DatabaseEntry data = new DatabaseEntry();
 		
 		long startTime = System.nanoTime();
-		OperationStatus oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
+		oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
 		while(oprStatus == OperationStatus.SUCCESS){
 			String retrievedKey = new String(key.getData(), "UTF-8");
 			

@@ -33,6 +33,8 @@ public class RangeSearch{
 				secondaryRangeSearch();
 			}catch(DatabaseException dbe){
 				dbe.printStackTrace();
+			}catch(UnsupportedEncodingException uee){
+				uee.printStackTrace();
 			}
 		}
 		else{
@@ -84,7 +86,7 @@ public class RangeSearch{
 		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
 	}
 
-	public void secondaryRangeSearch() throws DatabaseException{
+	public void secondaryRangeSearch() throws DatabaseException, UnsupportedEncodingException{
 		System.out.println("Search type is indexFile interval search.");
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
@@ -100,6 +102,9 @@ public class RangeSearch{
 		IndexFile indexFile = null;
 		indexFile = indexFile.getInstance();
 
+		String retrievedKey = null;
+		String retrievedData = null;
+
 		if(indexFile.getFirstCharSecondary() == null){
 			indexFile.configureFirstCharSecondary();
 		}
@@ -109,11 +114,20 @@ public class RangeSearch{
 		int count = 0;
 		long startTime = System.nanoTime();
 		oprStatus = cursor.getSearchKey(sdbkey, pdbKey, data, LockMode.DEFAULT);
-		if(oprStatus == OperationStatus.SUCCESS)
+		if(oprStatus == OperationStatus.SUCCESS){
+			retrievedData = new String(data.getData(), "UTF-8");
+			retrievedKey = new String(pdbKey.getData(), "UTF-8");
+			resultSet.addResult(retrievedKey, retrievedData);
 			count++;
+		}
 		while(oprStatus == OperationStatus.SUCCESS && count <= 150){
 			oprStatus = cursor.getNextDup(sdbkey, pdbKey, data, LockMode.DEFAULT);
-			count++;
+			if(oprStatus == OperationStatus.SUCCESS){
+				retrievedData = new String(data.getData(), "UTF-8");
+				retrievedKey = new String(pdbKey.getData(), "UTF-8");
+				resultSet.addResult(retrievedKey, retrievedData);
+				count++;
+			}
 		}
 		
 		long endTime = System.nanoTime();

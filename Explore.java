@@ -104,7 +104,6 @@ public class Explore{
 		}
 		
 		SecondaryDatabase secdatabase = indexFile.getFirstCharSecondary();
-		sdbkey.setData(secKey);
 		OperationStatus oprStatus;
 		int count = 0;
 		String lowerLimit = null;

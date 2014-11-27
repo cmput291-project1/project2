@@ -115,15 +115,13 @@ public class Explore{
 				count++;
 				lowerLimit = new String(pdbKey.getData());
 			}
-			while(oprStatus == OperationStatus.SUCCESS && count <= 100){
+			while(oprStatus == OperationStatus.SUCCESS && count <= 150){
 				oprStatus = cursor.getNextDup(sdbkey, pdbKey, data, LockMode.DEFAULT);
 				if(oprStatus == OperationStatus.SUCCESS){
 					count++;
-					if(count == 100){
-						upperLimit = new String(pdbKey.getData());
-					}
 				}
 			}
+			upperLimit = new String(pdbKey.getData());
 		}catch(DatabaseException dbe){
 			dbe.printStackTrace();
 		}

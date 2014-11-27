@@ -57,6 +57,7 @@ public class IndexFile{
 		try{
 			if(this.dataSecondary != null){
 				this.dataSecondary.close();
+			}
 		}catch(DatabaseException dbe){
 			System.err.println("unable to close database");
 			dbe.printStackTrace();

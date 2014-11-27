@@ -38,7 +38,7 @@ public class IndexFile{
 		secConfig.setAllowPopulate(true);
 
 		try{
-			this.dataSecondary = new SecondaryDatabase(LENGTH_SECONDARY_TABLE, null, DataBase.getInstance().getPrimaryDb(), secConfig);
+			this.dataSecondary = new SecondaryDatabase(DATA_SECONDARY_TABLE, null, DataBase.getInstance().getPrimaryDb(), secConfig);
 		}catch(DatabaseException dbe){
 			System.err.println("Error while instantiating secondary 'data' database: " + dbe.toString());
 			this.close();

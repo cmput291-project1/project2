@@ -26,7 +26,7 @@ public class RangeSearch{
 
 	public void execute(){
 		int dbtype = Pref.getDbType();
-		if(type == 1 || type == 3){
+		if(dbtype == 1 || dbtype == 3){
 			try{
 				btreeSearch();
 			}catch(DatabaseException dbe){
@@ -34,7 +34,7 @@ public class RangeSearch{
 			}catch(UnsupportedEncodingException uee){
 				uee.printStackTrace();
 			}
-		}else if(type == 2){
+		}else if(dbtype == 2){
 			try{
 				hashSearch();
 			}catch(DatabaseException dbe){

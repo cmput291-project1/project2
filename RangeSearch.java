@@ -49,6 +49,10 @@ public class RangeSearch{
 		String upperLimit = Interval.UPPER_LIMIT;
 		ResultSet resultSet = new ResultSet();
 
+		System.out.println("Search type is hashTable interval search.");
+		System.out.println("lower limit is: " + lowerLimit);
+		System.out.println("upper limit is: " + upperLimit);
+
 		Database db = DataBase.getInstance().getPrimaryDb();
 		Cursor cursor = db.openCursor(null, null);
 		DatabaseEntry key = new DatabaseEntry();
@@ -67,9 +71,7 @@ public class RangeSearch{
 		}
 		long endTime = System.nanoTime();
 		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
-		System.out.println("Search type is hashTable interval search.");
-		System.out.println("lower limit is: " + lowerLimit);
-		System.out.println("upper limit is: " + upperLimit);
+		
 		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
 	}
 

@@ -65,7 +65,7 @@ public class DataBase{
 							dbConfig.setType(DatabaseType.HASH);
 							break;
 			case 3:
-							dbConfig.setType(DatabaseType.HASH);
+							dbConfig.setType(DatabaseType.BTREE);
 							break;
 			default:
 							System.out.println("Unrecognized database type.");

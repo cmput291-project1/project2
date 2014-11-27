@@ -39,7 +39,6 @@ public class DataRetrieve {
 	    database = db.getPrimaryDb();
 	}	
 
-
     }
 
     //
@@ -68,26 +67,30 @@ public class DataRetrieve {
 	    if (Pref.getDbType() == 3) {
 		
 		Cursor c = db2.openCursor(null, null);
+		//set dbKey to the data value we are searching for then move cursor
 		dbKey.setData(searchData.getBytes());
-		c.getSearchKey(dbKey, data, LockMode.DEFAULT);
-		//Getting a Null pointer exception from next line
-		sKey = new String (data.getData());
-		sData = new String (dbKey.getData());
-		//System.out.println(sData);
-		records.put(sKey, sData);
-		/*
-		while(c.getNext(dbKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
-		    sData = new String (dbKey.getData());
+		if(c.getSearchKey(dbKey, data, LockMode.DEFAULT)==OperationStatus.SUCCESS){
 		    sKey = new String (data.getData());
-		    if(sData.equals(searchData)){
-		      records.put(sKey, sData);
-		    }else{
-			break;
+		    sData = new String (dbKey.getData());	    
+		    records.put(sKey, sData);
+
+		    //next if there are duplicate keys after the first get them 		
+		    while(c.getNext(dbKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
+			//if(sData == null){
+			//    break;
+			//}
+			sData = new String (dbKey.getData());
+			sKey = new String (data.getData());
+			if(sData.equals(searchData)){
+			    records.put(sKey, sData);
+			}else{
+			    break;
+			}
 		    }
 		}
-		*/
 		c.close();
 	    }else{    
+		//if BTREE or HASH then search all records using cursor and return matches 
 		Cursor c = database.openCursor(null, null);
 		c.getFirst(dbKey, data, LockMode.DEFAULT);
 	    	 
@@ -113,14 +116,12 @@ public class DataRetrieve {
 	long time = timeEnd - timeStart;
 	//time = time/1000000;
 	System.out.println("TOTAL SEARCH TIME = " + time);
-	//prints the number of records found
 	System.out.println("Records found: "+ records.size());
 
 	//get the key values of all records returned
 	Set keys = records.keySet();
 	Integer len = keys.size();
 	String[] hashMapKeys = records.keySet().toArray(new String[len]);
-	
 	//iterate through hashMapKeys and write key/data pairs to answers.txt
 	for(int i = 0; i < len; i++){
 	    fileWrite.writeString(filename, hashMapKeys[i]); 

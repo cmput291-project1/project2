@@ -29,7 +29,11 @@ public class RangeSearch{
 			primaryRangeSearch(dbtype);
 		}
 		else if (dbtype == 3){
-			secondaryRangeSearch();
+			try{
+				secondaryRangeSearch();
+			}catch(DatabaseException dbe){
+				dbe.printStackTrace();
+			}
 		}
 		else{
 			System.out.println("invalid database type");

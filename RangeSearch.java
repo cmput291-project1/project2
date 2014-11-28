@@ -150,7 +150,7 @@ public class RangeSearch{
 			this.btreeSearch();
 			treeResults = this.resultSet;
 		}catch(Exception e){}
-
+		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");	
 		this.resultSet.clear();
 		DataBase.getInstance().close();
 	
@@ -162,7 +162,7 @@ public class RangeSearch{
 			this.hashSearch();
 			hashResults = this.resultSet;
 		}catch(Exception e){}
-
+		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");	
 		compare = new CompareResults(hashResults, treeResults);
 		compare.eqv();
 		

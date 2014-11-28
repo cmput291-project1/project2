@@ -84,16 +84,16 @@ public class DataBase{
 			return false;
 		}
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
-		populateTable(this.database, NO_RECORDS);
-		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
+		int count = populateTable(this.database, NO_RECORDS);
+		System.out.println(PRIMARY_TABLE + " has been inserted with: " + count + " records");
 		return true;
 	}	
 
-	static void populateTable(Database my_table, int nrecs ) {
+	static int populateTable(Database my_table, int nrecs ) {
 		int range;
 		DatabaseEntry kdbt, ddbt;
 		String s;
-
+		int count = 0;
 		/*  
 		 *  generate a random string with the length between 64 and 127,
 		 *  inclusive.
@@ -136,12 +136,14 @@ public class DataBase{
 
 				/* to insert the key/data pair into the database */
 		    my_table.putNoOverwrite(null, kdbt, ddbt);
+				count++;
 			}
 		}
 		catch (DatabaseException dbe) {
 			System.err.println("Populate the table: "+dbe.toString());
 		  System.exit(1);
 		}
+		return count;
 	}
 
 	public void close(){

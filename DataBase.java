@@ -18,12 +18,12 @@ public class DataBase{
 	private Database database = null;	
 
 	private StringGenerator gen;
-
+	private Random random;
 	// not sure if all these method calls should be in constructor
 	protected DataBase(){
 
 		this.gen = StringGenerator.getInstance();
-		
+		random = new Random(1000000);
 		if(!createDirectory(DATABASE_DIR)){
 			System.err.println("Unable to create file	 for database");
 			System.exit(-1);

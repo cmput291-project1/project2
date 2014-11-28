@@ -131,6 +131,7 @@ public class RangeSearch{
 	}
 
 	public final boolean verify(){
+		System.out.println("verifying");
 		return this.resultSet.verifyKeyRange(lowerLimit, upperLimit);
 	}
 }

@@ -145,7 +145,7 @@ public class RangeSearch{
 
 		Pref.setDbType(1);
 		DataBase.getInstance();
-		this.getInput();
+		this.getLimits();
 		try{
 			this.btreeSearch();
 			treeResults = this.resultSet;
@@ -156,7 +156,7 @@ public class RangeSearch{
 	
 		Pref.setDbType(2);
 		DataBase.getInstance();
-		this.getInput();
+		this.getLimits();
 
 		try{
 			this.btreeSearch();

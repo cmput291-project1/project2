@@ -85,7 +85,7 @@ public class DataBase{
 		}
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
 		populateTable(this.database, NO_RECORDS);
-		
+		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
 		return true;
 	}	
 

@@ -147,7 +147,7 @@ public class RangeSearch{
 		DataBase.getInstance();
 		this.getInput();
 		try{
-			this.btreeSearch()
+			this.btreeSearch();
 			treeResults = this.resultSet();
 		}catch(Exception e){}
 
@@ -159,7 +159,7 @@ public class RangeSearch{
 		this.getInput();
 
 		try{
-			this.btreeSearch()
+			this.btreeSearch();
 			hashResults = this.resultSet();
 		}catch(Exception e){}
 

@@ -35,7 +35,7 @@ public class ResultSet{
 
 	public final boolean findDuplicateKeys(){
 		boolean duplicateDetected = false;
-		String[] keys = (String[]) keyResults.toArray();
+		String[] keys =  keyResults.toArray(new String[keyResults.size()]);
 		String str1 = null;	
 		String str2 = null;
 		int j;

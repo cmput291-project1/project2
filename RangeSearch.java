@@ -48,6 +48,7 @@ public class RangeSearch{
 		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");		
 		//TODO remove this line when assignment submitted
 		System.out.println("all retrieved keys in range? " + this.verify());
+		//up to date how?
 		System.out.println("are there duplicate keys? " + resultSet.findDuplicateKeys());
 
 	}

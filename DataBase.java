@@ -110,7 +110,7 @@ public class DataBase{
 		kdbt = new DatabaseEntry(s.getBytes());
 		kdbt.setSize(s.length()); 
 		
-		range = 64 + random.nextInt( 64 )
+		range = 64 + random.nextInt( 64 );
 		s = "";
 		for ( int j = 0; j < range; j++ ) 
 			s+=(new Character((char)(97+random.nextInt(26)))).toString();	

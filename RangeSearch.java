@@ -159,7 +159,7 @@ public class RangeSearch{
 		this.getLimits();
 
 		try{
-			this.btreeSearch();
+			this.hashSearch();
 			hashResults = this.resultSet;
 		}catch(Exception e){}
 

@@ -44,7 +44,7 @@ public class RangeSearch{
 				uee.printStackTrace();
 			}
 		}		
-		System.out.println("all retrieved keys in range? " + rs.verify());
+		System.out.println("all retrieved keys in range? " + this.verify());
 	}
 
 	public void getLimits(){

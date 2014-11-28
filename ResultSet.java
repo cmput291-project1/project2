@@ -33,8 +33,8 @@ public class ResultSet{
 
 	public void duplicateKeys(){
 		boolean duplicateDetected = false;
-		final HashSet<Result> duplicates = new HashSet<String>();
-		final HashSet<Result> singles = new HashSet<String>();
+		final HashSet<Result> duplicates = new HashSet<Result>();
+		final HashSet<Result> singles = new HashSet<Result>();
 
 		for (Result result : results){
 			if(!singles.add(result)){

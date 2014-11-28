@@ -13,19 +13,22 @@ public class RangeSearch{
 	OperationStatus oprStatus;
 	String retrievedKey;
 	String retrievedData;
+	Scan scan;
 
 	public RangeSearch(){
+		scan = Scan.getInstance();
 		db = DataBase.getInstance();
 		dataBase = DataBase.getInstance().getPrimaryDb();
 		testData = TestData.getInstance();
 		gen = StringGenerator.getInstance();
-		lowerLimit = Interval.LOWER_LIMIT;
-		upperLimit = Interval.UPPER_LIMIT;
+		lowerLimit = new String();
+		upperLimit = new String();
 		resultSet = new ResultSet();
 	}
 
 	public void execute(){
 		int dbtype = Pref.getDbType();
+		getLimits();
 		if(dbtype == 1 || dbtype == 3){
 			try{
 				btreeSearch();
@@ -43,7 +46,33 @@ public class RangeSearch{
 				uee.printStackTrace();
 			}
 		}		
+	}
+
+	public void getLimits(){
+		System.out.println("Enter lower key for range search or 'm' to return to menu: ");
+		lowerLimit = getInput();
+		
+		System.out.println("Enter lower key for range search or 'm' to return to menu: ");
+		upperLimit = getInput();
 	}	
+
+	public String getInput(){
+		String input = new String();
+		input = scan.getString();
+
+		if(input.equals("lower limit")){
+			return Interval.LOWER_LIMIT;
+		}
+		else if(input.equals("upper limit")){
+			return Interval.LOWER_LIMIT;
+		}
+		else if(input.equals("m")){
+			Menu menu = new Menu();
+			return null;
+		}else{
+			return input;
+		}
+	}
 
 	public void btreeSearch() throws DatabaseException, UnsupportedEncodingException{
 		System.out.println("Search type is BTREE interval search.");
@@ -100,5 +129,9 @@ public class RangeSearch{
 		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
 		
 		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
+	}
+
+	public final boolean verify(){
+		return this.resultSet.verifyKeyRange(lowerLimit, upperLimit);
 	}
 }

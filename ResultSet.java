@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.lang.String;
 
 public class ResultSet{
 	private ArrayList<String> keyResults;
@@ -21,33 +22,12 @@ public class ResultSet{
 		return new String(Integer.toString(count));
 	}
 
-	public void examine(){
-		countKeysLonger_64();
-		countKeysStartingGreater_b();
-	}
-
-	public void countKeysLonger_64(){
-		int count = 0;
-		for(String key : keyResults){
-			if(key.length() > 64){
-				count++;
-				if(count % 100 == 0){
-					System.out.println("key with length greater than 64: " + key);
-				}
+	public final boolean verifyKeyRange(String lowerLimit, String upperLimit){
+		for(String s : keyResults){
+			if( (s.compareTo(lowerLimit) <= 0) || (s.compareTo(upperLimit) => 0) ){
+				return false;
 			}
 		}
-		System.out.println("there are " + count + " keys with length greater than 64.");
-	}
-
-	public void countKeysStartingGreater_b(){
-		int count = 0;
-		int c = ' ';
-		for(String key : keyResults){
-			c = key.charAt(0);
-			if(c > 98){
-				count++;
-			}
-		}
-		System.out.println("there are " + count + " keys with that start with a char greater than 'b'");
+		return true;
 	}
 }

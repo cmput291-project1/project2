@@ -17,7 +17,6 @@ public class DataBase{
 	private static DataBase db = null;	
 	private Database database = null;	
 
-	private TestData testData;
 	private StringGenerator gen;
 
 	// not sure if all these method calls should be in constructor
@@ -125,13 +124,9 @@ public class DataBase{
 			System.err.println("Unable to check if key exists");
 			dbe.printStackTrace();
 		}
-		if(!result.toString().equals(OperationStatus.NOTFOUND)){
+		if(result == OperationStatus.NOTFOUND){
 			try{
 				this.database.putNoOverwrite(null, kdbt, ddbt);
-				if(count == 1){
-					this.testData.setTestData(dataString, count + 1);
-					this.testData.setTestKey(keyString, count + 1);
-				} 
 			}catch(DatabaseException dbe){
 				System.err.println("Unable to put key/data pair in database");
 				dbe.printStackTrace();

@@ -4,7 +4,6 @@ import java.util.concurrent.TimeUnit;
 import java.io.UnsupportedEncodingException;
 public class RangeSearch{
 	DataBase db;	
-	TestData testData;
 	StringGenerator gen;
 	String lowerLimit;
 	String upperLimit;
@@ -19,7 +18,6 @@ public class RangeSearch{
 		scan = Scan.getInstance();
 		db = DataBase.getInstance();
 		dataBase = DataBase.getInstance().getPrimaryDb();
-		testData = TestData.getInstance();
 		gen = StringGenerator.getInstance();
 		lowerLimit = new String();
 		upperLimit = new String();

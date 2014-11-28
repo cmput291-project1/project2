@@ -23,7 +23,7 @@ public class DataBase{
 	protected DataBase(){
 
 		this.gen = StringGenerator.getInstance();
-		this.testData = TestData.getInstance();
+		
 		if(!createDirectory(DATABASE_DIR)){
 			System.err.println("Unable to create file	 for database");
 			System.exit(-1);

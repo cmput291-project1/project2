@@ -54,6 +54,10 @@ public class ResultSet{
 		
 	}
 
+	public ArrayList<Result> getResults(){
+		return this.results();
+	}
+
 	public int getCount(){
 		return this.results.size();
 	}

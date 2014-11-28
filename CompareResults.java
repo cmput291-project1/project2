@@ -2,17 +2,17 @@
 public class CompareResults{
 	public ResultSet hashSet;
 	public ResultSet treeSet;
-	public ResultSet difference;
+	public ArrayList<Result> difference;
 
 	public CompareResults(ResultSet hashSet, ResultSet treeSet){
-		this.set_1 = hashSet;
-		this.set_2 = treeSet;
+		this.hashSet = hashSet;
+		this.treeSet = treeSet;
 		this.difference = new ResultSet();
 	}
 
 	public final boolean eqv(){
-		for(Result r : treeSet){
-			if(!hashSet.containt(r)){
+		for(Result r : treeSet.getResults()){
+			if(!hashSet.getResults().contains(r)){
 				difference.add(r);
 			}
 		}

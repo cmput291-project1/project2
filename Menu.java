@@ -72,6 +72,7 @@ public class Menu{
 						this.makeSelection();
 						break;
 			case 6:
+						//TODO ensure that DataBase.getInstance() does not open create database when unwanted
 						System.out.println("Exiting data base");
 						IndexFile.getInstance().close();
 						DataBase.getInstance().close();

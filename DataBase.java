@@ -33,7 +33,7 @@ public class DataBase{
 		}
 		
 	}
-	
+	//TODO ensure that DataBase.getInstance() does not open create database when unwanted
 	public static DataBase getInstance(){
 		if(db == null){
 			db = new DataBase();

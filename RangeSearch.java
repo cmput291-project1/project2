@@ -62,7 +62,7 @@ public class RangeSearch{
 			return Interval.LOWER_LIMIT;
 		}
 		else if(input.equals("upper limit")){
-			return Interval.LOWER_LIMIT;
+			return Interval.UPPER_LIMIT;
 		}
 		else if(input.equals("m")){
 			Menu menu = new Menu();
@@ -92,10 +92,10 @@ public class RangeSearch{
 			resultSet.addResult(retrievedKey, retrievedData);
 		}
 		while(oprStatus == OperationStatus.SUCCESS && (retrievedKey.compareTo(upperLimit) <= 0) && (retrievedKey.compareTo(lowerLimit) >= 0) ){
+			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 			retrievedKey = new String(key.getData(), "UTF-8");
 			retrievedData = new String(data.getData(), "UTF-8");
 			resultSet.addResult(retrievedKey, retrievedData);
-			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 		}
 		long endTime = System.nanoTime();
 		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);

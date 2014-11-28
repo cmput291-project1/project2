@@ -43,8 +43,11 @@ public class RangeSearch{
 			}catch(UnsupportedEncodingException uee){
 				uee.printStackTrace();
 			}
-		}		
+		}
+		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");		
+		//TODO remove this line when assignment submitted
 		System.out.println("all retrieved keys in range? " + this.verify());
+
 	}
 
 	public void getLimits(){
@@ -101,7 +104,7 @@ public class RangeSearch{
 		long endTime = System.nanoTime();
 		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
 		
-		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
+		
 	}	
 
 	public void hashSearch() throws DatabaseException, UnsupportedEncodingException{
@@ -126,8 +129,6 @@ public class RangeSearch{
 		}
 		long endTime = System.nanoTime();
 		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
-		
-		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");
 	}
 
 	public final boolean verify(){

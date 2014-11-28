@@ -22,7 +22,7 @@ public class Result{
 		return this.key;
 	}
 
-	public void toString(){
+	public String toString(){
 		System.out.println("count = " + this.count);
 		System.out.println("key = " + this.key);
 		System.out.println("data = " + this.data);

@@ -54,10 +54,9 @@ public class Menu{
 			case 4: 
 						//TODO change this code before submission
 						System.out.println("Option 4 executed");	
+						RangeSearch rs = new RangeSearch();
 						rs.compare();
 						/*
-						
-						RangeSearch rs = new RangeSearch();
 						rs.execute();
 						*/
 						printHeader();

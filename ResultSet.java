@@ -33,8 +33,8 @@ public class ResultSet{
 
 	public void duplicateKeys(){
 		boolean duplicateDetected = false;
-		final Set<Result> duplicates = new HashSet<String>();
-		final Set<Result> singles = new HashSet<String>();
+		final HashSet<Result> duplicates = new HashSet<String>();
+		final HashSet<Result> singles = new HashSet<String>();
 
 		for (Result result : results){
 			if(!singles.add(result)){
@@ -55,7 +55,7 @@ public class ResultSet{
 	}
 
 	public int getCount(){
-		return this.resuls.size();
+		return this.results.size();
 	}
 
 	public void writeResults(String file){
@@ -71,7 +71,6 @@ public class ResultSet{
 	}
 
 	public void clear(){
-		this.count = 0;
 		this.results.clear();
 	}
 }

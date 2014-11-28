@@ -54,6 +54,15 @@ public class ResultSet{
 		
 	}
 
+	public final boolean containsKey(String key){
+		for(Result result : results){
+			if(result.getKey().equals(key)){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public ArrayList<Result> getResults(){
 		return this.results;
 	}
@@ -74,7 +83,15 @@ public class ResultSet{
 		}
 	}
 
+	public void print(){
+		for(Result r : results){
+			r.print();
+			System.out.println("------------------");
+		}
+	}
+
 	public void clear(){
 		this.results.clear();
+		this.results = new ArrayList<Result>();
 	}
 }

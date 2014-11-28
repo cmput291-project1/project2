@@ -104,7 +104,7 @@ public class Sample{
 		kdbt.setSize(s.length()); 
 
                 // to print out the key/data pair
-                //System.out.println("KEY: " + s + " " + s.length());	
+      System.out.println("KEY: " + s + " " + s.length());	
 
 		/* to generate a data string */
 		range = 64 + random.nextInt( 64 );
@@ -112,7 +112,7 @@ public class Sample{
 		for ( int j = 0; j < range; j++ ) 
 		  s+=(new Character((char)(97+random.nextInt(26)))).toString();
                 // to print out the key/data pair
-                //System.out.println("DATA: " + s + " " + s.length());	
+      System.out.println("DATA: " + s + " " + s.length());	
                 //System.out.println("");
 		
 		/* to create a DBT for data */

@@ -22,15 +22,9 @@ public class Result{
 		return this.key;
 	}
 
-	public String toString(){
-		String newLine = new String("\n");
-		String str = new String();
-		str.concat("count = " + this.count);
-		str.concat(newLine);
-		str.concat("key = " + this.key);
-		str.concat(newLine);
-		str.concat("data = " + this.data);
-		str.concat(newLine);
-		return str;
+	public void print(){
+		System.out.println("count = " + this.count);
+		System.out.println("key = " + this.key);
+		System.out.println("data = " + this.data);
 	}
 }

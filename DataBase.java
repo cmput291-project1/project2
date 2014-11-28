@@ -9,6 +9,7 @@ import java.util.*;
 
 public class DataBase{
 	private static final int NO_RECORDS = 100000;
+	private static final int NO_RECORDS_TEST = 10;
 	public static final String DATABASE_DIR = "./tmp/user_db";
 	public static final String PRIMARY_TABLE = "./tmp/user_db/primary_table_file1";
 	
@@ -84,10 +85,39 @@ public class DataBase{
 			return false;
 		}
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
+		//TODO change to populateTable after testing		
 		int count = populateTable(this.database, NO_RECORDS);
+		//int count = populateTestTable(this.database, NO_RECORDS_TEST);
 		System.out.println(PRIMARY_TABLE + " has been inserted with: " + count + " records");
 		return true;
 	}	
+	
+	static int populateTestTable(Database my_table, int nrecs){
+		DatabaseEntry kdbt, ddbt;
+		int count = 0;
+		ddbt = new DatabaseEntry(new String("test").getBytes());
+		ddbt.setSize(4);
+
+		
+		try {
+			for(int i = 0; i < nrecs; i++){
+				kdbt = new DatabaseEntry(new Character((char)(i + 97)).toString().getBytes());
+				kdbt.setSize(1);
+				OperationStatus result;
+				result = my_table.exists(null, kdbt);
+				if (!result.toString().equals("OperationStatus.NOTFOUND"))
+					throw new RuntimeException("Key is already in the database!");
+
+				/* to insert the key/data pair into the database */
+		    	my_table.putNoOverwrite(null, kdbt, ddbt);
+				count++;
+			} 
+		}catch (DatabaseException dbe) {
+			System.err.println("Populate the table: "+dbe.toString());
+		  	System.exit(1);
+		}
+		return count;
+	}
 
 	static int populateTable(Database my_table, int nrecs ) {
 		int range;
@@ -103,7 +133,7 @@ public class DataBase{
 		Random random = new Random(1000000);
 
 		try {
-    	for (int i = 0; i < nrecs; i++) {
+    		for (int i = 0; i < nrecs; i++) {
 
 				/* to generate a key string */
 				range = 64 + random.nextInt( 64 );
@@ -135,13 +165,13 @@ public class DataBase{
 					throw new RuntimeException("Key is already in the database!");
 
 				/* to insert the key/data pair into the database */
-		    my_table.putNoOverwrite(null, kdbt, ddbt);
+		    	my_table.putNoOverwrite(null, kdbt, ddbt);
 				count++;
 			}
 		}
 		catch (DatabaseException dbe) {
 			System.err.println("Populate the table: "+dbe.toString());
-		  System.exit(1);
+		  	System.exit(1);
 		}
 		return count;
 	}

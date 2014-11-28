@@ -23,14 +23,14 @@ public class Result{
 	}
 
 	public String toString(){
-		String str = new String();
 		String newLine = new String("\n");
-		str.append("count = " + this.count);
-		str.append(newLine);
-		str.append("key = " + this.key);
-		str.append(newLine);
-		str.append("data = " + this.data);
-		str.append(newLine);
+		String str = new String();
+		str.concat("count = " + this.count);
+		str.concat(newLine);
+		str.concat("key = " + this.key);
+		str.concat(newLine);
+		str.concat("data = " + this.data);
+		str.concat(newLine);
 		return str;
 	}
 }

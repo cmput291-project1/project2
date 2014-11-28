@@ -229,7 +229,6 @@ public class RangeSearch{
 		
 		Pref.setDbType(2);
 		DataBase.getInstance();
-		
 
 		try{
 			this.hashSearch();

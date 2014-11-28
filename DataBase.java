@@ -132,7 +132,8 @@ public class DataBase{
 				ddbt.setSize(s.length()); 
 
 				/* to insert the key/data pair into the database */
-		    if( (result = this.db.putNoOverwrite(null, kdbt, ddbt) ) == OperationStatus.KEYEXIST){
+		    result = this.db.putNoOverwrite(null, kdbt, ddbt);
+				if(result == OperationStatus.KEYEXIST){
 					throw new RuntimeException("attempting to insert duplicate key"); 
 				}
       }

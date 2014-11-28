@@ -65,13 +65,15 @@ public class DataRetrieve {
 	try {
 	    //if there is a index file then we can use key search
 	    if (Pref.getDbType() == 3) {
-		
+
 		Cursor c = db2.openCursor(null, null);
 		//set dbKey to the data value we are searching for then move cursor
 		dbKey.setData(searchData.getBytes());
+		dbKey.setSize(searchData.length());
 		if(c.getSearchKey(dbKey, data, LockMode.DEFAULT)==OperationStatus.SUCCESS){
 		    sKey = new String (data.getData());
-		    sData = new String (dbKey.getData());	    
+		    sData = new String (dbKey.getData());
+		    data = new DatabaseEntry();
 		    records.put(sKey, sData);
 
 		    //next if there are duplicate keys after the first get them 		
@@ -89,6 +91,7 @@ public class DataRetrieve {
 		    }
 		}
 		c.close();
+		
 	    }else{    
 		//if BTREE or HASH then search all records using cursor and return matches 
 		Cursor c = database.openCursor(null, null);
@@ -97,6 +100,7 @@ public class DataRetrieve {
 		for(int i = 0; i < 100000; i++){
 		    sData = new String (data.getData());
 		    sKey = new String (dbKey.getData());
+		    data = new DatabaseEntry();
 		
 		    if(sData.equals(searchData)){
 			records.put(sKey, sData);

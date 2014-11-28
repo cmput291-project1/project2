@@ -53,6 +53,13 @@ public class ResultSet{
 			}
 		}
 		
+		//testing last string
+		str1 = keys[keyResults.size() - 1];
+		str2 = keys[keyResults.size() - 2];
+	
+		if(str1.compareTo(str2) == 0){
+			System.out.println("last key is duplicate: " + str1
+		}
 		
 		return duplicateDetected;
 	}

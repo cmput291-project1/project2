@@ -71,7 +71,6 @@ public class ResultSet{
 		//parallel arrays gross....
 		if(keyResults.size() != dataResults.size()){
 			throw new RuntimeException("unequal keys and data results in result set");
-			System.exit(-1);
 		}
 	
 		String[] keys =  keyResults.toArray(new String[keyResults.size()]);

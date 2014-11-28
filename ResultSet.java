@@ -1,21 +1,18 @@
 import java.util.ArrayList;
 import java.lang.String;
-import java.util.Set;
+import java.util.HashSet;
 public class ResultSet{
 	private static final String ANSWERS = "answers";	
 	private ArrayList<Result> results;
 	private WriteToFile fw;
-	int count;
 
 	public ResultSet(){
 		this.results = new ArrayList<Result>();
 		fw = new WriteToFile();
-		this.count = 0;
 	}
 
 	public void addResult(String key, String data){
-		count++;
-		results.add(new Result(key, data, count));
+		results.add(new Result(key, data, this.results.size() + 1));
 	}
 
 	public final boolean verifyKeyRange(String lowerLimit, String upperLimit){
@@ -54,6 +51,10 @@ public class ResultSet{
 			}
 		}
 		
+	}
+
+	public int getCount(){
+		return this.resuls.size();
 	}
 
 	public void writeResults(String file){

@@ -44,6 +44,7 @@ public class RangeSearch{
 				uee.printStackTrace();
 			}
 		}		
+		Menu menu = new Menu();
 	}
 
 	public void getLimits(){

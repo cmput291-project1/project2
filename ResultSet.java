@@ -23,11 +23,13 @@ public class ResultSet{
 	}
 
 	public final boolean verifyKeyRange(String lowerLimit, String upperLimit){
+		boolean inRange = true;
 		for(String s : keyResults){
 			if( (s.compareTo(lowerLimit) <= 0) || (s.compareTo(upperLimit) >= 0) ){
-				return false;
+				System.out.println("this key is out of range: " + s);
+				inRange = false;
 			}
 		}
-		return true;
+		return inRange;
 	}
 }

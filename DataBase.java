@@ -101,18 +101,23 @@ public class DataBase{
 	private int addEntry(int count){
 		int range;
 		DatabaseEntry kdbt, ddbt;
-		String keyString;
-		String dataString;
+		String s;
 		
+		range = 64 + random.nextInt( 64 );
+		s = "";
+		for ( int j = 0; j < range; j++ ) 
+			s+=(new Character((char)(97+random.nextInt(26)))).toString();	
+		kdbt = new DatabaseEntry(s.getBytes());
+		kdbt.setSize(s.length()); 
 		
-		keyString = gen.generateString();
-		kdbt = new DatabaseEntry(keyString.getBytes());
-		kdbt.setSize(keyString.length()); 
+		range = 64 + random.nextInt( 64 )
+		s = "";
+		for ( int j = 0; j < range; j++ ) 
+			s+=(new Character((char)(97+random.nextInt(26)))).toString();	
+
 		
-		
-		dataString = gen.generateString();
-		ddbt = new DatabaseEntry(dataString.getBytes());
-		ddbt.setSize(dataString.length()); 
+		ddbt = new DatabaseEntry(s.getBytes());
+		ddbt.setSize(s.length()); 
 		
 		OperationStatus result = null;
 

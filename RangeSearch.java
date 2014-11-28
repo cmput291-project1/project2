@@ -157,7 +157,7 @@ public class RangeSearch{
 		Pref.setDbType(2);
 		DataBase.getInstance();
 		this.getLimits();
-
+		//TODO reset cursor so that can start search
 		try{
 			this.hashSearch();
 			hashResults = this.resultSet;

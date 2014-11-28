@@ -18,7 +18,7 @@ public class DataBase{
 	private Database database = null;	
 
 	private StringGenerator gen;
-	private Random random;
+	
 	// not sure if all these method calls should be in constructor
 	protected DataBase(){
 
@@ -91,55 +91,55 @@ public class DataBase{
 	}	
 
 	private void populateTable() {
-		int count = 0;
-		while(count < NO_RECORDS){
-			count += addEntry(count);
-		}
-		System.out.println(NO_RECORDS + " records inserted into" + PRIMARY_TABLE);
-	}
-	
-	private int addEntry(int count){
 		int range;
-		DatabaseEntry kdbt, ddbt;
+    DatabaseEntry kdbt, ddbt;
 		String s;
-		
-		range = 64 + random.nextInt( 64 );
-		s = "";
-		for ( int j = 0; j < range; j++ ) 
-			s+=(new Character((char)(97+random.nextInt(26)))).toString();	
-		kdbt = new DatabaseEntry(s.getBytes());
-		kdbt.setSize(s.length()); 
-		
-		range = 64 + random.nextInt( 64 );
-		s = "";
-		for ( int j = 0; j < range; j++ ) 
-			s+=(new Character((char)(97+random.nextInt(26)))).toString();	
 
-		
-		ddbt = new DatabaseEntry(s.getBytes());
-		ddbt.setSize(s.length()); 
-		
-		OperationStatus result = null;
+		/*  
+		 *  generate a random string with the length between 64 and 127,
+		 *  inclusive.
+		 *
+		 *  Seed the random number once and once only.
+		 */
+		Random random = new Random(1000000);
 
-				
+    try {
+    	for (int i = 0; i < NO_RECORDS; i++) {
 
-		try{
-			result = this.database.exists(null, kdbt);
-		}catch(DatabaseException dbe){
-			System.err.println("Unable to check if key exists");
-			dbe.printStackTrace();
+				/* to generate a key string */
+				range = 64 + random.nextInt( 64 );
+				s = "";
+				for ( int j = 0; j < range; j++ ) 
+					s+=(new Character((char)(97+random.nextInt(26)))).toString();
+
+				/* to create a DBT for key */
+				kdbt = new DatabaseEntry(s.getBytes());
+				kdbt.setSize(s.length()); 
+
+		    // to print out the key/data pair
+		    // System.out.println(s);	
+
+				/* to generate a data string */
+				range = 64 + random.nextInt( 64 );
+				s = "";
+				for ( int j = 0; j < range; j++ ) 
+					s+=(new Character((char)(97+random.nextInt(26)))).toString();
+		    // to print out the key/data pair
+		    // System.out.println(s);	
+		    // System.out.println("");
+		
+				/* to create a DBT for data */
+				ddbt = new DatabaseEntry(s.getBytes());
+				ddbt.setSize(s.length()); 
+
+				/* to insert the key/data pair into the database */
+		    my_table.putNoOverwrite(null, kdbt, ddbt);
+      }
 		}
-		if(result == OperationStatus.NOTFOUND){
-			try{
-				this.database.putNoOverwrite(null, kdbt, ddbt);
-			}catch(DatabaseException dbe){
-				System.err.println("Unable to put key/data pair in database");
-				dbe.printStackTrace();
-			}
-			return 1;
-		}
-		
-		return 0;
+    catch (DatabaseException dbe) {
+    	System.err.println("Populate the table: "+dbe.toString());
+    	System.exit(1);
+    }
 	}
 
 

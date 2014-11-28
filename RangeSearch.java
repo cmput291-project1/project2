@@ -13,6 +13,7 @@ public class RangeSearch{
 	String retrievedKey;
 	String retrievedData;
 	Scan scan;
+	long duration;
 
 	public RangeSearch(){
 		scan = Scan.getInstance();
@@ -102,7 +103,7 @@ public class RangeSearch{
 			resultSet.addResult(retrievedKey, retrievedData);
 		}
 		long endTime = System.nanoTime();
-		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
+		this.duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
 		
 		
 	}	
@@ -128,7 +129,7 @@ public class RangeSearch{
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 		}
 		long endTime = System.nanoTime();
-		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
+		this.duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
 	}
 
 	public final boolean verify(){

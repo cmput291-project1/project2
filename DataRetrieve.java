@@ -21,6 +21,7 @@ public class DataRetrieve {
     Scan scan = Scan.getInstance();
     Database database = null;
     Database db2 = null;
+		//TODO check to see if this is "answers.txt" or "answers"
     String filename = "answers.txt";
     WriteToFile fileWrite = new WriteToFile();
     Map<String, String> records = new HashMap<String, String>();

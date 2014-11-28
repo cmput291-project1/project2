@@ -23,6 +23,7 @@ public class RangeSearch{
 		lowerLimit = new String();
 		upperLimit = new String();
 		resultSet = new ResultSet();
+		
 	}
 
 	public void execute(){
@@ -109,7 +110,7 @@ public class RangeSearch{
 		long endTime = System.nanoTime();
 		this.duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
 		
-		
+		resultSet.writeResults("btree.txt");
 	}	
 
 	public void hashSearch() throws DatabaseException, UnsupportedEncodingException{
@@ -134,6 +135,7 @@ public class RangeSearch{
 		}
 		long endTime = System.nanoTime();
 		this.duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
+		resultSet.writeResults("hash.txt");
 	}
 
 	public final boolean verify(){

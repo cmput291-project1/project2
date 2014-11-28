@@ -2,13 +2,16 @@ import java.util.ArrayList;
 import java.lang.String;
 
 public class ResultSet{
+	private static final String ANSWERS = "answers";	
 	private ArrayList<String> keyResults;
 	private ArrayList<String> dataResults;
 	private int count;
-	
+	private WriteToFile fw;
+
 	public ResultSet(){
 		keyResults = new ArrayList<String>();
 		dataResults = new ArrayList<String>();
+		fw = new WriteToFile();
 		count = 0;
 	}
 
@@ -62,5 +65,25 @@ public class ResultSet{
 		}
 		
 		return duplicateDetected;
+	}
+
+	public void writeResults(String file){
+		//parallel arrays gross....
+		if(keyResults.size() != dataResults.size()){
+			throw new RuntimeException("unequal keys and data results in result set");
+			System.exit(-1);
+		}
+	
+		String[] keys =  keyResults.toArray(new String[keyResults.size()]);
+		String[] datas =  dataResults.toArray(new String[dataResults.size()]);
+		if(file == null){
+			file = ANSWERS;
+		}
+		for(int i = 0; i < keys.length; i++){
+			fw.writeString(file, keys[i]);
+			fw.writeString(file, datas[i]);
+			fw.writeString(file, "");
+		}
+		
 	}
 }

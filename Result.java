@@ -25,12 +25,12 @@ public class Result{
 	public String toString(){
 		String str = new String();
 		String newLine = new String("\n");
-		str.append("count = " + this.count)
+		str.append("count = " + this.count);
 		str.append(newLine);
 		str.append("key = " + this.key);
 		str.append(newLine);
 		str.append("data = " + this.data);
 		str.append(newLine);
-		return str
+		return str;
 	}
 }

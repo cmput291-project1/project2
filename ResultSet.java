@@ -55,7 +55,7 @@ public class ResultSet{
 	}
 
 	public ArrayList<Result> getResults(){
-		return this.results();
+		return this.results;
 	}
 
 	public int getCount(){

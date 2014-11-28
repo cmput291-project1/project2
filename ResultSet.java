@@ -24,7 +24,7 @@ public class ResultSet{
 
 	public final boolean verifyKeyRange(String lowerLimit, String upperLimit){
 		for(String s : keyResults){
-			if( (s.compareTo(lowerLimit) <= 0) || (s.compareTo(upperLimit) => 0) ){
+			if( (s.compareTo(lowerLimit) <= 0) || (s.compareTo(upperLimit) >= 0) ){
 				return false;
 			}
 		}

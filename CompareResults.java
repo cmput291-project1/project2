@@ -8,7 +8,7 @@ public class CompareResults{
 	public CompareResults(ResultSet hashSet, ResultSet treeSet){
 		this.hashSet = hashSet;
 		this.treeSet = treeSet;
-		this.difference = new ResultSet();
+		this.difference = new ArrayList<Result>();
 	}
 
 	public final boolean eqv(){

@@ -55,7 +55,8 @@ public class Menu{
 						System.out.println("Option 4 executed");	
 						RangeSearch rs = new RangeSearch();
 						rs.execute();
-						System.out.println("all retrieved keys in range? " + rs.verify());
+						printHeader();
+						makeSelection();
 						break;
 			case 5:
 						System.out.println("Database is destroyed");	

@@ -143,6 +143,7 @@ public class DataBase{
 			try{
 				this.database.close();
 				this.database.remove(PRIMARY_TABLE,null,null);
+				System.out.println("database is closed and removed");
 			}catch(DatabaseException dbe){
 				System.err.println("unable to close database");
 				dbe.printStackTrace();

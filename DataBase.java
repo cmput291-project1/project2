@@ -23,7 +23,6 @@ public class DataBase{
 	protected DataBase(){
 
 		this.gen = StringGenerator.getInstance();
-		random = new Random(1000000);
 		if(!createDirectory(DATABASE_DIR)){
 			System.err.println("Unable to create file	 for database");
 			System.exit(-1);
@@ -94,7 +93,7 @@ public class DataBase{
 		int range;
     DatabaseEntry kdbt, ddbt;
 		String s;
-
+		OperationStatus result;
 		/*  
 		 *  generate a random string with the length between 64 and 127,
 		 *  inclusive.
@@ -133,7 +132,9 @@ public class DataBase{
 				ddbt.setSize(s.length()); 
 
 				/* to insert the key/data pair into the database */
-		    my_table.putNoOverwrite(null, kdbt, ddbt);
+		    if( (result = this.db.putNoOverwrite(null, kdbt, ddbt) ) == OperationStatus.KEYEXIST){
+					throw new RuntimeException("attempting to insert duplicate key"); 
+				}
       }
 		}
     catch (DatabaseException dbe) {

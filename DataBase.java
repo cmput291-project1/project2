@@ -84,16 +84,16 @@ public class DataBase{
 			return false;
 		}
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
-		populateTable();
+		populateTable(this.database, 10);
 		
 		return true;
 	}	
 
-	private void populateTable() {
+	static void populateTable(Database my_table, int nrecs ) {
 		int range;
-    DatabaseEntry kdbt, ddbt;
+		DatabaseEntry kdbt, ddbt;
 		String s;
-		OperationStatus result;
+
 		/*  
 		 *  generate a random string with the length between 64 and 127,
 		 *  inclusive.
@@ -102,8 +102,8 @@ public class DataBase{
 		 */
 		Random random = new Random(1000000);
 
-    try {
-    	for (int i = 0; i < NO_RECORDS; i++) {
+		try {
+    	for (int i = 0; i < nrecs; i++) {
 
 				/* to generate a key string */
 				range = 64 + random.nextInt( 64 );
@@ -116,33 +116,36 @@ public class DataBase{
 				kdbt.setSize(s.length()); 
 
 		    // to print out the key/data pair
-		    // System.out.println(s);	
+		    System.out.println("KEY: " + s + " " + s.length());	
 
 				/* to generate a data string */
 				range = 64 + random.nextInt( 64 );
 				s = "";
 				for ( int j = 0; j < range; j++ ) 
 					s+=(new Character((char)(97+random.nextInt(26)))).toString();
-		    // to print out the key/data pair
-		    // System.out.println(s);	
-		    // System.out.println("");
+				            // to print out the key/data pair
+				  System.out.println("DATA: " + s + " " + s.length());	
+				            //System.out.println("");
 		
 				/* to create a DBT for data */
 				ddbt = new DatabaseEntry(s.getBytes());
 				ddbt.setSize(s.length()); 
 
-				/* to insert the key/data pair into the database */
-		    if( (result = this.database.putNoOverwrite(null, kdbt, ddbt) ) == OperationStatus.KEYEXIST){
-					throw new RuntimeException("attempting to insert duplicate key"); 
-				}
-      }
-		}
-    catch (DatabaseException dbe) {
-    	System.err.println("Populate the table: "+dbe.toString());
-    	System.exit(1);
-    }
-	}
+				//NEW CODE - checks if key already in the database
+				OperationStatus result;
+				result = my_table.exists(null, kdbt);
+				if (!result.toString().equals("OperationStatus.NOTFOUND"))
+					throw new RuntimeException("Key is already in the database!");
 
+				/* to insert the key/data pair into the database */
+		    my_table.putNoOverwrite(null, kdbt, ddbt);
+			}
+		}
+		catch (DatabaseException dbe) {
+			System.err.println("Populate the table: "+dbe.toString());
+		  System.exit(1);
+		}
+	}
 
 	public void close(){
 		if(this.database != null){

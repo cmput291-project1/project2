@@ -21,4 +21,10 @@ public class Result{
 	public String getKey(){
 		return this.key;
 	}
+
+	public void toString(){
+		System.out.println("count = " + this.count);
+		System.out.println("key = " + this.key);
+		System.out.println("data = " + this.data);
+	}
 }

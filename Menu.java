@@ -52,9 +52,14 @@ public class Menu{
 						makeSelection();
 						break;
 			case 4: 
+						//TODO change this code before submission
 						System.out.println("Option 4 executed");	
+						rs.compare();
+						/*
+						
 						RangeSearch rs = new RangeSearch();
 						rs.execute();
+						*/
 						printHeader();
 						makeSelection();
 						break;

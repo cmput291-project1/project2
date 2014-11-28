@@ -139,8 +139,32 @@ public class RangeSearch{
 	}
 
 	public void compare(){
+		ResultSet hashResults = null;
+		ResultSet treeResults = null;
+		CompareResults compare;
+
 		Pref.setDbType(1);
 		DataBase.getInstance();
+		this.getInput();
+		try{
+			this.btreeSearch()
+			treeResults = this.resultSet();
+		}catch(Exception e){}
+
+		this.resultSet.clear();
+		DataBase.getInstance().close();
+	
+		Pre.setDbType(2);
+		DataBase.getInstance();
+		this.getInput();
+
+		try{
+			this.btreeSearch()
+			hashResults = this.resultSet();
+		}catch(Exception e){}
+
+		compare = new CompareResults(hashResults, treeResults);
+		compare.eqv();
 		
 	}
 

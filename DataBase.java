@@ -158,6 +158,7 @@ public class DataBase{
 				fnfe.printStackTrace();
 			}
 			database = null;
+			db = null;
 		}
 		
 	}

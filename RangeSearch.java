@@ -19,7 +19,7 @@ public class RangeSearch{
 		db = DataBase.getInstance();
 		dataBase = db.getInstance().getPrimaryDb();
 		if(dataBase == null){
-			System.out.println("Database needs to be populated first!");r
+			System.out.println("Database needs to be populated first!");
 			return;
 		}
 		lowerLimit = new String();
@@ -86,7 +86,7 @@ public class RangeSearch{
 		
 		Cursor cursor = dataBase.openCursor(null, null);
 		if(cursor == null){
-			System.out.println("Database needs to be populated first!");r
+			System.out.println("Database needs to be populated first!");
 			return;
 		}
 
@@ -128,7 +128,7 @@ public class RangeSearch{
 	
 		Cursor cursor = dataBase.openCursor(null, null);
 		if(cursor == null){
-			System.out.println("Database needs to be populated first!");r
+			System.out.println("Database needs to be populated first!");
 			return;
 		}
 		DatabaseEntry key = new DatabaseEntry();

@@ -83,10 +83,10 @@ public class DataBase{
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
 
 		if(!Interval.testMode){
-			int count = populateTable(this.database, NO_RECORDS);
+			count = populateTable(this.database, NO_RECORDS);
 		}
 		else{
-			int count = populateTestTable(this.database, NO_RECORDS_TEST);
+			count = populateTestTable(this.database, NO_RECORDS_TEST);
 		}
 		System.out.println(PRIMARY_TABLE + " has been inserted with: " + count + " records");
 		return true;

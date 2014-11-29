@@ -122,7 +122,7 @@ public class DataBase{
 	static int populateTable(Database my_table, int nrecs ) {
 		int range;
 		DatabaseEntry kdbt, ddbt;
-
+		int count;
 		String s;
 
 		/*  
@@ -141,7 +141,7 @@ public class DataBase{
 				s = "";
 				for ( int j = 0; j < range; j++ ) 
 					s+=(new Character((char)(97+random.nextInt(26)))).toString();
-				key = s;
+				
 				/* to create a DBT for key */
 				kdbt = new DatabaseEntry(s.getBytes());
 				kdbt.setSize(s.length()); 
@@ -153,7 +153,7 @@ public class DataBase{
 				s = "";
 				for ( int j = 0; j < range; j++ ) 
 					s+=(new Character((char)(97+random.nextInt(26)))).toString();
-				data = s;   
+				  
 		
 		
 				/* to create a DBT for data */

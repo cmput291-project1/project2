@@ -129,6 +129,7 @@ public class RangeSearch{
 		DatabaseEntry data = new DatabaseEntry();
 		
 		key.setReuseBuffer(false);
+		data.setReuseBuffer(false);
 		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
 		
 		long startTime = System.nanoTime();

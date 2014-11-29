@@ -54,8 +54,9 @@ public class DataRetrieve {
 				DatabaseEntry pKey = new DatabaseEntry();
 				DatabaseEntry dataEntry = new DatabaseEntry();
 				//OperationStatus success = ;
-				
-	
+				secKey.setReuseBuffer(false);
+				pKey.setReuseBuffer(false);
+				dataEntry.setReuseBuffer(false);
 				SecondaryDatabase database2 = null;
 				
 				String data = null;
@@ -74,9 +75,6 @@ public class DataRetrieve {
 							data = new String (secKey.getData());
 							key = new String (pKey.getData());
 							records.put(key, data);
-						secKey = new DatabaseEntry();
-						pKey = new DatabaseEntry();
-						dataEntry = new DatabaseEntry();
 						//next if there are duplicate keys after the first get them 		
 							while(c.getNextDup(secKey, pKey, dataEntry, LockMode.DEFAULT) == OperationStatus.SUCCESS){
 								//if(sData == null){
@@ -85,9 +83,6 @@ public class DataRetrieve {
 								data = new String (secKey.getData());
 								key = new String (pKey.getData());
 								records.put(key, data);
-								secKey = new DatabaseEntry();
-								pKey = new DatabaseEntry();
-								dataEntry = new DatabaseEntry();
 							}
 						}
 						else{

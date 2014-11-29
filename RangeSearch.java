@@ -4,7 +4,6 @@ import java.util.concurrent.TimeUnit;
 import java.io.UnsupportedEncodingException;
 public class RangeSearch{
 	DataBase db;	
-	StringGenerator gen;
 	String lowerLimit;
 	String upperLimit;
 	ResultSet resultSet;

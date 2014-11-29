@@ -66,18 +66,20 @@ public class IndexFile{
 		String[][] secondaryModel = Interval.getTestSecondary();
 		String secondaryKey;		
 		String primaryKey;
-		String data;
+		String dataString;
 		for(int i = 0; i < Interval.TEST_DATA.length; i++){
 			if(cursor.getNext(secKey, pKey, data, LockMode.DEFAULT) != OperationStatus.SUCCESS){
 				break;
 			} 
 			secondaryKey = new String(secKey.getData());
 			primaryKey = new String(pKey.getData());
-			data = new String(data.getData());
+			dataString = new String(data.getData());
 			if(!secondaryKey.equals(secondaryModel[i][0]))		
 				throw new RuntimeException("secondary database is wrong. \nsec key (data): " + secondaryKey + "\nshould be: " +  secondaryModel[i][0]);
 			if(!primaryKey.equals(secondaryModel[i][1]))
 				throw new RuntimeException("secondary database is wrong. \nprimary key: " + primaryKey + "\nshould be: " +  secondaryModel[i][1]);
+			if( !dataString.equals(secondaryModel[i][0]))
+				throw new RuntimeException("secondary database is wrong. \ndata: " + dataString + "\nshould be: " +  secondaryModel[i][0]);
 			secKey = new DatabaseEntry();
 			pKey = new DatabaseEntry();
 			data = new DatabaseEntry();

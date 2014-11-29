@@ -57,7 +57,7 @@ public class DataRetrieve {
 
 	
 				SecondaryDatabase database2 = null;
-				String sData = null;
+				
 				String data = null;
 				String key = null;
 		
@@ -97,7 +97,7 @@ public class DataRetrieve {
 						for(int i = 0; i < 100000; i++){
 								data = new String (dataEntry.getData());
 								key = new String (pKey.getData());
-								if(sData.equals(searchData)){
+								if(data.equals(searchData)){
 									//records.put(key, data);
 								}
 							c.getNext(pKey, dataEntry, LockMode.DEFAULT);

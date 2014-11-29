@@ -1,0 +1,4 @@
+#!/bin/bash
+make
+java mydbtest $1 $2
+make clean

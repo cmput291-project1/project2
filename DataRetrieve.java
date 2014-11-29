@@ -20,7 +20,7 @@ public class DataRetrieve {
 
     Scan scan = Scan.getInstance();
     Database database = null;
-    Database db2 = null;
+    SecondaryDatabase db2 = null;
     String filename = "answers";
     WriteToFile fileWrite = new WriteToFile();
     Map<String, String> records = new HashMap<String, String>();

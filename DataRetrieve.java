@@ -51,13 +51,13 @@ public class DataRetrieve {
 	long timeStart = System.nanoTime();
 	DatabaseEntry dbKey = new DatabaseEntry();
 	DatabaseEntry pKey = new DatabaseEntry();
-	
+	DatabaseEntry data = new DatabaseEntry();
 	//OperationStatus success = ;
 
 	DatabaseEntry data = new DatabaseEntry();
 	SecondaryDatabase database2 = null;
 
-	String sData = null;
+	String pKey = null;
 	String sKey = null;
 		
 	System.out.println("Searching for data in database");
@@ -66,25 +66,25 @@ public class DataRetrieve {
 	    //if there is a index file then we can use key search
 	    if (Pref.getDbType() == 3) {
 
-		Cursor c = db2.openCursor(null, null);
+		SecondaryCursor c = db2.openSecondaryCursor(null, null);
 		//set dbKey to the data value we are searching for then move cursor
 		dbKey.setData(searchData.getBytes());
 		dbKey.setSize(searchData.length());
-		if(c.getSearchKey(dbKey, data, LockMode.DEFAULT)==OperationStatus.SUCCESS){
-		    sKey = new String (data.getData());
-		    sData = new String (dbKey.getData());
-		    data = new DatabaseEntry();
-		    records.put(sKey, sData);
+		if(c.getSearchKey(dbKey, pKey, data, LockMode.DEFAULT)==OperationStatus.SUCCESS){
+		    sKey = new String (dbKey.getData());
+		    pKey = new String (pKey.getData());
+		    
+		    records.put(sKey, pKey);
 
 		    //next if there are duplicate keys after the first get them 		
-		    while(c.getNext(dbKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
+		    while(c.getNext(dbKey, pKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
 			//if(sData == null){
 			//    break;
 			//}
-			sData = new String (dbKey.getData());
-			sKey = new String (data.getData());
+			sKey = new String (dbKey.getData());
+			pKey = new String (pKey.getData());
 			if(sData.equals(searchData)){
-			    records.put(sKey, sData);
+			    records.put(sKey, pKey);
 			}else{
 			    break;
 			}

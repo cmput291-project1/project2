@@ -126,8 +126,8 @@ public class DataBase{
 		DatabaseEntry kdbt, ddbt;
 		int count = 0;
 		String s;
-		ArrayList<String> testKeys;
-		ArrayList<String> testData;
+		ArrayList<String> testKeys = null;
+		ArrayList<String> testData = null;
 		if(Interval.testMode){
 			testKeys = new ArrayList<String>();
 			testData = new ArrayList<String>();

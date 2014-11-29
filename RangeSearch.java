@@ -137,13 +137,7 @@ public class RangeSearch{
 		this.duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
 		resultSet.writeResults("hash.txt");
 	}
-
-	public void compare(){
-		Pref.setDbType(1);
-		DataBase.getInstance();
-		
-	}
-
+	
 	public final boolean verify(){
 		System.out.println("verifying");
 		return this.resultSet.verifyKeyRange(lowerLimit, upperLimit);

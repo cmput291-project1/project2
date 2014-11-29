@@ -113,7 +113,7 @@ public class IndexFile{
 			System.out.println("primary key: " + new String(pKey.getData()) + "\n");
 			System.out.println("data: " + new String(data.getData()) + "\n");
 			while((status = cursor.getNextDup(secKey, pKey, data, LockMode.DEFAULT)) == OperationStatus.SUCCESS){
-				System.out.println("\tnonDup secondary key: " + new String(secKey.getData()) + "\n");
+				System.out.println("\tDup secondary key: " + new String(secKey.getData()) + "\n");
 				System.out.println("\tprimary key: " + new String(pKey.getData()) + "\n");
 				System.out.println("\tdata: " + new String(data.getData()) + "\n");
 			}

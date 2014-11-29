@@ -9,7 +9,7 @@ import java.util.*;
 
 public class DataBase{
 	private static final int NO_RECORDS = 100000;
-	private static final int NO_RECORDS_TEST = 10;
+	private static final int NO_RECORDS_TEST = 11;
 	public static final String DATABASE_DIR = "/tmp/slmyers_db";
 	public static final String PRIMARY_TABLE = "/tmp/slmyers_db/primary_table_file1";
 	
@@ -80,9 +80,13 @@ public class DataBase{
 			return false;
 		}
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
-		//TODO change to populateTable after testing		
-		int count = populateTable(this.database, NO_RECORDS);
-		//int count = populateTestTable(this.database, NO_RECORDS_TEST);
+
+		if(!Interval.testMode){
+			int count = populateTable(this.database, NO_RECORDS);
+		}
+		else{
+			int count = populateTestTable(this.database, NO_RECORDS_TEST);
+		}
 		System.out.println(PRIMARY_TABLE + " has been inserted with: " + count + " records");
 		return true;
 	}	
@@ -90,14 +94,16 @@ public class DataBase{
 	static int populateTestTable(Database my_table, int nrecs){
 		DatabaseEntry kdbt, ddbt;
 		int count = 0;
-		ddbt = new DatabaseEntry(new String("test").getBytes());
-		ddbt.setSize(4);
-
+		//parallel arrays can be optimized		
+		String[] keys = {"a","b","c","d","e","f","g","h","i","j","k"} // 11 keys
+		String[] values = {"k","l","a","e","b","u","v","z","q","y","k"}	
 		
 		try {
 			for(int i = 0; i < nrecs; i++){
-				kdbt = new DatabaseEntry(new Character((char)(i + 97)).toString().getBytes());
+				kdbt = new DatabaseEntry(keys[i].getBytes());
 				kdbt.setSize(1);
+				ddbt = new DatabaseEntry(values[i].getBytes());
+				ddbt.setSize(1);
 				OperationStatus result;
 				result = my_table.exists(null, kdbt);
 				if (!result.toString().equals("OperationStatus.NOTFOUND"))

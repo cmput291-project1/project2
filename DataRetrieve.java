@@ -17,7 +17,6 @@ public class DataRetrieve {
     //cjfqwskqagppvgunbuuwjvehsytvyqvgmwxndniiebuccafpweohyzpzcpvpoltixalduhqyjktftelrhyrhbpnxrkojhscmmglitncrldmznkzcdwrpjaewdawvwe
 
 
-
     Scan scan = Scan.getInstance();
     Database database = null;
     SecondaryDatabase db2 = null;
@@ -32,7 +31,9 @@ public class DataRetrieve {
 
 		if (Pref.getDbType() == 3) {
 			  IndexFile index = IndexFile.getInstance();
-			  index.configureDataSecondary();
+				if(index.getDataSecondary() == null){
+			  	index.configureDataSecondary();
+				}
 			  db2 = index.getDataSecondary();
 
 		}else{

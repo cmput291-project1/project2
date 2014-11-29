@@ -257,7 +257,7 @@ public class DataBase{
 		if(this.database_2 != null){
 			try{
 				this.database_2.close();
-				this.database_2.remove(PRIMARY_TABLE,null,null);
+				this.database_2.remove(PRIMARY_TABLE2,null,null);
 				System.out.println("database is closed and removed");
 			}catch(DatabaseException dbe){
 				System.err.println("unable to close database");

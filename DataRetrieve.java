@@ -57,8 +57,6 @@ public class DataRetrieve {
 				secKey.setReuseBuffer(false);
 				pKey.setReuseBuffer(false);
 				dataEntry.setReuseBuffer(false);
-				
-				System.out.println("DatabaseEntries are set to reuse byte array, true or false? " + dataEntry.getReuseBuffer());
 	
 				SecondaryDatabase database2 = null;
 				
@@ -78,10 +76,6 @@ public class DataRetrieve {
 							data = new String (secKey.getData());
 							key = new String (pKey.getData());
 							records.put(key, data);
-							/*
-							secKey = new DatabaseEntry();
-							pKey = new DatabaseEntry();
-							dataEntry = new DatabaseEntry();*/
 						//next if there are duplicate keys after the first get them 		
 							while(c.getNextDup(secKey, pKey, dataEntry, LockMode.DEFAULT) == OperationStatus.SUCCESS){
 								//if(sData == null){
@@ -90,9 +84,6 @@ public class DataRetrieve {
 								data = new String (secKey.getData());
 								key = new String (pKey.getData());
 								records.put(key, data);
-								/*secKey = new DatabaseEntry();
-								pKey = new DatabaseEntry();
-								dataEntry = new DatabaseEntry();*/
 							}
 						}
 						else{
@@ -111,7 +102,7 @@ public class DataRetrieve {
 								if(data.equals(searchData)){
 									records.put(key, data);
 								}
-							c.getNext(pKey, dataEntry, LockMode.DEFAULT);
+							//c.getNext(pKey, dataEntry, LockMode.DEFAULT);
 						}
 						c.close(); 
 					}

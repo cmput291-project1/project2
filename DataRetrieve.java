@@ -86,7 +86,9 @@ public class DataRetrieve {
 								key = new String (pKey.getData());
 								records.put(key, data);
 							}
-					}else{    
+						}
+					}
+					else{    
 						//if BTREE or HASH then search all records using cursor and return matches 
 						Cursor c = database.openCursor(null, null);
 						c.getFirst(pKey, dataEntry, LockMode.DEFAULT);

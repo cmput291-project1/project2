@@ -104,15 +104,15 @@ public class DataBase{
 		DatabaseEntry kdbt, ddbt;
 		
 		int count = 0;
-		String[][] dupTable = Interval.DUP_TEST_MATRIX;
+		String[] dupKeys = DUP_TEST_KEYS;
+		String[] dupData = DUP_TEST_DATA;
 		try {
 			for(int i = 0; i < 5; i++){
-				
-				kdbt = new DatabaseEntry(dupTable[i][0].getBytes());
-				kdbt.setSize(dupTable[i][0].length());
+				kdbt = new DatabaseEntry(dupKeys[i].getBytes());
+				kdbt.setSize(dupTable[i].length());
 				kdbt.setReuseBuffer(false);
-				ddbt = new DatabaseEntry(dupTable[i][1].getBytes());
-				ddbt.setSize(dupTable[i][1].length());
+				ddbt = new DatabaseEntry(dupTable[i].getBytes());
+				ddbt.setSize(dupData[i].length());
 				ddbt.setReuseBuffer(false);
 				OperationStatus result;
 				result = my_table.exists(null, kdbt);

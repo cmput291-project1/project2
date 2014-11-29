@@ -42,16 +42,13 @@ public class Interval{
 			"rallaikxupuskmmoentxqbnzjrinoczmjkwqpaoiirggmmoihdfhlumsnbnkqunawgr"
 	};
 
-	/* I should of used a matrix in the first place instead of those shitty parrallel arrays
-	 * first element is key. second is data.
-   * I'm not going to use random generation, because I want to test duplicate data specifcally 
-  */
-	public static final String[][] DUP_TEST_MATRIX = {
-		{"key1", "duplicate data"},
-    {"key2", "duplicate data"},
-		{"key3","chips"},
-		{"key4","duplicate data"},
-		{"key5","pop"},
+	
+	public static final String[] DUP_TEST_KEYS = {
+		"key1","key2","key3","key4","key5"
+	};
+
+	public static final String[] DUP_TEST_DATA = {
+		"data1","data1","data3","data2","data1"
 	};
 
 	public static final String[][] getTestSecondary(){

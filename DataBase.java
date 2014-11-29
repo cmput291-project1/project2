@@ -135,7 +135,7 @@ public class DataBase{
 		key.setReuseBuffer(false);
 		data.setReuseBuffer(false);
 		Cursor c = my_table.openCursor(null, null);
-		this.database.toString();
+		my_table.toString();
 		/*
 		while(c.getNext(key, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
 			System.out.println("key: " + new String(key.getData()));

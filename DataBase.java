@@ -87,7 +87,11 @@ public class DataBase{
 			
 		}
 		else if(Interval.testDupMode){
-			count = populateDupTestTable(this.database);
+			try{
+				count = populateDupTestTable(this.database);
+			}catch(DatabaseException dbe){
+				dbe.printStackTrace();
+			}
 		}
 		else{
 			count = populateTable(this.database, NO_RECORDS);
@@ -96,7 +100,7 @@ public class DataBase{
 		return true;
 	}	
 	
-	static int populateDupTestTable(Database my_table){
+	static int populateDupTestTable(Database my_table) throws DatabaseException{
 		DatabaseEntry kdbt, ddbt;
 		int count = 0;
 		String[][] dupTable = Interval.DUP_TEST_MATRIX;

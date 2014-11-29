@@ -62,10 +62,10 @@ public class RangeSearch{
 		input = scan.getString();
 
 		if(input.equals("lower limit")){
-			return Interval.TEST_LOWER_LIMIT;
+			return Interval.LOWER_LIMIT;
 		}
 		else if(input.equals("upper limit")){
-			return Interval.TEST_UPPER_LIMIT;
+			return Interval.UPPER_LIMIT;
 		}
 		else if(input.equals("m")){
 			Menu menu = new Menu();

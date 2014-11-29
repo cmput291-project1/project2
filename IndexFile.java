@@ -99,7 +99,7 @@ public class IndexFile{
 		cursor.close();
 	}
 	// verify for duplicate data
-	public void verifyDataDupSecondary throws DatabaseException{
+	public void verifyDataDupSecondary(){
 		DatabaseEntry secKey = new DatabaseEntry();
 		DatabaseEntry pKey = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();

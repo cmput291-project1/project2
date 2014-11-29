@@ -99,7 +99,7 @@ public class IndexFile{
 		DatabaseEntry secKey = new DatabaseEntry();
 		DatabaseEntry pKey = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();
-		SecondaryCursor cursor = this.dataSecondary.openSecondaryCursor(null, null);
+		//SecondaryCursor cursor = this.dataSecondary.openSecondaryCursor(null, null);
 
 		String secondaryKey;		
 		String primaryKey;

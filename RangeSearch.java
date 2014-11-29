@@ -19,7 +19,8 @@ public class RangeSearch{
 		db = DataBase.getInstance();
 		dataBase = db.getInstance().getPrimaryDb();
 		if(dataBase == null){
-			throw new RuntimeException("database is null at line 20");
+			System.out.println("Database needs to be populated first!");
+			return;
 		}
 		lowerLimit = new String();
 		upperLimit = new String();

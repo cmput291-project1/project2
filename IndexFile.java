@@ -80,8 +80,7 @@ public class IndexFile{
 			secKey.setData(secondaryModel[i][0].getBytes());		
 			secKey.setSize(secondaryModel[i][0].length());
 			if(cursor.getSearchKey(secKey, pKey, data, LockMode.DEFAULT) != OperationStatus.SUCCESS){
-				throw new RuntimeException("secondary database is wrong. \nsec key (data) was searched for but not found: " + secondaryKey 
-																		+ "\nshould search: " +  secondaryModel[i][0]);
+				throw new RuntimeException("could not find first secondary key");
 			} 
 			secondaryKey = new String(secKey.getData());
 			primaryKey = new String(pKey.getData());

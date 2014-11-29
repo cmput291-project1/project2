@@ -101,7 +101,8 @@ public class DataBase{
 		int count = 0;
 		String[][] dupTable = Interval.DUP_TEST_MATRIX;
 		try {
-			for(int i = 0; i < Interval.DUP_TEST_MATRIX.length; i++){
+			for(int i = 0; i < 5; i++){
+				
 				kdbt = new DatabaseEntry(dupTable[i][0].getBytes());
 				kdbt.setSize(dupTable[i][0].length());
 				ddbt = new DatabaseEntry(dupTable[i][1].getBytes());
@@ -112,7 +113,9 @@ public class DataBase{
 					throw new RuntimeException("Key is already in the database!");
 
 				/* to insert the key/data pair into the database */
-		    	my_table.putNoOverwrite(null, kdbt, ddbt);
+		    	if(my_table.putNoOverwrite(null, kdbt, ddbt) != OperationStatus.SUCCESS){
+						throw new RuntimeException("can not input test dup data!");
+					}
 				count++;
 			} 
 		}catch (DatabaseException dbe) {

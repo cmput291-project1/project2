@@ -82,14 +82,15 @@ public class DataBase{
 		}
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
 
-		if(!Interval.testMode){
-			count = populateTable(this.database, NO_RECORDS);
+		if(Interval.testMode){
+			count = populateTable(this.database, NO_RECORDS_TEST);
+			
 		}
-		else if(!Interval.testDupMode){
+		else if(Interval.testDupMode){
 			count = populateDupTestTable(this.database);
 		}
 		else{
-			count = populateTable(this.database, NO_RECORDS_TEST);
+			count = populateTable(this.database, NO_RECORDS);
 		}
 		System.out.println(PRIMARY_TABLE + " has been inserted with: " + count + " records");
 		return true;

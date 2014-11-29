@@ -127,8 +127,8 @@ public class DataBase{
 		Cursor c = my_table.openCursor(null, null);
 
 		while(c.getNext(key, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
-			System.out.println("key: " + new String(key.getData());
-			System.out.println("data: " + new String(data.getData());
+			System.out.println("key: " + new String(key.getData()));
+			System.out.println("data: " + new String(data.getData()));
 		}
 		
 		

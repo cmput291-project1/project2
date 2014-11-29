@@ -102,6 +102,7 @@ public class DataBase{
 	
 	static int populateDupTestTable(Database my_table) throws DatabaseException{
 		DatabaseEntry kdbt, ddbt;
+		
 		int count = 0;
 		String[][] dupTable = Interval.DUP_TEST_MATRIX;
 		try {
@@ -128,6 +129,9 @@ public class DataBase{
 		}
 		DatabaseEntry key = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();
+
+		key.setReuseBuffer(false);
+		data.setReuseBuffer(false);
 		Cursor c = my_table.openCursor(null, null);
 
 		while(c.getNext(key, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
@@ -135,7 +139,7 @@ public class DataBase{
 			System.out.println("data: " + new String(data.getData()));
 		}
 		
-		
+		c.close();
 		return count;
 	}
 

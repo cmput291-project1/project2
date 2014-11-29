@@ -21,7 +21,7 @@ public class KeyRetrieve {
 	// creates database or gets instance if it was already created
 	DataBase db = DataBase.getInstance();
 	Database database = null;
-	String filename = "answers.txt";
+	String filename = "answers";
     	WriteToFile fileWrite = new WriteToFile();
 	
 	public KeyRetrieve(){	

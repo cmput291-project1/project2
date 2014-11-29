@@ -95,8 +95,8 @@ public class DataBase{
 		DatabaseEntry kdbt, ddbt;
 		int count = 0;
 		//parallel arrays can be optimized		
-		String[] keys = {"a","b","c","d","e","f","g","h","i","j","k"} // 11 keys
-		String[] values = {"k","l","a","e","b","u","v","z","q","y","k"}	
+		String[] keys = {"a","b","c","d","e","f","g","h","i","j","k"}; // 11 keys and values
+		String[] values = {"k","l","a","e","b","u","v","z","q","y","k"};
 		
 		try {
 			for(int i = 0; i < nrecs; i++){

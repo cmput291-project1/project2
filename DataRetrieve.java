@@ -96,14 +96,14 @@ public class DataRetrieve {
 		c.getFirst(pKey, dataEntry, LockMode.DEFAULT);
 	    	 
 		for(int i = 0; i < 100000; i++){
-		    sData = new String (dataEntry.getData());
-		    pKey = new String (pKey.getData());
-		    data = new DatabaseEntry();
+		    data = new String (dataEntry.getData());
+		    key = new String (pKey.getData());
+		    
 		
 		    if(sData.equals(searchData)){
-					records.put(pKey, sData);
+					records.put(key, data);
 		    }
-		    c.getNext(pKey, data, LockMode.DEFAULT);
+		    c.getNext(pKey, dataEntry, LockMode.DEFAULT);
 		}
 		c.close();
 	    }

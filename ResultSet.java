@@ -17,6 +17,10 @@ public class ResultSet{
 		count++;
 		results.add(new Result(key, data, count));
 	}
+	
+	public int getCount(){
+		return this.count;
+	}
 
 	public final boolean verifyKeyRange(String lowerLimit, String upperLimit){
 		boolean inRange = true;

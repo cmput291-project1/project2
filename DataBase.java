@@ -50,6 +50,7 @@ public class DataBase{
 
 	private final boolean createBase(){
 		DatabaseConfig dbConfig = new DatabaseConfig();
+		int count = 0;
 		
 		switch(Pref.getDbType()){
 			case 1:

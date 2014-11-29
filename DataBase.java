@@ -10,8 +10,8 @@ import java.util.*;
 public class DataBase{
 	private static final int NO_RECORDS = 100000;
 	private static final int NO_RECORDS_TEST = 10;
-	public static final String DATABASE_DIR = "./tmp/slmyers_db";
-	public static final String PRIMARY_TABLE = "./tmp/slmyers_db/primary_table_file1";
+	public static final String DATABASE_DIR = "/tmp/slmyers_db";
+	public static final String PRIMARY_TABLE = "/tmp/slmyers_db/primary_table_file1";
 	
 
 		

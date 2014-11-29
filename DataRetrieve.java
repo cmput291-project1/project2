@@ -65,7 +65,8 @@ public class DataRetrieve {
 	try {
 	    //if there is a index file then we can use key search
 	    if (Pref.getDbType() == 3) {
-
+				System.out.println(Pref.getDbType());
+				System.out.println("searching in index file");
 		SecondaryCursor c = db2.openSecondaryCursor(null, null);
 		//set dbKey to the data value we are searching for then move cursor
 		secKey.setData(searchData.getBytes());

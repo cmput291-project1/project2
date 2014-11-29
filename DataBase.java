@@ -113,7 +113,7 @@ public class DataBase{
 		}
 		else{
 			count = populateTable(this.database, NO_RECORDS);
-			count2 = populateTable(this.database_2, NO_RECORDS_TEST);
+			count2 = populateTable(this.database_2, NO_RECORDS);
 		}
 		System.out.println(PRIMARY_TABLE + " has been inserted with: " + count + " records");
 		System.out.println(PRIMARY_TABLE2 + " has been inserted with: " + count2 + " records");

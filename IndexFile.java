@@ -56,11 +56,7 @@ public class IndexFile{
 				dbe.printStackTrace();
 			}
 		}else if(Interval.testDupMode){
-			try{
-				verifyDataDupSecondary();
-			}catch(DatabaseException dbe){
-				dbe.printStackTrace();
-			}
+			verifyDataDupSecondary();
 		}
 	}
 	//only verifies for secondary database where key != data for all keys
@@ -74,14 +70,14 @@ public class IndexFile{
 		String primaryKey;
 		String dataString;
 		
-		
-		
+		System.out.println(this.dataSecondary.toString());
+		/*
 		for(int i = 0; i < Interval.TEST_DATA.length; i++){
 			secKey.setData(secondaryModel[i][0].getBytes());		
 			secKey.setSize(secondaryModel[i][0].length());
 			if(cursor.getSearchKey(secKey, pKey, data, LockMode.DEFAULT) != OperationStatus.SUCCESS){
-				throw new RuntimeException("secondary database is wrong. \nsec key (data) was searched for but not found: " + secondaryKey 
-																		+ "\nshould search: " +  secondaryModel[i][0]);
+				//throw new RuntimeException("secondary database is wrong. \nsec key (data) was searched for but not found: " + secondaryKey 
+				//														+ "\nshould search: " +  secondaryModel[i][0]);
 			} 
 			secondaryKey = new String(secKey.getData());
 			primaryKey = new String(pKey.getData());
@@ -96,7 +92,7 @@ public class IndexFile{
 			pKey = new DatabaseEntry();
 			data = new DatabaseEntry();
 		}		
-		cursor.close();
+		cursor.close();*/
 	}
 	// verify for duplicate data
 	public void verifyDataDupSecondary(){
@@ -112,7 +108,7 @@ public class IndexFile{
 		secKey.setReuseBuffer(false);
 		pKey.setReuseBuffer(false);
 		data.setReuseBuffer(false);
-		this.dataSecondary.toString();
+		System.out.println(this.dataSecondary.toString());
 		/*
 		if(status = cursor.getFirst(secKey, pKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
 			System.out.println("first secondary key: " + new String(secKey.getData()) + "\n");

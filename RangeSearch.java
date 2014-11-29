@@ -85,7 +85,7 @@ public class RangeSearch{
 		
 		Cursor cursor = dataBase.openCursor(null, null);
 		if(cursor == null){
-			throw new RuntimeException("cursor opened in RangeSearch.btreeSearch() is null");
+			throw new RuntimeException("database is null at line 20");
 		}
 
 		DatabaseEntry key = new DatabaseEntry();
@@ -126,7 +126,7 @@ public class RangeSearch{
 	
 		Cursor cursor = dataBase.openCursor(null, null);
 		if(cursor == null){
-			throw new RuntimeException("cursor opened in RangeSearch.hashSearch() is null");
+			throw new RuntimeException("database is null at line 20");
 		}
 		DatabaseEntry key = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();

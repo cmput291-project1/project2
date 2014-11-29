@@ -61,11 +61,10 @@ public class DataRetrieve {
 				String data = null;
 				String key = null;
 		
-				System.out.println("Searching for data in database");
+				System.out.println("Searching for data: " + searchData + " in database");
 				try {
 					//if there is a index file then we can use key search
 					if (Pref.getDbType() == 3) {
-						System.out.println(Pref.getDbType());
 						System.out.println("searching in index file");
 						SecondaryCursor c = db2.openSecondaryCursor(null, null);
 						//set dbKey to the data value we are searching for then move cursor
@@ -87,6 +86,9 @@ public class DataRetrieve {
 								records.put(key, data);
 							}
 						}
+						else{
+							System.out.println("data " + searchData + " is not found");
+						}
 						c.close(); 
 					}
 					else{    
@@ -98,7 +100,7 @@ public class DataRetrieve {
 								data = new String (dataEntry.getData());
 								key = new String (pKey.getData());
 								if(data.equals(searchData)){
-									//records.put(key, data);
+									records.put(key, data);
 								}
 							c.getNext(pKey, dataEntry, LockMode.DEFAULT);
 						}

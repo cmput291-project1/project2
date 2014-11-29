@@ -27,7 +27,7 @@ public class Menu{
 						if(Pref.getDbType() == 1 || Pref.getDbType() == 2){
 							DataBase.getInstance();
 						}else if(Pref.getDbType() == 3){
-							Pref.setDbType(2);
+							Pref.setDbType(3);
 							DataBase.getInstance();							
 							IndexFile indexFile = IndexFile.getInstance();
 							if(indexFile.checkDirectory()){

@@ -67,8 +67,12 @@ public class IndexFile{
 		String secondaryKey;		
 		String primaryKey;
 		String dataString;
+		
+		
 		for(int i = 0; i < Interval.TEST_DATA.length; i++){
-			if(cursor.getNext(secKey, pKey, data, LockMode.DEFAULT) != OperationStatus.SUCCESS){
+			secKey.setData(secondaryModel[i][0].getBytes());		
+			secKey.setSize(secondaryModel[i][0].length());
+			if(cursor.getSearchKey(secKey, pKey, data, LockMode.DEFAULT) != OperationStatus.SUCCESS){
 				break;
 			} 
 			secondaryKey = new String(secKey.getData());

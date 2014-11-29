@@ -58,7 +58,6 @@ public class Menu{
 			case 4: 
 						System.out.println("Option 4 executed");	
 						RangeSearch rs = new RangeSearch();
-						//rs.compare();
 						rs.execute();
 						printHeader();
 						makeSelection();
@@ -66,9 +65,7 @@ public class Menu{
 			case 5:
 						System.out.println("Option 5 executed");	
 						IndexFile.getInstance().close();
-						if(DataBase.getInstance().getPrimaryDb() != null || DataBase.getInstance().getPrimaryDb_2() != null){
-							DataBase.getInstance().close();
-						}
+						DataBase.getInstance().close();
 						this.printHeader();
 						this.makeSelection();
 						break;

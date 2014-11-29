@@ -2,6 +2,7 @@ public class Interval{
 	public static final String LOWER_LIMIT = "bmphuxdzdptmwfjkmswpmglqaugolcfkigzilpezvauvsmzgfaouwkocudbtikcflwtefzrfogttksokdbqmxlypejbeav";
 	public static final String UPPER_LIMIT = "ljgqqmsfxichjlmffquellmckrpxejrixcacoidudhecpekusbfailponelrjsladcwypghpolmwyefizrwfsujfinwqqblqrd";
 	public static boolean testMode = false;	
+	public static boolean testDupMode = false;
 
 	//the following two arrays are parrallel its sloppy code I know sorry.
 	public static final String[] TEST_KEYS_IN_ORDER =	
@@ -61,7 +62,9 @@ public class Interval{
 		return secondaryModel;
 	}																			
 	
-										
+	public static void setTestDupMode(){
+		testDupMode = true;
+	}									
 
 	public static void setTestMode(){
 		testMode = true;

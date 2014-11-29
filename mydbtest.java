@@ -18,6 +18,9 @@ public class mydbtest {
 					if(args[1].equals("test")){
 						Interval.setTestMode();
 					}
+					else if(args[1].equals("testDup")){
+						Interval.setTestDupMode();
+					}
 				}catch (ArrayIndexOutOfBoundsException aobe){
 					//empty catch no biggie if it's not there
 				}

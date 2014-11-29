@@ -33,10 +33,10 @@ public class Interval{
 			"rallaikxupuskmmoentxqbnzjrinoczmjkwqpaoiirggmmoihdfhlumsnbnkqunawgr"};
 
 	public static final String[][] getTestSecondary(){
-		String[][] secondaryModel = new String [Interval.TEST_DATA.length][2]
+		String[][] secondaryModel = new String [Interval.TEST_DATA.length][2];
 		for (int i = 0; i < Interval.TEST_DATA.length; i++){
 			secondaryModel[i][0] = Interval.TEST_DATA[i];
-			secondaryModel[i][1] = Interval.TEST_KEYS_IN_ORDER[i]
+			secondaryModel[i][1] = Interval.TEST_KEYS_IN_ORDER[i];
 		}
 		return secondaryModel;
 	}																			

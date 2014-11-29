@@ -56,7 +56,7 @@ public class DataBase{
 
 	private final boolean createBase(){
 		DatabaseConfig dbConfig = new DatabaseConfig();
-		DatabaseConfig dbConfig_2 = null;
+		DatabaseConfig dbConfig_2 = new DatabaseConfig();
 		int count = 0;
 		int count2 = 0;
 		
@@ -68,9 +68,8 @@ public class DataBase{
 							dbConfig.setType(DatabaseType.HASH);
 							break;
 			case 3:
-							dbConfig.setType(DatabaseType.HASH);
-							dbConfig_2 = new DatabaseConfig();
-							dbConfig_2.setType(DatabaseType.BTREE);
+							dbConfig.setType(DatabaseType.BTREE);
+							dbConfig_2.setType(DatabaseType.HASH);
 							break;
 			default:
 							System.out.println("Unrecognized database type.");
@@ -98,19 +97,15 @@ public class DataBase{
 			return false;
 		}
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
-		if(dbConfig_2 != null){
-				System.out.println(PRIMARY_TABLE2 + " has been created of type: " + dbConfig_2.getType());
-		}
+		System.out.println(PRIMARY_TABLE2 + " has been created of type: " + dbConfig_2.getType());
+		
 		if(Interval.testMode){
 			count = populateTable(this.database, NO_RECORDS_TEST);
 			count2 = populateTable(this.database_2, NO_RECORDS_TEST);
 		}
 		else if(Interval.testDupMode){
 			try{
-				if(dbConfig_2 != null){
-					count2 = populateDupTestTable(this.database_2);
-				}
-
+				count2 = populateDupTestTable(this.database_2);
 				count = populateDupTestTable(this.database);
 			}catch(DatabaseException dbe){
 				dbe.printStackTrace();
@@ -121,10 +116,7 @@ public class DataBase{
 			count2 = populateTable(this.database_2, NO_RECORDS_TEST);
 		}
 		System.out.println(PRIMARY_TABLE + " has been inserted with: " + count + " records");
-		if(dbConfig_2 != null){
-			System.out.println(PRIMARY_TABLE2 + " has been inserted with: " + count2 + " records");
-		}
-		
+		System.out.println(PRIMARY_TABLE2 + " has been inserted with: " + count2 + " records");
 		return true;
 	}	
 	

@@ -45,17 +45,10 @@ public class RangeSearch{
 			}
 		}
 		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");		
-		//TODO remove this line when assignment submitted
-		//this.resultSet.print();
-		//resultSet.duplicateKeys();
 
 	}
 
 	public void getLimits(){
-		//lowerLimit = Interval.TEST_LOWER_LIMIT;
-		//upperLimit = Interval.TEST_UPPER_LIMIT;
-		//TODO edit code before submission
-		
 		System.out.println("Enter lower key for range search or 'm' to return to menu: ");
 		lowerLimit = getInput();
 		
@@ -97,31 +90,8 @@ public class RangeSearch{
 
 		key.setData(lowerLimit.getBytes());
 		key.setSize(lowerLimit.length());
-		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
 		
-		if(oprStatus == OperationStatus.SUCCESS){
-			System.out.println("lower limit found");
-		}
-		else{
-			System.out.println("lower limit is not found: " + new String(key.getData()));
-		}
-		cursor.getFirst(key, data, LockMode.DEFAULT);
 		
-		if(oprStatus == OperationStatus.SUCCESS){
-			key.setData(upperLimit.getBytes());
-			key.setSize(upperLimit.length());
-			oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
-		}
-		if(oprStatus == OperationStatus.SUCCESS){
-			System.out.println("upper limit found");
-		}
-		else{
-			System.out.println("upper limit is not found: " + new String(key.getData()));
-		}
-		
-		key.setData(lowerLimit.getBytes());
-		key.setSize(lowerLimit.length());
-		int count = 0;
 		long startTime = System.nanoTime();
 		
 		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
@@ -129,23 +99,18 @@ public class RangeSearch{
 			retrievedKey = new String(key.getData(), "UTF-8");
 		}
 		while(oprStatus == OperationStatus.SUCCESS && !(retrievedKey.compareTo(upperLimit) > 0) ){
-			count++;
 			if(!resultSet.containsKey(retrievedKey)){
 				retrievedData = new String(data.getData(), "UTF-8");
 				resultSet.addResult(retrievedKey, retrievedData);
 			}
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 			retrievedKey = new String(key.getData(), "UTF-8");
-			
 		}
 		long endTime = System.nanoTime();
 		cursor.close();
 		this.duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
-		
-		resultSet.writeResults("btree.txt");
-		System.out.println(count + " records have been examined");
-		System.out.println("btree search has returned the lower limit: " + this.resultSet.containsKey(lowerLimit));
-		System.out.println("btree search has returned the upper limit: " + this.resultSet.containsKey(upperLimit));
+		resultSet.writeResults(null);
+	
 	}	
 
 	public void hashSearch() throws DatabaseException, UnsupportedEncodingException{
@@ -164,33 +129,10 @@ public class RangeSearch{
 		key.setSize(lowerLimit.length());
 		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
 		
-		if(oprStatus == OperationStatus.SUCCESS){
-			System.out.println("lower limit found");
-		}
-		else{
-			System.out.println("lower limit is not found: " + new String(key.getData()));
-		}
-		cursor.getFirst(key, data, LockMode.DEFAULT);
-		
-		if(oprStatus == OperationStatus.SUCCESS){
-			key.setData(upperLimit.getBytes());
-			key.setSize(upperLimit.length());
-			oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
-		}
-		if(oprStatus == OperationStatus.SUCCESS){
-			System.out.println("upper limit found");
-		}
-		else{
-			System.out.println("upper limit is not found: " + new String(key.getData()));
-		}
-		
-		
-		int count = 0;
 		long startTime = System.nanoTime();
 		oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);
 		while(oprStatus == OperationStatus.SUCCESS){
 			retrievedKey = new String(key.getData(), "UTF-8");
-			count++;
 			if( (retrievedKey.compareTo(lowerLimit) >= 0) && (retrievedKey.compareTo(upperLimit) <= 0) ){
 				retrievedData = new String(data.getData(), "UTF-8");
 				resultSet.addResult(retrievedKey, retrievedData);
@@ -201,10 +143,7 @@ public class RangeSearch{
 		long endTime = System.nanoTime();
 		cursor.close();
 		this.duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
-		resultSet.writeResults("hash.txt");
-		System.out.println(count + " records have been examined");
-		System.out.println("hash search has returned the lower limit: " + this.resultSet.containsKey(lowerLimit));
-		System.out.println("hash search has returned the upper limit: " + this.resultSet.containsKey(upperLimit));
+		resultSet.writeResults(null);
 	}
 
 	public final boolean verify(){

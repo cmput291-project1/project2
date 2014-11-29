@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.*;
 
 public class IndexFile{
-	private static final String DATA_SECONDARY_TABLE = "./tmp/user_db/secondary_table_file2";
+	private static final String DATA_SECONDARY_TABLE = "./tmp/slmyers_db/secondary_table_file2";
 
 
 	private static IndexFile indexFile = null;

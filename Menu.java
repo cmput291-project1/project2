@@ -22,14 +22,17 @@ public class Menu{
 	}
 
 	public void makeSelection(){
+		DataBase db;
 		int option = this.select();
 		switch(option){
 			case 1 : 
 						if(Pref.getDbType() == 1 || Pref.getDbType() == 2){
-							DataBase.getInstance();
+							db = DataBase.getInstance();
+							db.initDataBase();
 						}else if(Pref.getDbType() == 3){
 							Pref.setDbType(3);
-							DataBase.getInstance();							
+							db = DataBase.getInstance();	
+							db.initDataBase();						
 							IndexFile indexFile = IndexFile.getInstance();
 							if(indexFile.checkDirectory()){
 								indexFile.configureDataSecondary();

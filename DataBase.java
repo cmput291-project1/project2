@@ -10,20 +10,24 @@ import java.util.*;
 public class DataBase{
 	private static final int NO_RECORDS = 100000;
 	private static final int NO_RECORDS_TEST = 10;
-	public static final String DATABASE_DIR = "./tmp/user_db";
-	public static final String PRIMARY_TABLE = "./tmp/user_db/primary_table_file1";
+	public static final String DATABASE_DIR = "./tmp/slmyers_db";
+	public static final String PRIMARY_TABLE = "./tmp/slmyers_db/primary_table_file1";
 	
 
 		
 	private static DataBase db = null;	
 	private Database database = null;	
-
-	
-	
-	// not sure if all these method calls should be in constructor
 	protected DataBase(){
+	}
+	
+	public static DataBase getInstance(){
+		if(db == null){
+			db = new DataBase();
+		}
+		return db;
+	}
 
-		
+	public void initDataBase(){
 		if(!createDirectory(DATABASE_DIR)){
 			System.err.println("Unable to create file	 for database");
 			System.exit(-1);
@@ -32,15 +36,6 @@ public class DataBase{
 			System.err.println("Database was not created properly");
 			System.exit(-1);
 		}
-		
-	}
-	//TODO ensure that DataBase.getInstance() does not open create database when unwanted
-	public static DataBase getInstance(){
-		if(db == null){
-			db = new DataBase();
-		}
-
-		return db;
 	}
 
 	public Database getPrimaryDb(){

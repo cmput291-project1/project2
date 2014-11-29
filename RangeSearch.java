@@ -98,7 +98,7 @@ public class RangeSearch{
 
 		long startTime = System.nanoTime();
 		
-		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
+		oprStatus = cursor.getSearchKeyRange(key, data, LockMode.DEFAULT);
 		if(oprStatus == OperationStatus.SUCCESS){
 			retrievedKey = new String(key.getData(), "UTF-8");
 		}

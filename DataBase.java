@@ -197,9 +197,6 @@ public class DataBase{
 				if(Interval.testMode){
 					testData.add(s);
 				}	
-				if(s.equals("djjtchkroyzbyzqycjbjfvkxuwuywywkcvqltyagjavmhpewjuhfqsaawwzwvusrobrzmkbstekgkbawzkl")){
-					System.out.println("data under question created");
-				}
 				/* to create a DBT for data */
 				ddbt = new DatabaseEntry(s.getBytes());
 				ddbt.setSize(s.length()); 

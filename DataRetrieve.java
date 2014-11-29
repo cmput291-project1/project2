@@ -87,6 +87,7 @@ public class DataRetrieve {
 								records.put(key, data);
 							}
 						}
+						c.close(); 
 					}
 					else{    
 						//if BTREE or HASH then search all records using cursor and return matches 
@@ -101,8 +102,9 @@ public class DataRetrieve {
 								}
 							c.getNext(pKey, dataEntry, LockMode.DEFAULT);
 						}
+						c.close(); 
 					}
-				c.close();    
+				   
 			}
 			catch (DatabaseException e) {
 				System.err.println("unable to get key/value record!");

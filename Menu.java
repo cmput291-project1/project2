@@ -1,3 +1,4 @@
+
 public class Menu{		
 	Scan scan;
 	public Menu(){
@@ -38,15 +39,14 @@ public class Menu{
 						makeSelection();
 						break;
 			case 2 : 
-						System.out.println("Retrieving records with given key");
+						System.out.println("Option 2 executed");
 						KeyRetrieve kr = new KeyRetrieve();	
 						kr.getRecords();
 						printHeader();
 						makeSelection();
 						break;
 			case 3: 
-			      System.out.println("Option 3 executed");		
-						System.out.println(Pref.getDbType());		                        	    
+						System.out.println("Option 3 executed");				                        	   
 						DataRetrieve dr = new DataRetrieve();	
 						dr.getRecords();
 						printHeader();
@@ -55,12 +55,13 @@ public class Menu{
 			case 4: 
 						System.out.println("Option 4 executed");	
 						RangeSearch rs = new RangeSearch();
+						//rs.compare();
 						rs.execute();
 						printHeader();
 						makeSelection();
 						break;
 			case 5:
-						System.out.println("Database is destroyed");	
+						System.out.println("Option 5 executed");	
 						IndexFile.getInstance().close();
 						if(DataBase.getInstance().getPrimaryDb() != null){
 							DataBase.getInstance().close();
@@ -69,6 +70,7 @@ public class Menu{
 						this.makeSelection();
 						break;
 			case 6:
+						//TODO ensure that DataBase.getInstance() does not open create database when unwanted
 						System.out.println("Exiting data base");
 						IndexFile.getInstance().close();
 						DataBase.getInstance().close();

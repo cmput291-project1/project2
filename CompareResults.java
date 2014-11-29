@@ -1,14 +1,33 @@
+import java.util.ArrayList;
 
 public class CompareResults{
-	public ResultSet set_1;
-	public ResultSet set_2;
+	public ResultSet hashSet;
+	public ResultSet treeSet;
+	public ArrayList<Result> difference;
 
-	public CompareResults(ResultSet set_1, ResultSet set_2){
-		this.set_1 = set_1;
-		this.set_2 = set_2;
+	public CompareResults(ResultSet hashSet, ResultSet treeSet){
+		this.hashSet = hashSet;
+		this.treeSet = treeSet;
+		this.difference = new ArrayList<Result>();
 	}
 
 	public final boolean eqv(){
+		for(Result r : treeSet.getResults()){
+			if(!hashSet.getResults().contains(r)){
+				difference.add(r);
+			}
+		}
+
+		if(difference.size() == 0){
+			return true;
+		}
+
+		System.out.println("=================================");
+		System.out.println("there are " + difference.size() + " results found in tree that are not in hash");		
+		
+		for(Result r : difference){
+			r.toString();
+		}
 		return false;
 	}
 }

@@ -49,16 +49,16 @@ public class DataRetrieve {
 	
 	// start timer, end before returns
 	long timeStart = System.nanoTime();
-	DatabaseEntry dbKey = new DatabaseEntry();
+	DatabaseEntry secKey = new DatabaseEntry();
 	DatabaseEntry pKey = new DatabaseEntry();
 	DatabaseEntry data = new DatabaseEntry();
 	//OperationStatus success = ;
 
-	DatabaseEntry data = new DatabaseEntry();
+	
 	SecondaryDatabase database2 = null;
 
-	String pKey = null;
-	String sKey = null;
+	String data = null;
+	String key = null;
 		
 	System.out.println("Searching for data in database");
 	
@@ -68,26 +68,24 @@ public class DataRetrieve {
 
 		SecondaryCursor c = db2.openSecondaryCursor(null, null);
 		//set dbKey to the data value we are searching for then move cursor
-		dbKey.setData(searchData.getBytes());
-		dbKey.setSize(searchData.length());
-		if(c.getSearchKey(dbKey, pKey, data, LockMode.DEFAULT)==OperationStatus.SUCCESS){
-		    sKey = new String (dbKey.getData());
-		    pKey = new String (pKey.getData());
+		secKey.setData(searchData.getBytes());
+		secKey.setSize(searchData.length());
+		if(c.getSearchKey(secKey, pKey, data, LockMode.DEFAULT)==OperationStatus.SUCCESS){
+		    data = new String (secKey.getData());
+		    key = new String (pKey.getData());
 		    
-		    records.put(sKey, pKey);
+		    records.put(key, data);
 
 		    //next if there are duplicate keys after the first get them 		
-		    while(c.getNext(dbKey, pKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
-			//if(sData == null){
-			//    break;
-			//}
-			sKey = new String (dbKey.getData());
-			pKey = new String (pKey.getData());
-			if(sData.equals(searchData)){
-			    records.put(sKey, pKey);
-			}else{
-			    break;
-			}
+		    while(c.getNextDup(secKey, pKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
+					//if(sData == null){
+					//    break;
+					//}
+					data = new String (secKey.getData());
+					key = new String (pKey.getData());
+			
+			    records.put(key, data);
+		
 		    }
 		}
 		c.close();
@@ -103,7 +101,7 @@ public class DataRetrieve {
 		    data = new DatabaseEntry();
 		
 		    if(sData.equals(searchData)){
-			records.put(sKey, sData);
+					records.put(sKey, sData);
 		    }
 		    c.getNext(dbKey, data, LockMode.DEFAULT);
 		}

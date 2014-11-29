@@ -126,7 +126,12 @@ public class DataBase{
 		DatabaseEntry kdbt, ddbt;
 		int count = 0;
 		String s;
-
+		ArrayList<String> testKeys;
+		ArrayList<String> testData;
+		if(testMode){
+			testKeys = new ArrayList<String>();
+			testData = new ArrayList<string>();
+		}
 		/*  
 		 *  generate a random string with the length between 64 and 127,
 		 *  inclusive.
@@ -143,7 +148,9 @@ public class DataBase{
 				s = "";
 				for ( int j = 0; j < range; j++ ) 
 					s+=(new Character((char)(97+random.nextInt(26)))).toString();
-				System.out.println("key: " + s);				
+				if(Interval.testMode){
+					testKeys.add(s);
+				}	
 		
 				/* to create a DBT for key */
 				kdbt = new DatabaseEntry(s.getBytes());
@@ -156,14 +163,14 @@ public class DataBase{
 				s = "";
 				for ( int j = 0; j < range; j++ ) 
 					s+=(new Character((char)(97+random.nextInt(26)))).toString();
-				System.out.println("data: " + s);
-		
-		
+				if(Interval.testMode){
+					testData.add(s);
+				}	
 				/* to create a DBT for data */
 				ddbt = new DatabaseEntry(s.getBytes());
 				ddbt.setSize(s.length()); 
 
-				//NEW CODE - checks if key already in the database
+				//TODO change so program recovers instead of exiting
 				OperationStatus result;
 				result = my_table.exists(null, kdbt);
 				if (!result.toString().equals("OperationStatus.NOTFOUND"))
@@ -177,6 +184,23 @@ public class DataBase{
 		catch (DatabaseException dbe) {
 			System.err.println("Populate the table: "+dbe.toString());
 		  	System.exit(1);
+		}
+		if(Interval.testMode){
+			//gross code
+			String[] keys = Interval.TEST_KEYS_IN_ORDER;
+			String[] data = Interval.TEST_DATA;
+			if(keys.length != data.length){
+				throw new RuntimeException("unequal test keys and test data");
+			}			
+		
+			for(int i = 0; i < keys.length; i++){
+				if(!testKeys.contains(keys[i])){
+					throw new RuntimeException("test key was not created!");
+				}
+				if(!testData.contains(data[i])){
+					throw new RuntimeException("test data was not created!");
+				}
+			}
 		}
 		return count;
 	}

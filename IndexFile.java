@@ -51,7 +51,7 @@ public class IndexFile{
 		
 		if(Interval.testMode || Interval.testDupMode){
 			try{
-				printSecondary();
+				//printSecondary();
 			}catch(DatabaseException dbe){
 				dbe.printStackTrace();
 			}

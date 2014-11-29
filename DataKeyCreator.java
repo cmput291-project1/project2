@@ -21,7 +21,9 @@ public class DataKeyCreator implements SecondaryKeyCreator {
  				int strlen = dataStr.length();
 				byte[] byteArray = new byte[strlen];
 				byteArray = dataStr.getBytes();
+				result.setSize(strlen);
         result.setData(byteArray);
+				
 				return true;
    }
 }

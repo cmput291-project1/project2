@@ -73,7 +73,6 @@ public class DataRetrieve {
 						if(c.getSearchKey(secKey, pKey, dataEntry, LockMode.DEFAULT)==OperationStatus.SUCCESS){
 							data = new String (secKey.getData());
 							key = new String (pKey.getData());
-						
 							records.put(key, data);
 
 						//next if there are duplicate keys after the first get them 		

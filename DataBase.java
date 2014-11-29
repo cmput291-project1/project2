@@ -127,9 +127,9 @@ public class DataBase{
 			} 
 		}catch (DatabaseException dbe) {
 			System.err.println("Populate the table: "+dbe.toString());
-		  	System.exit(1);
+			this.close();
+		  System.exit(1);
 		}
-		c.close();
 		return count;
 	}
 

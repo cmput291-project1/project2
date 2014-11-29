@@ -84,9 +84,7 @@ public class DataBase{
 		dbConfig.setAllowCreate(true);
 		try{
 			this.database = new Database(PRIMARY_TABLE, null, dbConfig);
-			if(dbConfig_2 != null){
-				this.database_2 = new Database(PRIMARY_TABLE2, null, dbConfig_2);
-			}
+			this.database_2 = new Database(PRIMARY_TABLE2, null, dbConfig_2);
 		}catch (DatabaseException dbe){
 			System.err.println("unable to create database");
 			dbe.printStackTrace();

@@ -18,6 +18,9 @@ public class RangeSearch{
 		scan = Scan.getInstance();
 		db = DataBase.getInstance();
 		dataBase = db.getInstance().getPrimaryDb();
+		if(dataBase == null){
+			throw new RuntimeException("database is null at line 20");
+		}
 		lowerLimit = new String();
 		upperLimit = new String();
 		resultSet = new ResultSet();
@@ -79,7 +82,7 @@ public class RangeSearch{
 		System.out.println("Search type is BTREE interval search.");
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
-
+		
 		Cursor cursor = dataBase.openCursor(null, null);
 		if(cursor == null){
 			throw new RuntimeException("cursor opened in RangeSearch.btreeSearch() is null");

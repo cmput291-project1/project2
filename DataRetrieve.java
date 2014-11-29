@@ -38,6 +38,9 @@ public class DataRetrieve {
 
 		}else{
 			  database = db.getPrimaryDb();
+				if(database == null){
+					throw new RuntimeException("database is null in data retrieve line 40");
+				}
 		}	
 
 		  }

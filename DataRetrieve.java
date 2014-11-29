@@ -51,7 +51,7 @@ public class DataRetrieve {
 	long timeStart = System.nanoTime();
 	DatabaseEntry secKey = new DatabaseEntry();
 	DatabaseEntry pKey = new DatabaseEntry();
-	DatabaseEntry data = new DatabaseEntry();
+	DatabaseEntry dataEntry = new DatabaseEntry();
 	//OperationStatus success = ;
 
 	
@@ -70,14 +70,14 @@ public class DataRetrieve {
 		//set dbKey to the data value we are searching for then move cursor
 		secKey.setData(searchData.getBytes());
 		secKey.setSize(searchData.length());
-		if(c.getSearchKey(secKey, pKey, data, LockMode.DEFAULT)==OperationStatus.SUCCESS){
+		if(c.getSearchKey(secKey, pKey, dataEntry, LockMode.DEFAULT)==OperationStatus.SUCCESS){
 		    data = new String (secKey.getData());
 		    key = new String (pKey.getData());
 		    
 		    records.put(key, data);
 
 		    //next if there are duplicate keys after the first get them 		
-		    while(c.getNextDup(secKey, pKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
+		    while(c.getNextDup(secKey, pKey, dataEntry, LockMode.DEFAULT) == OperationStatus.SUCCESS){
 					//if(sData == null){
 					//    break;
 					//}

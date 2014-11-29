@@ -1,26 +1,22 @@
 import java.util.ArrayList;
 import java.lang.String;
 import java.util.HashSet;
+
 public class ResultSet{
 	private static final String ANSWERS = "answers";	
 	private ArrayList<Result> results;
 	private WriteToFile fw;
-	int count;
 
 	public ResultSet(){
 		this.results = new ArrayList<Result>();
 		fw = new WriteToFile();
-		this.count = 0;
 	}
 
 	public void addResult(String key, String data){
-		count++;
-		results.add(new Result(key, data, count));
+		results.add(new Result(key, data, this.results.size() + 1));
 	}
 	
-	public int getCount(){
-		return this.count;
-	}
+	
 
 	public final boolean verifyKeyRange(String lowerLimit, String upperLimit){
 		boolean inRange = true;
@@ -60,6 +56,23 @@ public class ResultSet{
 		
 	}
 
+	public final boolean containsKey(String key){
+		for(Result result : results){
+			if(result.getKey().equals(key)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public ArrayList<Result> getResults(){
+		return this.results;
+	}
+
+	public int getCount(){
+		return this.results.size();
+	}
+
 	public void writeResults(String file){
 		if(file == null){
 			file = ANSWERS;
@@ -72,8 +85,15 @@ public class ResultSet{
 		}
 	}
 
+	public void print(){
+		for(Result r : results){
+			r.print();
+			System.out.println("------------------");
+		}
+	}
+
 	public void clear(){
-		this.count = 0;
 		this.results.clear();
+		this.results = new ArrayList<Result>();
 	}
 }

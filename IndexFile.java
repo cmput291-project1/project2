@@ -50,11 +50,11 @@ public class IndexFile{
 		System.out.println(DATA_SECONDARY_TABLE + " has been created of type: " + secConfig.getType());
 		
 		if(Interval.testMode || Interval.testDupMode){
-			/*try{
+			try{
 				printSecondary();
 			}catch(DatabaseException dbe){
 				dbe.printStackTrace();
-			}*/
+			}
 		}
 	}
 	//only verifies for secondary database where key != data for all keys
@@ -75,11 +75,11 @@ public class IndexFile{
 		
 		
 		while( (status = cursor.getNextNoDup(secKey, pKey, data, LockMode.DEFAULT)) == OperationStatus.SUCCESS){
-			System.out.println("nonDup secondary key: " + new String(secKey.getData()) + "\n");
+			System.out.println("secondary key: " + new String(secKey.getData()) + "\n");
 			System.out.println("primary key: " + new String(pKey.getData()) + "\n");
 			System.out.println("data: " + new String(data.getData()) + "\n");
 			while((status = cursor.getNextDup(secKey, pKey, data, LockMode.DEFAULT)) == OperationStatus.SUCCESS){
-				System.out.println("\tDuplicate secondary key: " + new String(secKey.getData()) + "\n");
+				System.out.println("\tsecondary key: " + new String(secKey.getData()) + "\n");
 				System.out.println("\tprimary key: " + new String(pKey.getData()) + "\n");
 				System.out.println("\tdata: " + new String(data.getData()) + "\n");
 			}

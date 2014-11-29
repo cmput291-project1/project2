@@ -129,19 +129,6 @@ public class DataBase{
 			System.err.println("Populate the table: "+dbe.toString());
 		  	System.exit(1);
 		}
-		DatabaseEntry key = new DatabaseEntry();
-		DatabaseEntry data = new DatabaseEntry();
-
-		key.setReuseBuffer(false);
-		data.setReuseBuffer(false);
-		Cursor c = my_table.openCursor(null, null);
-		System.out.println(my_table.toString());
-		
-		while(c.getNext(key, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
-			System.out.println("key: " + new String(key.getData()));
-			System.out.println("data: " + new String(data.getData()));
-		}
-		
 		c.close();
 		return count;
 	}

@@ -49,22 +49,16 @@ public class IndexFile{
 		
 		System.out.println(DATA_SECONDARY_TABLE + " has been created of type: " + secConfig.getType());
 		
-		if(Interval.testMode){
+		if(Interval.testMode || Interval.testDupMode){
 			try{
-				verifyDataSecondary();
-			}catch(DatabaseException dbe){
-				dbe.printStackTrace();
-			}
-		}else if(Interval.testDupMode){
-			try{
-				verifyDataDupSecondary();
+				printSecondary();
 			}catch(DatabaseException dbe){
 				dbe.printStackTrace();
 			}
 		}
 	}
 	//only verifies for secondary database where key != data for all keys
-	public void verifyDataSecondary() throws DatabaseException{
+	public void printSecondary() throws DatabaseException{
 		DatabaseEntry secKey = new DatabaseEntry();
 		DatabaseEntry pKey = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();
@@ -91,35 +85,8 @@ public class IndexFile{
 			}
 		}
 		cursor.close();
-		cursor.close();
 	}
-	// verify for duplicate data
-	public void verifyDataDupSecondary() throws DatabaseException{
-		DatabaseEntry secKey = new DatabaseEntry();
-		DatabaseEntry pKey = new DatabaseEntry();
-		DatabaseEntry data = new DatabaseEntry();
-		SecondaryCursor cursor = this.dataSecondary.openSecondaryCursor(null, null);
-
-		String secondaryKey;		
-		String primaryKey;
-		String dataString;
-		OperationStatus status;
-		secKey.setReuseBuffer(false);
-		pKey.setReuseBuffer(false);
-		data.setReuseBuffer(false);
-		
-		while( (status = cursor.getNextNoDup(secKey, pKey, data, LockMode.DEFAULT)) == OperationStatus.SUCCESS){
-			System.out.println("nonDup secondary key: " + new String(secKey.getData()) + "\n");
-			System.out.println("primary key: " + new String(pKey.getData()) + "\n");
-			System.out.println("data: " + new String(data.getData()) + "\n");
-			while((status = cursor.getNextDup(secKey, pKey, data, LockMode.DEFAULT)) == OperationStatus.SUCCESS){
-				System.out.println("\tDup secondary key: " + new String(secKey.getData()) + "\n");
-				System.out.println("\tprimary key: " + new String(pKey.getData()) + "\n");
-				System.out.println("\tdata: " + new String(data.getData()) + "\n");
-			}
-		}
-		cursor.close();
-	}
+	
 
 
 	public void close(){

@@ -109,7 +109,7 @@ public class DataBase{
 		try {
 			for(int i = 0; i < 5; i++){
 				kdbt = new DatabaseEntry(dupKeys[i].getBytes());
-				kdbt.setSize(dupTable[i].length());
+				kdbt.setSize(dupKeys[i].length());
 				kdbt.setReuseBuffer(false);
 				ddbt = new DatabaseEntry(dupData[i].getBytes());
 				ddbt.setSize(dupData[i].length());

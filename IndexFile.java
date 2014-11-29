@@ -113,7 +113,7 @@ public class IndexFile{
 		pKey.setReuseBuffer(false);
 		data.setReuseBuffer(false);
 		
-		while(status = cursor.getNextNoDup(secKey, pKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
+		while( (status = cursor.getNextNoDup(secKey, pKey, data, LockMode.DEFAULT)) == OperationStatus.SUCCESS){
 			System.out.println("nonDup secondary key: " + new String(secKey.getData()) + "\n");
 			System.out.println("primary key: " + primaryKey = new String(pKey.getData()) + "\n");
 			System.out.println("data: " + new String(data.getData()) + "\n");

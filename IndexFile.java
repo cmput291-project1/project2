@@ -50,11 +50,11 @@ public class IndexFile{
 		System.out.println(DATA_SECONDARY_TABLE + " has been created of type: " + secConfig.getType());
 		
 		if(Interval.testMode || Interval.testDupMode){
-			try{
-				//printSecondary();
+			/*try{
+				printSecondary();
 			}catch(DatabaseException dbe){
 				dbe.printStackTrace();
-			}
+			}*/
 		}
 	}
 	//only verifies for secondary database where key != data for all keys

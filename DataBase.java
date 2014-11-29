@@ -63,9 +63,11 @@ public class DataBase{
 		switch(Pref.getDbType()){
 			case 1:
 							dbConfig.setType(DatabaseType.BTREE);
+							dbConfig_2.setType(DatabaseType.HASH);
 							break;
 			case 2:
 							dbConfig.setType(DatabaseType.HASH);
+							dbConfig_2.setType(DatabaseType.HASH);
 							break;
 			case 3:
 							dbConfig.setType(DatabaseType.BTREE);

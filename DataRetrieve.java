@@ -54,7 +54,7 @@ public class DataRetrieve {
 				DatabaseEntry pKey = new DatabaseEntry();
 				DatabaseEntry dataEntry = new DatabaseEntry();
 				//OperationStatus success = ;
-				System.out.println("DatabaseEntries are set to reuse byte array, true or false? " + dataEntry.getReuseBuffer());
+				
 	
 				SecondaryDatabase database2 = null;
 				

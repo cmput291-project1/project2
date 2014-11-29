@@ -87,11 +87,12 @@ public class RangeSearch{
 
 		DatabaseEntry key = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();
-
+		
+		key.setReuseBuffer(false);		
 		key.setData(lowerLimit.getBytes());
-		key.setSize(lowerLimit.length());
 		
-		
+		data.setReuseBuffer(false);
+
 		long startTime = System.nanoTime();
 		
 		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
@@ -103,8 +104,6 @@ public class RangeSearch{
 				retrievedData = new String(data.getData(), "UTF-8");
 				resultSet.addResult(retrievedKey, retrievedData);
 			}
-			data = new DatabaseEntry();
-			key = new DatabaseEntry();
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 			retrievedKey = new String(key.getData(), "UTF-8");
 		}
@@ -129,8 +128,7 @@ public class RangeSearch{
 		DatabaseEntry key = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();
 		
-		key.setData(lowerLimit.getBytes());
-		key.setSize(lowerLimit.length());
+		key.setReuseBuffer(false);
 		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
 		
 		long startTime = System.nanoTime();
@@ -141,8 +139,6 @@ public class RangeSearch{
 				retrievedData = new String(data.getData(), "UTF-8");
 				resultSet.addResult(retrievedKey, retrievedData);
 			}
-			key = new DatabaseEntry();
-			data = new DatabaseEntry();
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 		}
 		long endTime = System.nanoTime();

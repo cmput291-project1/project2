@@ -110,8 +110,10 @@ public class DataBase{
 				
 				kdbt = new DatabaseEntry(dupTable[i][0].getBytes());
 				kdbt.setSize(dupTable[i][0].length());
+				kdbt.setReuseBuffer(false);
 				ddbt = new DatabaseEntry(dupTable[i][1].getBytes());
 				ddbt.setSize(dupTable[i][1].length());
+				ddbt.setReuseBuffer(false);
 				OperationStatus result;
 				result = my_table.exists(null, kdbt);
 				if (!result.toString().equals("OperationStatus.NOTFOUND"))
@@ -177,7 +179,6 @@ public class DataBase{
 				/* to create a DBT for key */
 				kdbt = new DatabaseEntry(s.getBytes());
 				kdbt.setSize(s.length()); 
-
 				 	
 
 				/* to generate a data string */

@@ -252,6 +252,20 @@ public class DataBase{
 			database = null;
 			db = null;
 		}
-		
+		if(this.database_2 != null){
+			try{
+				this.database_2.close();
+				this.database_2.remove(PRIMARY_TABLE,null,null);
+				System.out.println("database is closed and removed");
+			}catch(DatabaseException dbe){
+				System.err.println("unable to close database");
+				dbe.printStackTrace();
+			}catch (FileNotFoundException fnfe){
+				System.err.println("can not find file to remove Database");
+				fnfe.printStackTrace();
+			}
+			database = null;
+			db = null;
+		}	
 	}
 }

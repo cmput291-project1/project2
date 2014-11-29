@@ -33,7 +33,7 @@ public class IndexFile{
 		SecondaryConfig secConfig = new SecondaryConfig();
 		secConfig.setKeyCreator(new DataKeyCreator());
 		secConfig.setAllowCreate(true);
-		secConfig.setType(DatabaseType.BTREE);
+		secConfig.setType(DatabaseType.HASH);
 		secConfig.setSortedDuplicates(true);
 		secConfig.setAllowPopulate(true);
 

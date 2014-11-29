@@ -100,7 +100,7 @@ public class DataBase{
 		return true;
 	}	
 	
-	static int populateDupTestTable(Database my_table) throws DatabaseException{
+	public int populateDupTestTable(Database my_table) throws DatabaseException{
 		DatabaseEntry kdbt, ddbt;
 		
 		int count = 0;
@@ -133,7 +133,7 @@ public class DataBase{
 		return count;
 	}
 
-	static int populateTable(Database my_table, int nrecs ) {
+	public int populateTable(Database my_table, int nrecs ) {
 		int range;
 		DatabaseEntry kdbt, ddbt;
 		int count = 0;

@@ -45,7 +45,8 @@ public class Menu{
 						makeSelection();
 						break;
 			case 3: 
-			      System.out.println("Option 3 executed");				                        	    
+			      System.out.println("Option 3 executed");		
+						System.out.println(Pref.getDbType());		                        	    
 						DataRetrieve dr = new DataRetrieve();	
 						dr.getRecords();
 						printHeader();

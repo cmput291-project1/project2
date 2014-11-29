@@ -56,7 +56,11 @@ public class IndexFile{
 				dbe.printStackTrace();
 			}
 		}else if(Interval.testDupMode){
-			verifyDataDupSecondary();
+			try{
+				verifyDataDupSecondary();
+			}catch(DatabaseException dbe){
+				dbe.printStackTrace();
+			}
 		}
 	}
 	//only verifies for secondary database where key != data for all keys
@@ -70,14 +74,14 @@ public class IndexFile{
 		String primaryKey;
 		String dataString;
 		
-		System.out.println(this.dataSecondary.toString());
-		/*
+		
+		
 		for(int i = 0; i < Interval.TEST_DATA.length; i++){
 			secKey.setData(secondaryModel[i][0].getBytes());		
 			secKey.setSize(secondaryModel[i][0].length());
 			if(cursor.getSearchKey(secKey, pKey, data, LockMode.DEFAULT) != OperationStatus.SUCCESS){
-				//throw new RuntimeException("secondary database is wrong. \nsec key (data) was searched for but not found: " + secondaryKey 
-				//														+ "\nshould search: " +  secondaryModel[i][0]);
+				throw new RuntimeException("secondary database is wrong. \nsec key (data) was searched for but not found: " + secondaryKey 
+																		+ "\nshould search: " +  secondaryModel[i][0]);
 			} 
 			secondaryKey = new String(secKey.getData());
 			primaryKey = new String(pKey.getData());
@@ -92,14 +96,14 @@ public class IndexFile{
 			pKey = new DatabaseEntry();
 			data = new DatabaseEntry();
 		}		
-		cursor.close();*/
+		cursor.close();
 	}
 	// verify for duplicate data
-	public void verifyDataDupSecondary(){
+	public void verifyDataDupSecondary throws DatabaseException{
 		DatabaseEntry secKey = new DatabaseEntry();
 		DatabaseEntry pKey = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();
-		//SecondaryCursor cursor = this.dataSecondary.openSecondaryCursor(null, null);
+		SecondaryCursor cursor = this.dataSecondary.openSecondaryCursor(null, null);
 
 		String secondaryKey;		
 		String primaryKey;
@@ -108,20 +112,18 @@ public class IndexFile{
 		secKey.setReuseBuffer(false);
 		pKey.setReuseBuffer(false);
 		data.setReuseBuffer(false);
-		System.out.println(this.dataSecondary.toString());
-		/*
-		if(status = cursor.getFirst(secKey, pKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
-			System.out.println("first secondary key: " + new String(secKey.getData()) + "\n");
-			System.out.println("primary key: " + primaryKey = new String(pKey.getData()) + "\n");
-			System.out.println("data: " + new String(data.getData()) + "\n");
-			
-		}
-		while(cursor.getSearchKey(secKey, pKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
+		
+		while(status = cursor.getNextNoDup(secKey, pKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
 			System.out.println("nonDup secondary key: " + new String(secKey.getData()) + "\n");
 			System.out.println("primary key: " + primaryKey = new String(pKey.getData()) + "\n");
 			System.out.println("data: " + new String(data.getData()) + "\n");
-			
-		}*/
+			while(status = cursor.getNextDup(secKey, pKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
+				System.out.println("\tnonDup secondary key: " + new String(secKey.getData()) + "\n");
+				System.out.println("\tprimary key: " + primaryKey = new String(pKey.getData()) + "\n");
+				System.out.println("\tdata: " + new String(data.getData()) + "\n");
+			}
+		}
+		cursor.close();
 	}
 
 

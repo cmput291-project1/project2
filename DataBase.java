@@ -92,8 +92,7 @@ public class DataBase{
 	static void populateTable(Database my_table, int nrecs ) {
 		int range;
 		DatabaseEntry kdbt, ddbt;
-		String s;
-
+		String s, key, data;
 		/*  
 		 *  generate a random string with the length between 64 and 127,
 		 *  inclusive.
@@ -104,13 +103,13 @@ public class DataBase{
 
 		try {
     	for (int i = 0; i < nrecs; i++) {
-
+			
 				/* to generate a key string */
 				range = 64 + random.nextInt( 64 );
 				s = "";
 				for ( int j = 0; j < range; j++ ) 
 					s+=(new Character((char)(97+random.nextInt(26)))).toString();
-
+				key = s;
 				/* to create a DBT for key */
 				kdbt = new DatabaseEntry(s.getBytes());
 				kdbt.setSize(s.length()); 
@@ -122,8 +121,13 @@ public class DataBase{
 				s = "";
 				for ( int j = 0; j < range; j++ ) 
 					s+=(new Character((char)(97+random.nextInt(26)))).toString();
-				          
+				data = s;   
 		
+				if(i <= 10){
+					System.out.println(key);
+					System.out.println(data);
+					System.out.println();
+				}
 				/* to create a DBT for data */
 				ddbt = new DatabaseEntry(s.getBytes());
 				ddbt.setSize(s.length()); 

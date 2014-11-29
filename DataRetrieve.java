@@ -21,8 +21,7 @@ public class DataRetrieve {
     Scan scan = Scan.getInstance();
     Database database = null;
     Database db2 = null;
-		//TODO check to see if this is "answers.txt" or "answers"
-    String filename = "answers.txt";
+    String filename = "answers";
     WriteToFile fileWrite = new WriteToFile();
     Map<String, String> records = new HashMap<String, String>();
 
@@ -52,13 +51,13 @@ public class DataRetrieve {
 	long timeStart = System.nanoTime();
 	DatabaseEntry dbKey = new DatabaseEntry();
 	DatabaseEntry pKey = new DatabaseEntry();
-	
+	DatabaseEntry data = new DatabaseEntry();
 	//OperationStatus success = ;
 
 	DatabaseEntry data = new DatabaseEntry();
 	SecondaryDatabase database2 = null;
 
-	String sData = null;
+	String pKey = null;
 	String sKey = null;
 		
 	System.out.println("Searching for data in database");
@@ -66,30 +65,33 @@ public class DataRetrieve {
 	try {
 	    //if there is a index file then we can use key search
 	    if (Pref.getDbType() == 3) {
-		
-		Cursor c = db2.openCursor(null, null);
+
+		SecondaryCursor c = db2.openSecondaryCursor(null, null);
 		//set dbKey to the data value we are searching for then move cursor
 		dbKey.setData(searchData.getBytes());
-		if(c.getSearchKey(dbKey, data, LockMode.DEFAULT)==OperationStatus.SUCCESS){
-		    sKey = new String (data.getData());
-		    sData = new String (dbKey.getData());	    
-		    records.put(sKey, sData);
+		dbKey.setSize(searchData.length());
+		if(c.getSearchKey(dbKey, pKey, data, LockMode.DEFAULT)==OperationStatus.SUCCESS){
+		    sKey = new String (dbKey.getData());
+		    pKey = new String (pKey.getData());
+		    
+		    records.put(sKey, pKey);
 
 		    //next if there are duplicate keys after the first get them 		
-		    while(c.getNext(dbKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
+		    while(c.getNext(dbKey, pKey, data, LockMode.DEFAULT) == OperationStatus.SUCCESS){
 			//if(sData == null){
 			//    break;
 			//}
-			sData = new String (dbKey.getData());
-			sKey = new String (data.getData());
+			sKey = new String (dbKey.getData());
+			pKey = new String (pKey.getData());
 			if(sData.equals(searchData)){
-			    records.put(sKey, sData);
+			    records.put(sKey, pKey);
 			}else{
 			    break;
 			}
 		    }
 		}
 		c.close();
+		
 	    }else{    
 		//if BTREE or HASH then search all records using cursor and return matches 
 		Cursor c = database.openCursor(null, null);
@@ -98,6 +100,7 @@ public class DataRetrieve {
 		for(int i = 0; i < 100000; i++){
 		    sData = new String (data.getData());
 		    sKey = new String (dbKey.getData());
+		    data = new DatabaseEntry();
 		
 		    if(sData.equals(searchData)){
 			records.put(sKey, sData);

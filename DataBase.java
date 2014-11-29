@@ -85,6 +85,9 @@ public class DataBase{
 		if(!Interval.testMode){
 			count = populateTable(this.database, NO_RECORDS);
 		}
+		else if(!Interval.testDupMode){
+			count = populateDupTestTable(this.database);
+		}
 		else{
 			count = populateTable(this.database, NO_RECORDS_TEST);
 		}
@@ -92,19 +95,16 @@ public class DataBase{
 		return true;
 	}	
 	
-	static int populateTestTable(Database my_table, int nrecs){
+	static int populateDupTestTable(Database my_table){
 		DatabaseEntry kdbt, ddbt;
 		int count = 0;
-		//parallel arrays can be optimized		
-		String[] keys = {"a","b","c","d","e","f","g","h","i","j","k"}; // 11 keys and values
-		String[] values = {"k","l","a","e","b","u","v","z","q","y","k"};
-		
+		String[][] dupTable = Interval.DUP_TEST_MATRIX;
 		try {
-			for(int i = 0; i < nrecs; i++){
-				kdbt = new DatabaseEntry(keys[i].getBytes());
-				kdbt.setSize(1);
-				ddbt = new DatabaseEntry(values[i].getBytes());
-				ddbt.setSize(1);
+			for(int i = 0; i < Interval.DUP_TEST_MATRIX.length; i++){
+				kdbt = new DatabaseEntry(dupTable[i][0].getBytes());
+				kdbt.setSize(dupTable[i][0].length());
+				ddbt = new DatabaseEntry(dupTable[i][1].getBytes());
+				ddbt.setSize(dupTable[i][1].length());
 				OperationStatus result;
 				result = my_table.exists(null, kdbt);
 				if (!result.toString().equals("OperationStatus.NOTFOUND"))

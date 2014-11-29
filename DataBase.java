@@ -104,14 +104,14 @@ public class DataBase{
 		DatabaseEntry kdbt, ddbt;
 		
 		int count = 0;
-		String[] dupKeys = DUP_TEST_KEYS;
-		String[] dupData = DUP_TEST_DATA;
+		String[] dupKeys = Interval.DUP_TEST_KEYS;
+		String[] dupData = Interval.DUP_TEST_DATA;
 		try {
 			for(int i = 0; i < 5; i++){
 				kdbt = new DatabaseEntry(dupKeys[i].getBytes());
 				kdbt.setSize(dupTable[i].length());
 				kdbt.setReuseBuffer(false);
-				ddbt = new DatabaseEntry(dupTable[i].getBytes());
+				ddbt = new DatabaseEntry(dupData[i].getBytes());
 				ddbt.setSize(dupData[i].length());
 				ddbt.setReuseBuffer(false);
 				OperationStatus result;

@@ -17,7 +17,12 @@ public class RangeSearch{
 	public RangeSearch(){
 		scan = Scan.getInstance();
 		db = DataBase.getInstance();
-		dataBase = DataBase.getInstance().getPrimaryDb();
+		if(Pref.getDbType() == 3){
+			dataBase = db.getInstance().getPrimaryDb_2();
+		}
+		else{
+			dataBase = db.getInstance().getPrimaryDb();
+		}
 		lowerLimit = new String();
 		upperLimit = new String();
 		resultSet = new ResultSet();

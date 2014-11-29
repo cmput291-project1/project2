@@ -12,11 +12,13 @@ public class DataBase{
 	private static final int NO_RECORDS_TEST = 11;
 	public static final String DATABASE_DIR = "/tmp/slmyers_db";
 	public static final String PRIMARY_TABLE = "/tmp/slmyers_db/primary_table_file1";
+	public static final STRING PRIMARY_TABLE2 = "/tmp/slmyers_db/primary_table_file2";
 	
 
-		
+	
 	private static DataBase db = null;	
 	private Database database = null;	
+	private Database database_2 = null;
 	protected DataBase(){
 	}
 	
@@ -42,6 +44,10 @@ public class DataBase{
 		return this.database;
 	}
 
+	public Database getPrimaryDb_2(){
+		return this.database_2;
+	}
+
 	private final boolean createDirectory(String file){
 		File dbDirect = new File(file);
 	  dbDirect.mkdirs();
@@ -50,7 +56,9 @@ public class DataBase{
 
 	private final boolean createBase(){
 		DatabaseConfig dbConfig = new DatabaseConfig();
+		DatabaseConfig dbConfig_2 = null;
 		int count = 0;
+		int count2 = 0;
 		
 		switch(Pref.getDbType()){
 			case 1:
@@ -61,14 +69,23 @@ public class DataBase{
 							break;
 			case 3:
 							dbConfig.setType(DatabaseType.HASH);
+							dbConfig_2 = new DatabaseConfig();
+							dbConfig_2.setType(DatabaseType.BTREE);
 							break;
 			default:
 							System.out.println("Unrecognized database type.");
 		}
-		
+			
+		if(dbConfig_2 != null){
+			dbConfig_2.setAllowCreate(true);
+		}
+
 		dbConfig.setAllowCreate(true);
 		try{
 			this.database = new Database(PRIMARY_TABLE, null, dbConfig);
+			if(dbConfig_2 != null){
+				this.database_2 = new Database(PRIMARY_TABLE2, null, dbConfig_2);
+			}
 		}catch (DatabaseException dbe){
 			System.err.println("unable to create database");
 			dbe.printStackTrace();
@@ -81,13 +98,19 @@ public class DataBase{
 			return false;
 		}
 		System.out.println(PRIMARY_TABLE + " has been created of type: " + dbConfig.getType());
-
+		if(dbConfig_2 != null){
+				System.out.println(PRIMARY_TABLE2 + " has been created of type: " + dbConfig_2.getType());
+		}
 		if(Interval.testMode){
 			count = populateTable(this.database, NO_RECORDS_TEST);
-			
+			count2 = populateTable(this.database_2, NO_RECORDS_TEST);
 		}
 		else if(Interval.testDupMode){
 			try{
+				if(dbConfig_2 != null){
+					count2 = populateDupTestTable(this.database_2);
+				}
+
 				count = populateDupTestTable(this.database);
 			}catch(DatabaseException dbe){
 				dbe.printStackTrace();
@@ -95,8 +118,13 @@ public class DataBase{
 		}
 		else{
 			count = populateTable(this.database, NO_RECORDS);
+			count2 = populateTable(this.database_2, NO_RECORDS_TEST);
 		}
 		System.out.println(PRIMARY_TABLE + " has been inserted with: " + count + " records");
+		if(dbConfig_2 != null){
+			System.out.println(PRIMARY_TABLE2 + " has been inserted with: " + count2 + " records");
+		}
+		
 		return true;
 	}	
 	

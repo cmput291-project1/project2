@@ -12,7 +12,7 @@ public class DataBase{
 	private static final int NO_RECORDS_TEST = 11;
 	public static final String DATABASE_DIR = "/tmp/slmyers_db";
 	public static final String PRIMARY_TABLE = "/tmp/slmyers_db/primary_table_file1";
-	public static final STRING PRIMARY_TABLE2 = "/tmp/slmyers_db/primary_table_file2";
+	public static final String PRIMARY_TABLE2 = "/tmp/slmyers_db/primary_table_file2";
 	
 
 	

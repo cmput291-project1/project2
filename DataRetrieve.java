@@ -62,7 +62,6 @@ public class DataRetrieve {
 				String key = null;
 		
 				System.out.println("Searching for data in database");
-				System.out.println(Pref.getDbType());
 				try {
 					//if there is a index file then we can use key search
 					if (Pref.getDbType() == 3) {
@@ -99,7 +98,7 @@ public class DataRetrieve {
 								data = new String (dataEntry.getData());
 								key = new String (pKey.getData());
 								if(sData.equals(searchData)){
-									records.put(key, data);
+									//records.put(key, data);
 								}
 							c.getNext(pKey, dataEntry, LockMode.DEFAULT);
 						}

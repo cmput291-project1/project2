@@ -103,6 +103,7 @@ public class RangeSearch{
 				retrievedData = new String(data.getData(), "UTF-8");
 				resultSet.addResult(retrievedKey, retrievedData);
 			}
+			data = new DatabaseEntry();
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 			retrievedKey = new String(key.getData(), "UTF-8");
 		}
@@ -137,7 +138,7 @@ public class RangeSearch{
 				retrievedData = new String(data.getData(), "UTF-8");
 				resultSet.addResult(retrievedKey, retrievedData);
 			}
-			
+			data = new DatabaseEntry();
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 		}
 		long endTime = System.nanoTime();

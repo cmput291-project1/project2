@@ -112,7 +112,9 @@ public class RangeSearch{
 		cursor.close();
 		this.duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
 		resultSet.writeResults(null);
-	
+		if(Interval.testMode){
+			this.verify();
+		}
 	}	
 
 	public void hashSearch() throws DatabaseException, UnsupportedEncodingException{
@@ -147,6 +149,9 @@ public class RangeSearch{
 		cursor.close();
 		this.duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
 		resultSet.writeResults(null);
+		if(Interval.testMode){
+			this.verify();
+		}
 	}
 
 	public final boolean verify(){

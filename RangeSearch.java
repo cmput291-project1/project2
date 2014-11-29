@@ -18,7 +18,6 @@ public class RangeSearch{
 		scan = Scan.getInstance();
 		db = DataBase.getInstance();
 		dataBase = DataBase.getInstance().getPrimaryDb();
-		gen = StringGenerator.getInstance();
 		lowerLimit = new String();
 		upperLimit = new String();
 		resultSet = new ResultSet();

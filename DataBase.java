@@ -122,7 +122,7 @@ public class DataBase{
 	static int populateTable(Database my_table, int nrecs ) {
 		int range;
 		DatabaseEntry kdbt, ddbt;
-		int count;
+		int count = 0;
 		String s;
 
 		/*  

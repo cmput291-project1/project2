@@ -86,7 +86,7 @@ public class DataBase{
 			count = populateTable(this.database, NO_RECORDS);
 		}
 		else{
-			count = populateTestTable(this.database, NO_RECORDS_TEST);
+			count = populateTable(this.database, NO_RECORDS_TEST);
 		}
 		System.out.println(PRIMARY_TABLE + " has been inserted with: " + count + " records");
 		return true;
@@ -143,7 +143,8 @@ public class DataBase{
 				s = "";
 				for ( int j = 0; j < range; j++ ) 
 					s+=(new Character((char)(97+random.nextInt(26)))).toString();
-				
+				System.out.println("key: " + s);				
+		
 				/* to create a DBT for key */
 				kdbt = new DatabaseEntry(s.getBytes());
 				kdbt.setSize(s.length()); 
@@ -155,7 +156,7 @@ public class DataBase{
 				s = "";
 				for ( int j = 0; j < range; j++ ) 
 					s+=(new Character((char)(97+random.nextInt(26)))).toString();
-				  
+				System.out.println("data: " + s);
 		
 		
 				/* to create a DBT for data */

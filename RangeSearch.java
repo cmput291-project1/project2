@@ -19,7 +19,7 @@ public class RangeSearch{
 		db = DataBase.getInstance();
 		dataBase = db.getInstance().getPrimaryDb();
 		if(dataBase == null){
-			throw new RuntimeException("database is null at line 20");
+			dataBase.initDataBase();
 		}
 		lowerLimit = new String();
 		upperLimit = new String();
@@ -85,7 +85,8 @@ public class RangeSearch{
 		
 		Cursor cursor = dataBase.openCursor(null, null);
 		if(cursor == null){
-			throw new RuntimeException("cursor opened in RangeSearch.btreeSearch() is null");
+			dataBase.initDataBase();
+			cursor = dataBase.openCursor(null, null);
 		}
 
 		DatabaseEntry key = new DatabaseEntry();
@@ -126,7 +127,8 @@ public class RangeSearch{
 	
 		Cursor cursor = dataBase.openCursor(null, null);
 		if(cursor == null){
-			throw new RuntimeException("cursor opened in RangeSearch.hashSearch() is null");
+			dataBase.initDataBase();
+			cursor = dataBase.openCursor(null, null);
 		}
 		DatabaseEntry key = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();

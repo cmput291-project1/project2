@@ -102,7 +102,11 @@ public class DataRetrieve {
 								if(data.equals(searchData)){
 									records.put(key, data);
 								}
-							//c.getNext(pKey, dataEntry, LockMode.DEFAULT);
+							if(c != null){
+								c.getNext(pKey, dataEntry, LockMode.DEFAULT);
+							}else{
+								throw new RuntimeException ("cursor is null in btree or hash data search!");			
+							}
 						}
 						c.close(); 
 					}

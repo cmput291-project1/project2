@@ -19,6 +19,6 @@ public class Result{
 	}
 
 	public String getKey(){
-		return this.Key;
+		return this.key;
 	}
 }

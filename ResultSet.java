@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.lang.String;
-import java.util.Set;
+import java.util.HashSet;
 public class ResultSet{
 	private static final String ANSWERS = "answers";	
 	private ArrayList<Result> results;

@@ -128,9 +128,9 @@ public class DataBase{
 		String s;
 		ArrayList<String> testKeys;
 		ArrayList<String> testData;
-		if(testMode){
+		if(Interval.testMode){
 			testKeys = new ArrayList<String>();
-			testData = new ArrayList<string>();
+			testData = new ArrayList<String>();
 		}
 		/*  
 		 *  generate a random string with the length between 64 and 127,

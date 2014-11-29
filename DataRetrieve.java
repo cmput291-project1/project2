@@ -56,7 +56,7 @@ public class DataRetrieve {
 
 	
 	SecondaryDatabase database2 = null;
-
+	String sData = null;
 	String data = null;
 	String key = null;
 		
@@ -93,10 +93,10 @@ public class DataRetrieve {
 	    }else{    
 		//if BTREE or HASH then search all records using cursor and return matches 
 		Cursor c = database.openCursor(null, null);
-		c.getFirst(pKey, data, LockMode.DEFAULT);
+		c.getFirst(pKey, dataEntry, LockMode.DEFAULT);
 	    	 
 		for(int i = 0; i < 100000; i++){
-		    sData = new String (data.getData());
+		    sData = new String (dataEntry.getData());
 		    pKey = new String (pKey.getData());
 		    data = new DatabaseEntry();
 		

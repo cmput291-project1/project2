@@ -1,4 +1,4 @@
-
+import com.sleepycat.db.DatabaseException;
 public class Menu{		
 	Scan scan;
 	public Menu(){
@@ -26,25 +26,24 @@ public class Menu{
 		int option = this.select();
 		switch(option){
 			case 1 : 
-						if(Pref.getDbType() == 1 || Pref.getDbType() == 2){
-							db = DataBase.getInstance();
-							db.initDataBase();
-						}else if(Pref.getDbType() == 3){
-							Pref.setDbType(3);
-							db = DataBase.getInstance();	
-							db.initDataBase();						
-							IndexFile indexFile = IndexFile.getInstance();
-							if(indexFile.checkDirectory()){
-								indexFile.configureDataSecondary();
-							}
-						}
+						db = DataBase.getInstance();
+						db.initDataBase();
 						printHeader();
 						makeSelection();
 						break;
 			case 2 : 
 						System.out.println("Option 2 executed");
 						KeyRetrieve kr = new KeyRetrieve();	
-						kr.getRecords();
+						if(Pref.getDbType() == 3){
+							try{
+								kr.getIndexFileRecord();
+							}catch(DatabaseException dbe){
+								dbe.printStackTrace();
+							}
+						}
+						else{
+							kr.getRecords();
+						}
 						printHeader();
 						makeSelection();
 						break;
@@ -63,8 +62,7 @@ public class Menu{
 						makeSelection();
 						break;
 			case 5:
-						System.out.println("Option 5 executed");	
-						IndexFile.getInstance().close();
+						System.out.println("Option 5 executed");
 						DataBase.getInstance().close();
 						this.printHeader();
 						this.makeSelection();
@@ -72,7 +70,6 @@ public class Menu{
 			case 6:
 						//TODO ensure that DataBase.getInstance() does not open create database when unwanted
 						System.out.println("Exiting data base");
-						IndexFile.getInstance().close();
 						DataBase.getInstance().close();
 						System.exit(-1);	
 						break;

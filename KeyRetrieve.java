@@ -1,5 +1,5 @@
 import com.sleepycat.db.*;
-
+import java.util.concurrent.TimeUnit;
 public class KeyRetrieve {
         //examples 
 	// Random Key: thndjefjyfwgpbmhzbfsfkubphiyvqirxwggmuxhvqnfmczshjaldffddmqyylwfmvbttcpvdjjffawzrdmwzykaspfugguntavetgdszamyogibkekcrvjuf
@@ -26,7 +26,19 @@ public class KeyRetrieve {
     	WriteToFile fileWrite = new WriteToFile();
 	
 	public KeyRetrieve(){	
-		database = db.getPrimaryDb();
+		if(Pref.getDbType() != 3){
+			database = db.getPrimaryDb();
+			if(database == null){
+				db.initDataBase();
+				database = db.getPrimaryDb();
+			}
+		}else{
+			database = db.getIndexTree();
+			if(database == null){
+				db.initDataBase();
+				database = db.getIndexTree();
+			}
+		}
 	}
 
 	// main of KeyRetrieve
@@ -81,5 +93,36 @@ public class KeyRetrieve {
     		System.out.println("TOTAL SEARCH TIME = " + time + " Nanoseconds");
 		return;
 
+	}
+
+	public void getIndexFileRecord() throws DatabaseException{
+		System.out.print("Enter key: ");
+		String key = scan.getString();
+		String data = null;
+		int recordsFound = 0;
+		Cursor c = database.openCursor(null, null);		
+		DatabaseEntry cKey = new DatabaseEntry();
+		DatabaseEntry cData = new DatabaseEntry();
+		cKey.setSize(key.length());	
+		cKey.setData(key.getBytes());	
+		OperationStatus status;
+
+		long startTime = System.nanoTime();
+		status = c.getSearchKey(cKey, cData, LockMode.DEFAULT);
+		if(status == OperationStatus.SUCCESS){
+			data = new String (cData.getData());
+		}
+		long endTime = System.nanoTime();
+		long duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
+		if(status == OperationStatus.SUCCESS){
+			recordsFound = 1;
+			fileWrite.writeString(filename, key); 
+	   	fileWrite.writeString(filename, data);
+	   	fileWrite.writeString(filename, "");
+		}
+		System.out.println("Records found: " + recordsFound + " Search time: " + duration);
+		System.out.println("Record information");
+		System.out.println("key: " + key);
+		System.out.println("data: " + data);
 	}
 }

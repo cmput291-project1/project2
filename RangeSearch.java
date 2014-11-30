@@ -3,6 +3,7 @@ import java.lang.String;
 import java.util.concurrent.TimeUnit;
 import java.io.UnsupportedEncodingException;
 public class RangeSearch{
+	//these should be private
 	DataBase db;	
 	String lowerLimit;
 	String upperLimit;
@@ -12,15 +13,11 @@ public class RangeSearch{
 	String retrievedKey;
 	String retrievedData;
 	Scan scan;
-	long duration;
+	long duration;	
 
 	public RangeSearch(){
 		scan = Scan.getInstance();
 		db = DataBase.getInstance();
-		dataBase = db.getInstance().getPrimaryDb();
-		if(dataBase == null){
-			throw new RuntimeException("database is null at line 20");
-		}
 		lowerLimit = new String();
 		upperLimit = new String();
 		resultSet = new ResultSet();
@@ -28,6 +25,9 @@ public class RangeSearch{
 	}
 
 	public void execute(){
+		if(!DataBase.INITIALIZED){
+			db.initDataBase();
+		}
 		int dbtype = Pref.getDbType();
 		getLimits();
 		if(dbtype == 1 || dbtype == 3){
@@ -38,7 +38,7 @@ public class RangeSearch{
 			}catch(UnsupportedEncodingException uee){
 				uee.printStackTrace();
 			}
-		}else if(dbtype == 2){
+		}else{
 			try{
 				hashSearch();
 			}catch(DatabaseException dbe){
@@ -55,7 +55,7 @@ public class RangeSearch{
 		System.out.println("Enter lower key for range search or 'm' to return to menu: ");
 		lowerLimit = getInput();
 		
-		System.out.println("Enter lower key for range search or 'm' to return to menu: ");
+		System.out.println("Enter upper key for range search or 'm' to return to menu: ");
 		upperLimit = getInput();
 		
 	}	
@@ -82,11 +82,15 @@ public class RangeSearch{
 		System.out.println("Search type is BTREE interval search.");
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
-		
-		Cursor cursor = dataBase.openCursor(null, null);
-		if(cursor == null){
-			throw new RuntimeException("database is null at line 20");
+
+		if(Pref.getDbType() == 1){
+			dataBase = db.getPrimaryDb();
+		}else{
+			dataBase = db.getIndexTree();
+
 		}
+		Cursor cursor = dataBase.openCursor(null, null);
+		
 
 		DatabaseEntry key = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();
@@ -98,7 +102,7 @@ public class RangeSearch{
 
 		long startTime = System.nanoTime();
 		
-		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
+		oprStatus = cursor.getSearchKeyRange(key, data, LockMode.DEFAULT);
 		if(oprStatus == OperationStatus.SUCCESS){
 			retrievedKey = new String(key.getData(), "UTF-8");
 		}
@@ -120,20 +124,22 @@ public class RangeSearch{
 	}	
 
 	public void hashSearch() throws DatabaseException, UnsupportedEncodingException{
+		dataBase = db.getPrimaryDb();
 		System.out.println("Search type is hashTable interval search.");
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
 	
 		Cursor cursor = dataBase.openCursor(null, null);
 		if(cursor == null){
-			throw new RuntimeException("database is null at line 20");
+			db.initDataBase();
+			cursor = dataBase.openCursor(null, null);
+
 		}
 		DatabaseEntry key = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();
 		
 		key.setReuseBuffer(false);
 		data.setReuseBuffer(false);
-		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
 		
 		long startTime = System.nanoTime();
 		oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);

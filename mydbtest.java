@@ -36,8 +36,6 @@ public class mydbtest {
 		Pref.setDbType(type);
 		Menu menu = new Menu();
 		scan.close();
-		
-		IndexFile.getInstance().close();
 		if(DataBase.getInstance().getPrimaryDb() != null){
 			DataBase.getInstance().close();
 		}

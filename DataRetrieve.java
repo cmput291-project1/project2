@@ -29,27 +29,31 @@ public class DataRetrieve {
     Map<String, String> records = new HashMap<String, String>();
     OperationStatus oprStat;
 
-
-    public DataRetrieve(){
-
 	DataBase db = DataBase.getInstance();
 	
 
-	if (Pref.getDbType() == 3) {
-	    IndexFile index = IndexFile.getInstance();
+
+    public DataRetrieve(){
+		DataBase db = DataBase.getInstance();
+	
+
+		if (Pref.getDbType() == 3) {
+	    
 	    //if(index.getDataSecondary() == null){
 	    //	index.configureDataSecondary();
 	    //}
-	    db2 = index.getDataSecondary();
+	    db2 = db.getIndexSecondary();
 
-	}else{
-	    database = db.getPrimaryDb();
-	    //if(database == null){
-	    //	throw new RuntimeException("database is null in data retrieve line 40");
-	    //}
-	}	
+		}else{
+			database = db.getPrimaryDb();
+			//if(database == null){
+			//	throw new RuntimeException("database is null in data retrieve line 40");
+			//}
+		}
+	 }
 
-    }
+		
+
 
     //
     public void getRecords() {
@@ -58,10 +62,12 @@ public class DataRetrieve {
 	    System.out.println("Database has not been created!");
 	    return;
 	} 
+
 	
 	// gets user input for record to search for  
 	System.out.print("Please enter data you want to search for: ");
 	String searchData = scan.getString();
+
 	
 	// start timer, end before returns
 	long timeStart = System.nanoTime();
@@ -73,11 +79,13 @@ public class DataRetrieve {
 	pKey.setReuseBuffer(false);
 	dataEntry.setReuseBuffer(false);
 	
+
 	SecondaryDatabase database2 = null;
 				
 	String data = null;
 	String key = null;
 		
+
 	System.out.println("Searching for data: " + searchData + " in database");
 	try {
 	    //if there is a index file then we can use key search
@@ -125,6 +133,7 @@ public class DataRetrieve {
 		}
 		c.close(); 
 	    }
+
 				   
 	}
 	catch (DatabaseException e) {

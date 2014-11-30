@@ -39,7 +39,6 @@ public class KeyRetrieve {
 		// gets user input for record to search for                               
 		System.out.print("Please enter key you want to search for: ");
 		String key = scan.getString();
-		System.out.println(key);
 		
 		// start timer, end before returns
 		long timeStart = System.nanoTime();

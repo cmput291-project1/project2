@@ -18,14 +18,7 @@ public class RangeSearch{
 
 	public RangeSearch(){
 		scan = Scan.getInstance();
-		if(Pref.getDbType() != 3){
-			db = DataBase.getInstance();
-			dataBase = db.getInstance().getPrimaryDb();
-			if(dataBase == null){
-				db.initDataBase();
-				dataBase = db.getInstance().getPrimaryDb();
-			}
-		}
+		db = DataBase.getInstance();
 		lowerLimit = new String();
 		upperLimit = new String();
 		resultSet = new ResultSet();
@@ -35,7 +28,7 @@ public class RangeSearch{
 	public void execute(){
 		int dbtype = Pref.getDbType();
 		getLimits();
-		if(dbtype == 1){
+		if(dbtype == 1 || dbtype == 3){
 			try{
 				btreeSearch();
 			}catch(DatabaseException dbe){
@@ -43,24 +36,9 @@ public class RangeSearch{
 			}catch(UnsupportedEncodingException uee){
 				uee.printStackTrace();
 			}
-		}else if(dbtype == 2){
+		}else{
 			try{
 				hashSearch();
-			}catch(DatabaseException dbe){
-				dbe.printStackTrace();
-			}catch(UnsupportedEncodingException uee){
-				uee.printStackTrace();
-			}
-		}else if(dbtype == 3){
-			indexFile = IndexFile.getInstance();
-			if(indexFile.getTreePrimary() == null){
-				indexFile.initIndexFile();
-				if(indexFile.getTreePrimary() == null){
-					throw new RuntimeException("unable to initiaze primary BTREE db in IndexFile.");
-				}
-			}
-			try{
-				btreeSearch();
 			}catch(DatabaseException dbe){
 				dbe.printStackTrace();
 			}catch(UnsupportedEncodingException uee){
@@ -75,7 +53,7 @@ public class RangeSearch{
 		System.out.println("Enter lower key for range search or 'm' to return to menu: ");
 		lowerLimit = getInput();
 		
-		System.out.println("Enter lower key for range search or 'm' to return to menu: ");
+		System.out.println("Enter upper key for range search or 'm' to return to menu: ");
 		upperLimit = getInput();
 		
 	}	
@@ -102,13 +80,10 @@ public class RangeSearch{
 		System.out.println("Search type is BTREE interval search.");
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
-		if(Pref.getDbType() == 3){
-			dataBase = indexFile.getTreePrimary();
-		}
+		
 		Cursor cursor = dataBase.openCursor(null, null);
 		if(cursor == null){
-			db.initDataBase();
-			cursor = dataBase.openCursor(null, null);
+			throw new RuntimeException("cursor opened in RangeSearch.btreeSearch() is null");
 		}
 
 		DatabaseEntry key = new DatabaseEntry();
@@ -116,6 +91,7 @@ public class RangeSearch{
 		
 		key.setReuseBuffer(false);		
 		key.setData(lowerLimit.getBytes());
+		
 		data.setReuseBuffer(false);
 
 		long startTime = System.nanoTime();
@@ -123,7 +99,6 @@ public class RangeSearch{
 		oprStatus = cursor.getSearchKeyRange(key, data, LockMode.DEFAULT);
 		if(oprStatus == OperationStatus.SUCCESS){
 			retrievedKey = new String(key.getData(), "UTF-8");
-			System.out.println("searchKeyRange success key = " + retrievedKey);
 		}
 		while(oprStatus == OperationStatus.SUCCESS && !(retrievedKey.compareTo(upperLimit) > 0) ){
 			if(!resultSet.containsKey(retrievedKey)){
@@ -157,7 +132,6 @@ public class RangeSearch{
 		
 		key.setReuseBuffer(false);
 		data.setReuseBuffer(false);
-		oprStatus = cursor.getSearchKey(key, data, LockMode.DEFAULT);
 		
 		long startTime = System.nanoTime();
 		oprStatus = cursor.getFirst(key, data, LockMode.DEFAULT);

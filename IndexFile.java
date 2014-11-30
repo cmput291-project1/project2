@@ -2,18 +2,16 @@ import com.sleepycat.db.*;
 import java.io.*;
 import java.util.*;
 
-public class IndexFile{
+public class IndexFile extends DataBase{
 	private static final String DATA_SECONDARY_TABLE = "/tmp/slmyers_db/data_index";
 	public static final String TREE_TABLE = "/tmp/slmyers_db/search_file";
 	public static final String HASH_TABLE = "/tmp/slmyers_db/data_support_file";
-	private DataBase db;
 	private static IndexFile indexFile = null;
 	private SecondaryDatabase dataSecondary = null;
 	private Database databaseHash = null;
 	private Database databaseTree = null;
 
 	protected IndexFile(){
-		db = DataBase.getInstance();
 	}
 	
 	public static IndexFile getInstance(){
@@ -24,25 +22,32 @@ public class IndexFile{
 	}
 
 	public void initIndexFile(){
-		if(db.createDirectory(DataBase.DATABASE_DIR)){
-			this.databaseHash = db.createDb(HASH_TABLE, DatabaseType.HASH);
+		if(createDirectory(DataBase.DATABASE_DIR)){
+			this.databaseHash = createDb(HASH_TABLE, DatabaseType.HASH);
+			if(this.databaseHash == null){
+				throw new RuntimeException(HASH_TABLE + "is null");
+			}
 			System.out.println(HASH_TABLE + " has been created of type: " + DatabaseType.HASH);
-			int count = db.populateTable(this.databaseHash, DataBase.NO_RECORDS);
+			int count = populateTable(this.databaseHash, DataBase.NO_RECORDS);
 			System.out.println(HASH_TABLE + " has been entered with " + count + " records.");
 			
-			this.databaseTree = db.createDb(TREE_TABLE, DatabaseType.HASH);
+			this.databaseTree = createDb(TREE_TABLE, DatabaseType.HASH);
+			if(this.databaseTree == null){
+				throw new RuntimeException(TREE_TABLE + "is null");
+			}
 			System.out.println(TREE_TABLE + " has been created of type: " + DatabaseType.BTREE);
-			count = db.populateTable(this.databaseTree, DataBase.NO_RECORDS);
+			count = populateTable(this.databaseTree, DataBase.NO_RECORDS);
 			System.out.println(TREE_TABLE + " has been entered with " + count + " records.");
 
 			configureDataSecondary();
+			
 		}
 		else{
 			throw new RuntimeException("unable to create database. Please run: rm -rf /tmp/slmyers_db\n and then start program again");
 		}
 		
 	}
-	
+
 	public Database getTreePrimary(){
 		return databaseTree;
 	}
@@ -55,9 +60,7 @@ public class IndexFile{
 		return this.dataSecondary;
 	}
 
-	public final boolean checkDirectory(){
-		return new File(DataBase.DATABASE_DIR).exists();
-	}
+	
 
 	
 
@@ -127,6 +130,7 @@ public class IndexFile{
 		try{
 			if(this.dataSecondary != null){
 				this.dataSecondary.close();
+				System.out.println(DATA_SECONDARY_TABLE + " is closed");
 			}
 		}catch(DatabaseException dbe){
 			System.err.println("unable to close database");
@@ -153,5 +157,7 @@ public class IndexFile{
 			System.err.println("can not find file to remove indexFile(s)");
 			fnfe.printStackTrace();
 		}
+		this.databaseHash = null;
+		this.databaseTree = null;
 	}
 }

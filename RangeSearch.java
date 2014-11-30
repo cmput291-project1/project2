@@ -19,7 +19,8 @@ public class RangeSearch{
 		db = DataBase.getInstance();
 		dataBase = db.getInstance().getPrimaryDb();
 		if(dataBase == null){
-			dataBase.initDataBase();
+			db.initDataBase();
+			dataBase = db.getInstance().getPrimaryDb();
 		}
 		lowerLimit = new String();
 		upperLimit = new String();
@@ -85,7 +86,7 @@ public class RangeSearch{
 		
 		Cursor cursor = dataBase.openCursor(null, null);
 		if(cursor == null){
-			dataBase.initDataBase();
+			db.initDataBase();
 			cursor = dataBase.openCursor(null, null);
 		}
 
@@ -94,7 +95,6 @@ public class RangeSearch{
 		
 		key.setReuseBuffer(false);		
 		key.setData(lowerLimit.getBytes());
-		
 		data.setReuseBuffer(false);
 
 		long startTime = System.nanoTime();
@@ -127,7 +127,7 @@ public class RangeSearch{
 	
 		Cursor cursor = dataBase.openCursor(null, null);
 		if(cursor == null){
-			dataBase.initDataBase();
+			db.initDataBase();
 			cursor = dataBase.openCursor(null, null);
 		}
 		DatabaseEntry key = new DatabaseEntry();

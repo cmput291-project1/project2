@@ -1,4 +1,4 @@
-
+import com.sleepycat.db.DatabaseException;
 public class Menu{		
 	Scan scan;
 	public Menu(){
@@ -30,7 +30,7 @@ public class Menu{
 							db = DataBase.getInstance();
 							db.initDataBase();
 						}else if(Pref.getDbType() == 3){
-							Pref.setDbType(3);
+							//Pref.setDbType(3); useless line i think
 							db = DataBase.getInstance();	
 							db.initDataBase();						
 							IndexFile indexFile = IndexFile.getInstance();
@@ -44,7 +44,16 @@ public class Menu{
 			case 2 : 
 						System.out.println("Option 2 executed");
 						KeyRetrieve kr = new KeyRetrieve();	
-						kr.getRecords();
+						if(Pref.getDbType() == 3){
+							try{
+								kr.getIndexFileRecord();
+							}catch(DatabaseException dbe){
+								dbe.printStackTrace();
+							}
+						}
+						else{
+							kr.getRecords();
+						}
 						printHeader();
 						makeSelection();
 						break;

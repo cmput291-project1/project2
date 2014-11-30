@@ -3,6 +3,7 @@ import java.lang.String;
 import java.util.concurrent.TimeUnit;
 import java.io.UnsupportedEncodingException;
 public class RangeSearch{
+	//these should be private
 	DataBase db;	
 	String lowerLimit;
 	String upperLimit;
@@ -13,14 +14,17 @@ public class RangeSearch{
 	String retrievedData;
 	Scan scan;
 	long duration;
+	IndexFile indexFile;	
 
 	public RangeSearch(){
 		scan = Scan.getInstance();
-		db = DataBase.getInstance();
-		dataBase = db.getInstance().getPrimaryDb();
-		if(dataBase == null){
-			db.initDataBase();
+		if(Pref.getDbType() != 3){
+			db = DataBase.getInstance();
 			dataBase = db.getInstance().getPrimaryDb();
+			if(dataBase == null){
+				db.initDataBase();
+				dataBase = db.getInstance().getPrimaryDb();
+			}
 		}
 		lowerLimit = new String();
 		upperLimit = new String();
@@ -31,7 +35,7 @@ public class RangeSearch{
 	public void execute(){
 		int dbtype = Pref.getDbType();
 		getLimits();
-		if(dbtype == 1 || dbtype == 3){
+		if(dbtype == 1){
 			try{
 				btreeSearch();
 			}catch(DatabaseException dbe){
@@ -42,6 +46,21 @@ public class RangeSearch{
 		}else if(dbtype == 2){
 			try{
 				hashSearch();
+			}catch(DatabaseException dbe){
+				dbe.printStackTrace();
+			}catch(UnsupportedEncodingException uee){
+				uee.printStackTrace();
+			}
+		}else if(dbtype == 3){
+			indexFile = IndexFile.getInstance();
+			if(indexFile.getTreePrimary() == null){
+				indexFile.initIndexFile();
+				if(indexFile.getTreePrimary() == null){
+					throw new RuntimeException("unable to initiaze primary BTREE db in IndexFile.");
+				}
+			}
+			try{
+				btreeSearch();
 			}catch(DatabaseException dbe){
 				dbe.printStackTrace();
 			}catch(UnsupportedEncodingException uee){
@@ -83,7 +102,9 @@ public class RangeSearch{
 		System.out.println("Search type is BTREE interval search.");
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
-		
+		if(Pref.getDbType() == 3){
+			dataBase = indexFile.getTreePrimary();
+		}
 		Cursor cursor = dataBase.openCursor(null, null);
 		if(cursor == null){
 			db.initDataBase();
@@ -102,6 +123,7 @@ public class RangeSearch{
 		oprStatus = cursor.getSearchKeyRange(key, data, LockMode.DEFAULT);
 		if(oprStatus == OperationStatus.SUCCESS){
 			retrievedKey = new String(key.getData(), "UTF-8");
+			System.out.println("searchKeyRange success key = " + retrievedKey);
 		}
 		while(oprStatus == OperationStatus.SUCCESS && !(retrievedKey.compareTo(upperLimit) > 0) ){
 			if(!resultSet.containsKey(retrievedKey)){

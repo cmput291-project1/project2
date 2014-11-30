@@ -30,13 +30,8 @@ public class Menu{
 							db = DataBase.getInstance();
 							db.initDataBase();
 						}else if(Pref.getDbType() == 3){
-							//Pref.setDbType(3); useless line i think
-							db = DataBase.getInstance();	
-							db.initDataBase();						
 							IndexFile indexFile = IndexFile.getInstance();
-							if(indexFile.checkDirectory()){
-								indexFile.configureDataSecondary();
-							}
+							indexFile.initIndexFile();
 						}
 						printHeader();
 						makeSelection();

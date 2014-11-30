@@ -81,9 +81,6 @@ public class DataRetrieve {
 							records.put(key, data);
 						//next if there are duplicate keys after the first get them 		
 							while(c.getNextDup(secKey, pKey, dataEntry, LockMode.DEFAULT) == OperationStatus.SUCCESS){
-								//if(sData == null){
-								//    break;
-								//}
 								data = new String (secKey.getData());
 								key = new String (pKey.getData());
 								records.put(key, data);

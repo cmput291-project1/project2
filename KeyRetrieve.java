@@ -4,6 +4,7 @@ public class KeyRetrieve {
         //examples 
 	// Random Key: thndjefjyfwgpbmhzbfsfkubphiyvqirxwggmuxhvqnfmczshjaldffddmqyylwfmvbttcpvdjjffawzrdmwzykaspfugguntavetgdszamyogibkekcrvjuf
 	// Random Data: djjtchkroyzbyzqycjbjfvkxuwuywywkcvqltyagjavmhpewjuhfqsaawwzwvusrobrzmkbstekgkbawzkl
+
 	// Last key: zzzzevhwlhknxjmuxosuaunkzvqaynhihjpryfhwzziekyjpwhtsffnvywrrcwpxpmavfbqzwbxwkwwodfxiwcxsvkfznsgymytctmjleuxohjezlyeodccqletvf
 	// Last Data: woqlahmzrqlyhhjzdklmjqolkbhhiasczpgukpyobcwztbsffleukvbfdnqnubmorshieukeclbbtie
 
@@ -42,10 +43,14 @@ public class KeyRetrieve {
 
 	// main of KeyRetrieve
 	public void getRecords() {
+		// check if databse was populated by user yet
+		if (database == null) {
+			System.out.println("Database needs to be populated first!");
+			return;
+		}
 		// gets user input for record to search for                               
 		System.out.print("Please enter key you want to search for: ");
 		String key = scan.getString();
-		System.out.println(key);
 		
 		// start timer, end before returns
 		long timeStart = System.nanoTime();
@@ -55,7 +60,6 @@ public class KeyRetrieve {
 		//DatabaseEntry sKey = new DatabaseEntry();
 		dbKey.setData(key.getBytes()); 
 		dbKey.setSize(key.length());
-		System.out.println();
 		DatabaseEntry data = new DatabaseEntry();
 		
 		System.out.println("Searching for key in database");

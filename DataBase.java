@@ -222,6 +222,27 @@ public class DataBase{
 			database = null;
 			db = null;
 		}
+		if(this.databaseHash != null){
+			try{
+				this.dataSecondary.close();
+				System.out.println(DATA_SECONDARY_TABLE + " database is closed");
+				this.databaseHash.close();
+				this.database.remove(HASH_TABLE,null,null);
+				System.out.println(HASH_TABLE + " database is closed and removed");
+				this.databaseTree.close();
+				this.database.remove(TREE_TABLE,null,null);
+				System.out.println(TREE_TABLE + " database is closed and removed");
+			}catch(DatabaseException dbe){
+				System.err.println("unable to close database(s)");
+				dbe.printStackTrace();
+			}catch (FileNotFoundException fnfe){
+				System.err.println("can not find file to remove Database(s)");
+				fnfe.printStackTrace();
+			}
+			this.dataSecondary = null;
+			this.databaseHash = null;
+			this.databaseTree = null;
+		}
 	}
 
 	public static void deleteFolder(File folder) {

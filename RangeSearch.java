@@ -13,8 +13,7 @@ public class RangeSearch{
 	String retrievedKey;
 	String retrievedData;
 	Scan scan;
-	long duration;
-	IndexFile indexFile;	
+	long duration;	
 
 	public RangeSearch(){
 		scan = Scan.getInstance();
@@ -26,6 +25,9 @@ public class RangeSearch{
 	}
 
 	public void execute(){
+		if(!DataBase.INITIALIZED){
+			db.initDataBase();
+		}
 		int dbtype = Pref.getDbType();
 		getLimits();
 		if(dbtype == 1 || dbtype == 3){
@@ -80,11 +82,13 @@ public class RangeSearch{
 		System.out.println("Search type is BTREE interval search.");
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);
-		
-		Cursor cursor = dataBase.openCursor(null, null);
-		if(cursor == null){
-			throw new RuntimeException("cursor opened in RangeSearch.btreeSearch() is null");
+		if(Pref.getDbType() == 1){
+			dataBase = db.getPrimaryDb();
+		}else{
+			dataBase = db.getIndexTree();
 		}
+		Cursor cursor = dataBase.openCursor(null, null);
+		
 
 		DatabaseEntry key = new DatabaseEntry();
 		DatabaseEntry data = new DatabaseEntry();
@@ -118,6 +122,7 @@ public class RangeSearch{
 	}	
 
 	public void hashSearch() throws DatabaseException, UnsupportedEncodingException{
+		dataBase = db.getPrimaryDb();
 		System.out.println("Search type is hashTable interval search.");
 		System.out.println("lower limit is: " + lowerLimit);
 		System.out.println("upper limit is: " + upperLimit);

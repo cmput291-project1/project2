@@ -30,11 +30,10 @@ public class DataRetrieve {
 	
 
 		if (Pref.getDbType() == 3) {
-			  IndexFile index = IndexFile.getInstance();
-				if(index.getDataSecondary() == null){
-			  	index.configureDataSecondary();
+				if(db.getIndexSecondary() == null){
+			  		db.configureDataSecondary();
 				}
-			  db2 = index.getDataSecondary();
+			  		db2 = db.getIndexSecondary();
 
 		}else{
 			  database = db.getPrimaryDb();

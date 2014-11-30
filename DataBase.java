@@ -16,12 +16,13 @@ public class DataBase{
 	public static final String TREE_TABLE = "/tmp/slmyers_db/search_file";
 	public static final String HASH_TABLE = "/tmp/slmyers_db/data_support_file";
 
-	
+	public static boolean INITIALIZED = false;
 	private static DataBase db = null;	
 	
 	private Database database = null;
 	private Database databaseHash = null;
 	private Database databaseTree = null;	
+	private SecondaryDatabase dataSecondary = null;
 
 	protected DataBase(){
 	}
@@ -48,8 +49,8 @@ public class DataBase{
 			initIndexFile(DatabaseType.BTREE);
 			initIndexFile(DatabaseType.HASH);
 			configureDataSecondary();
+			INITIALIZED = true;
 			return;
-		}
 		}else{
 			throw new RuntimeException("unknown database attempting to be created in Database");
 		}
@@ -59,6 +60,7 @@ public class DataBase{
 		
 		int count = populateTable(this.database, NO_RECORDS);
 		System.out.println(PRIMARY_TABLE + " has been entered with " + count + " records.");
+		INITIALIZED = true;
 	}
 
 	public Database getPrimaryDb(){

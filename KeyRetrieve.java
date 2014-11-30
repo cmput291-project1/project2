@@ -25,10 +25,18 @@ public class KeyRetrieve {
     	WriteToFile fileWrite = new WriteToFile();
 	
 	public KeyRetrieve(){	
-		database = db.getPrimaryDb();
-		if(database == null && Pref.getDbType() != 3){
-			db.initDataBase();
+		if(Pref.getDbType() != 3){
 			database = db.getPrimaryDb();
+			if(database == null){
+				db.initDataBase();
+				database = db.getPrimaryDb();
+			}
+		}else{
+			database = db.getIndexTree();
+			if(database == null){
+				db.initDataBase();
+				database = db.getIndexTree();
+			}
 		}
 	}
 
@@ -84,14 +92,7 @@ public class KeyRetrieve {
 	}
 
 	public void getIndexFileRecord() throws DatabaseException{
-		IndexFile indexFile = IndexFile.getInstance();
-		if( ( database = indexFile.getTreePrimary() ) == null){
-			indexFile.initIndexFile();
-			if( ( database = indexFile.getTreePrimary() ) == null){
-				throw new RuntimeException("unable to retrieve IndexFile.databaseTree in KeyRetrieve");
-			}
-		}
-		System.out.println("Enter key: ");
+		System.out.print("Enter key: ");
 		String key = scan.getString();
 		String data = null;
 		int recordsFound = 0;

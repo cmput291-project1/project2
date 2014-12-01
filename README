@@ -1,1 +1,15 @@
-test readme file
+CMPUT 291 project 2
+
+To run:
+./mydbtest <option>
+
+option 1: creates a database of type Binary Tree
+option 2: creates a database of type Hash
+option 3: creates a primary database of type Binary Tree, and secondary database of type Binary Tree
+
+Program authors:
+Steven Myers, contact: slmyers@ualberta.ca
+Sean Scheideman
+Jared Hostyn
+
+

@@ -56,19 +56,21 @@ public class DataRetrieve {
 
 
     //
-    public void getRecords() {
+    public void getRecords(boolean test, String testData) {
 	//check if database is null, if true than return to main menu
 	if((Pref.getDbType() == 3 && db2 == null) || (Pref.getDbType() != 3 && database == null)){
 	    System.out.println("Database has not been created!");
 	    return;
 	} 
-
-	
-	// gets user input for record to search for  
-	System.out.print("Please enter data you want to search for: ");
-	String searchData = scan.getString();
-
-	
+	String searchData;
+	if(!test){
+		// gets user input for record to search for  
+		System.out.print("Please enter data you want to search for: ");
+		searchData = scan.getString();
+	}
+	else{
+		searchData = testData;
+	}
 	// start timer, end before returns
 	long timeStart = System.nanoTime();
 	DatabaseEntry secKey = new DatabaseEntry();

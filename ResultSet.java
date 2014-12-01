@@ -16,55 +16,6 @@ public class ResultSet{
 		results.add(new Result(key, data, this.results.size() + 1));
 	}
 	
-	
-
-	public final boolean verifyKeyRange(String lowerLimit, String upperLimit){
-		boolean inRange = true;
-		ArrayList<String> keyResults = new ArrayList<String>();
-		for(Result r : results){
-			keyResults.add(r.getKey());
-		}
-		for(String s : keyResults){
-			if( (s.compareTo(lowerLimit) < 0) || (s.compareTo(upperLimit) > 0) ){
-				System.out.println("this key is out of range: " + s);
-				inRange = false;
-			}
-		}
-		return inRange;
-	}
-
-	public void duplicateKeys(){
-		boolean duplicateDetected = false;
-		final HashSet<Result> duplicates = new HashSet<Result>();
-		final HashSet<Result> singles = new HashSet<Result>();
-
-		for (Result result : results){
-			if(!singles.add(result)){
-				duplicateDetected = true;
-				duplicates.add(result);
-			}
-		}
-		
-		if(duplicateDetected){
-			System.out.println(duplicates.size() + " duplicates detected.");
-			for(Result dup : duplicates){
-				System.out.println("key:\t" + dup.getKey());
-				System.out.println();
-				System.out.println("Count:\t" + dup.getCount());
-			}
-		}
-		
-	}
-
-	public final boolean containsKey(String key){
-		for(Result result : results){
-			if(result.getKey().equals(key)){
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public ArrayList<Result> getResults(){
 		return this.results;
 	}
@@ -73,23 +24,13 @@ public class ResultSet{
 		return this.results.size();
 	}
 
-	public void writeResults(String file){
-		if(file == null){
-			file = ANSWERS;
-		}
-	
+	public void writeResults(){
 		for (Result result : results){
-			fw.writeString(file, result.getKey());
-			fw.writeString(file, result.getData());
-			fw.writeString(file, "");
+			fw.writeString(ANSWERS, result.getKey());
+			fw.writeString(ANSWERS, result.getData());
+			fw.writeString(ANSWERS, "");
 		}
-	}
-
-	public void print(){
-		for(Result r : results){
-			r.print();
-			System.out.println("------------------");
-		}
+		
 	}
 
 	public void clear(){

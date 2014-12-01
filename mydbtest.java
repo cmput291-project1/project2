@@ -13,17 +13,6 @@ public class mydbtest {
         	System.err.println("Argument " + args[0] + " must be an integer.");
         	System.exit(-1);
     		}
-
-				try{
-					if(args[1].equals("test")){
-						Interval.setTestMode();
-					}
-					else if(args[1].equals("testDup")){
-						Interval.setTestDupMode();
-					}
-				}catch (ArrayIndexOutOfBoundsException aobe){
-					//empty catch no biggie if it's not there
-				}
 		}
 		else{
 			System.out.println("database type must be selected.");
@@ -37,7 +26,10 @@ public class mydbtest {
 		Menu menu = new Menu();
 		scan.close();
 		if(DataBase.getInstance().getPrimaryDb() != null){
-			DataBase.getInstance().close();
+			DataBase.getInstance().close(true);
+		}
+		if(Pref.getDbType() == 3 && DataBase.getInstance().getIndexTree() != null){
+			DataBase.getInstance().close(true);
 		}
 		
 	}

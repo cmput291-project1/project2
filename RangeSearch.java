@@ -24,12 +24,18 @@ public class RangeSearch{
 		
 	}
 
-	public void execute(){
+	public void execute(boolean test, String lowerLimit, String upperLimit){
 		if(!DataBase.INITIALIZED){
 			db.initDataBase();
 		}
 		int dbtype = Pref.getDbType();
-		getLimits();
+		if(!test){
+			getLimits(); //sets this.upperLimit and this.lowerLimit if we're not running a test
+		}
+		else{
+			this.lowerLimit = lowerLimit;
+			this.upperLimit = upperLimit;
+		}
 		if(dbtype == 1 || dbtype == 3){
 			try{
 				btreeSearch();
@@ -48,14 +54,14 @@ public class RangeSearch{
 			}
 		}
 		System.out.println("there were " + resultSet.getCount() + " results found and it took " + duration + " microseconds.");		
-
+		resultSet.clear();
 	}
 
 	public void getLimits(){
-		System.out.println("Enter lower key for range search or 'm' to return to menu: ");
+		System.out.println("Enter lower key for range search or 'menu' to return to menu: ");
 		lowerLimit = getInput();
 		
-		System.out.println("Enter upper key for range search or 'm' to return to menu: ");
+		System.out.println("Enter upper key for range search or 'menu' to return to menu: ");
 		upperLimit = getInput();
 		
 	}	
@@ -63,14 +69,8 @@ public class RangeSearch{
 	public String getInput(){
 		String input = new String();
 		input = scan.getString();
-
-		if(input.equals("lower limit")){
-			return Interval.LOWER_LIMIT;
-		}
-		else if(input.equals("upper limit")){
-			return Interval.UPPER_LIMIT;
-		}
-		else if(input.equals("m")){
+		
+		if(input.equals("menu")){
 			Menu menu = new Menu();
 			return null;
 		}else{
@@ -107,20 +107,15 @@ public class RangeSearch{
 			retrievedKey = new String(key.getData(), "UTF-8");
 		}
 		while(oprStatus == OperationStatus.SUCCESS && !(retrievedKey.compareTo(upperLimit) > 0) ){
-			if(!resultSet.containsKey(retrievedKey)){
-				retrievedData = new String(data.getData(), "UTF-8");
-				resultSet.addResult(retrievedKey, retrievedData);
-			}
+			retrievedData = new String(data.getData(), "UTF-8");
+			resultSet.addResult(retrievedKey, retrievedData);
 			oprStatus = cursor.getNext(key, data, LockMode.DEFAULT);
 			retrievedKey = new String(key.getData(), "UTF-8");
 		}
 		long endTime = System.nanoTime();
 		cursor.close();
 		this.duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
-		resultSet.writeResults(null);
-		if(Interval.testMode){
-			this.verify();
-		}
+		resultSet.writeResults();
 	}	
 
 	public void hashSearch() throws DatabaseException, UnsupportedEncodingException{
@@ -154,14 +149,6 @@ public class RangeSearch{
 		long endTime = System.nanoTime();
 		cursor.close();
 		this.duration = TimeUnit.MICROSECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
-		resultSet.writeResults(null);
-		if(Interval.testMode){
-			this.verify();
-		}
-	}
-
-	public final boolean verify(){
-		System.out.println("verifying");
-		return this.resultSet.verifyKeyRange(lowerLimit, upperLimit);
+		resultSet.writeResults();
 	}
 }

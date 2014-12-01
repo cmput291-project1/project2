@@ -17,7 +17,6 @@ public class KeyRetrieve {
 	
 	// key: szysjqctdhewbmldkyzojvnpatqlhofdiavalosfwidkrppmshbcmrihpxuqdmyhvyvpuplerjsqxaseuetlsznwfclfytahorfqfgagjslzkqmlebh
 	// data: fgzqeklegbkhfmvybrrlaeqprkwchikudsvdgksxkoxpmeaeqchluypdvatveqreeevnnbqszeykoyddsflsgnktspcfpgggmvkricdrlzfamhisqyyuljptcsnc
-
 	Scan scan = Scan.getInstance();
 	// creates database or gets instance if it was already created
 	DataBase db = DataBase.getInstance();
@@ -42,16 +41,20 @@ public class KeyRetrieve {
 	}
 
 	// main of KeyRetrieve
-	public void getRecords() {
+	public void getRecords(boolean test, String testKey) {
+		String key = null;
 		// check if databse was populated by user yet
 		if (database == null) {
 			System.out.println("Database needs to be populated first!");
 			return;
 		}
-		// gets user input for record to search for                               
-		System.out.print("Please enter key you want to search for: ");
-		String key = scan.getString();
-		
+		if(!test){
+			// gets user input for record to search for                               
+			System.out.print("Please enter key you want to search for: ");
+			key = scan.getString();
+		}else{
+			key = testKey;
+		}
 		// start timer, end before returns
 		long timeStart = System.nanoTime();
 
@@ -95,9 +98,15 @@ public class KeyRetrieve {
 
 	}
 
-	public void getIndexFileRecord() throws DatabaseException{
-		System.out.print("Enter key: ");
-		String key = scan.getString();
+	public void getIndexFileRecord(boolean test, String testKey) throws DatabaseException{
+		String key;		
+		if(!test){
+			System.out.print("Enter key: ");
+			key = scan.getString();
+		}
+		else{
+			key = testKey;
+		}
 		String data = null;
 		int recordsFound = 0;
 		Cursor c = database.openCursor(null, null);		

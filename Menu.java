@@ -36,13 +36,16 @@ public class Menu{
 						KeyRetrieve kr = new KeyRetrieve();	
 						if(Pref.getDbType() == 3){
 							try{
-								kr.getIndexFileRecord();
+								kr.getIndexFileRecord(false, null);
+								db = DataBase.getInstance();
+								if(db.getIndexTree() == null)
+									db.initDataBase();
 							}catch(DatabaseException dbe){
 								dbe.printStackTrace();
 							}
 						}
 						else{
-							kr.getRecords();
+							kr.getRecords(false, null);
 						}
 						printHeader();
 						makeSelection();
@@ -50,27 +53,27 @@ public class Menu{
 			case 3: 
 						System.out.println("Option 3 executed");				                        	   
 						DataRetrieve dr = new DataRetrieve();	
-						dr.getRecords();
+						dr.getRecords(false, null);
 						printHeader();
 						makeSelection();
 						break;
 			case 4: 
 						System.out.println("Option 4 executed");	
 						RangeSearch rs = new RangeSearch();
-						rs.execute();
+						rs.execute(false, null, null);
 						printHeader();
 						makeSelection();
 						break;
 			case 5:
 						System.out.println("Option 5 executed");
-						DataBase.getInstance().close();
+						DataBase.getInstance().close(false);
 						this.printHeader();
 						this.makeSelection();
 						break;
 			case 6:
 						//TODO ensure that DataBase.getInstance() does not open create database when unwanted
 						System.out.println("Exiting data base");
-						DataBase.getInstance().close();
+						DataBase.getInstance().close(true);
 						System.exit(-1);	
 						break;
 			default: 

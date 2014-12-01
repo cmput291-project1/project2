@@ -24,6 +24,8 @@ public class DataBase{
 	private Database databaseTree = null;	
 	private SecondaryDatabase dataSecondary = null;
 
+	 
+
 	protected DataBase(){
 	}
 	
@@ -47,7 +49,6 @@ public class DataBase{
 			type = DatabaseType.HASH;
 		}else if (typeInt == 3){
 			initIndexFile(DatabaseType.BTREE);
-			initIndexFile(DatabaseType.HASH);
 			configureDataSecondary();
 			INITIALIZED = true;
 			return;
@@ -61,6 +62,7 @@ public class DataBase{
 		int count = populateTable(this.database, NO_RECORDS);
 		System.out.println(PRIMARY_TABLE + " has been entered with " + count + " records.");
 		INITIALIZED = true;
+		
 	}
 
 	public Database getPrimaryDb(){
@@ -99,15 +101,15 @@ public class DataBase{
 		SecondaryConfig secConfig = new SecondaryConfig();
 		secConfig.setKeyCreator(new DataKeyCreator());
 		secConfig.setAllowCreate(true);
-		secConfig.setType(DatabaseType.HASH);
+		secConfig.setType(DatabaseType.BTREE);
 		secConfig.setSortedDuplicates(true);
 		secConfig.setAllowPopulate(true);
 
 		try{
-			this.dataSecondary = new SecondaryDatabase(DATA_SECONDARY_TABLE, null, this.databaseHash, secConfig);
+			this.dataSecondary = new SecondaryDatabase(DATA_SECONDARY_TABLE, null, this.databaseTree, secConfig);
 		}catch(DatabaseException dbe){
 			System.err.println("Error while instantiating secondary 'data' database: " + dbe.toString());
-			this.close();
+			this.close(true);
 			System.exit(-1);
 		}catch(FileNotFoundException fnfe){
 			System.err.println("Secondary database file not found: " + fnfe.toString());
@@ -206,7 +208,7 @@ public class DataBase{
 		return count;
 	}
 
-	public void close(){
+	public void close(boolean clearFiles){
 		if(this.database != null){
 			try{
 				this.database.close();
@@ -222,13 +224,10 @@ public class DataBase{
 			database = null;
 			db = null;
 		}
-		if(this.databaseHash != null){
+		if(this.databaseTree != null){
 			try{
 				this.dataSecondary.close();
 				System.out.println(DATA_SECONDARY_TABLE + " database is closed");
-				this.databaseHash.close();
-				this.database.remove(HASH_TABLE,null,null);
-				System.out.println(HASH_TABLE + " database is closed and removed");
 				this.databaseTree.close();
 				this.database.remove(TREE_TABLE,null,null);
 				System.out.println(TREE_TABLE + " database is closed and removed");
@@ -242,6 +241,12 @@ public class DataBase{
 			this.dataSecondary = null;
 			this.databaseHash = null;
 			this.databaseTree = null;
+		}
+		INITIALIZED = false;
+		if(clearFiles){
+			deleteFolder(new File("/tmp/slmyers_db"));
+			WriteToFile.deleteAnswerFile();
+			System.out.println("/tmp/slmyers_db and ./answers deleted");
 		}
 	}
 

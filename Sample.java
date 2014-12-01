@@ -19,7 +19,7 @@ import java.util.*;
 public class Sample{
 	
     // to specify the file name for the table
-    private static final String SAMPLE_TABLE = "/tmp/user_db/sample_table";
+    private static final String SAMPLE_TABLE = "./tmp/user_db/sample_table";
     private static final int NO_RECORDS = 10;
 
     /*
@@ -31,7 +31,7 @@ public class Sample{
 	    //NEW CODE timer	            
 	    long timeStart = System.nanoTime();
             // NEW CODE - make directory
-	    File dbDirect = new File("/tmp/user_db");
+	    File dbDirect = new File("./tmp/user_db");
 	    boolean success = dbDirect.mkdirs();
 	    if (!success) {
 		System.out.println("directory not created or exists already");
@@ -134,6 +134,7 @@ public class Sample{
             System.exit(1);
         }
     }
+
 }
 
 

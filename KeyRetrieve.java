@@ -55,15 +55,15 @@ public class KeyRetrieve {
 		}else{
 			key = testKey;
 		}
-		// start timer, end before returns
-		long timeStart = System.nanoTime();
 
 		// set up inputed key and data
 		DatabaseEntry dbKey = new DatabaseEntry();
-		//DatabaseEntry sKey = new DatabaseEntry();
 		dbKey.setData(key.getBytes()); 
 		dbKey.setSize(key.length());
 		DatabaseEntry data = new DatabaseEntry();
+
+		// start timer, end before returns
+		long timeStart = System.nanoTime();
 		
 		System.out.println("Searching for key in database");
 		// get the data record
@@ -74,6 +74,9 @@ public class KeyRetrieve {
 			System.err.println("unable to get key/value record!");
 		}
 
+		// end timer and print time
+		long timeEnd = System.nanoTime();
+    		long time = TimeUnit.MICROSECONDS.convert(timeEnd - timeStart, TimeUnit.NANOSECONDS);
 		// prints the records found
 		if (data.getData() == null) {
 			System.out.println("Records found: 0");
@@ -89,11 +92,7 @@ public class KeyRetrieve {
 	    		fileWrite.writeString(filename, "");
 		}
 
-		// end timer and print time
-		long timeEnd = System.nanoTime();
-    		long time = timeEnd - timeStart;
-		//time = time/1000;
-    		System.out.println("TOTAL SEARCH TIME = " + time + " Nanoseconds");
+    		System.out.println("Search time = " + time + " Microseconds");
 		return;
 
 	}
@@ -126,10 +125,10 @@ public class KeyRetrieve {
 		if(status == OperationStatus.SUCCESS){
 			recordsFound = 1;
 			fileWrite.writeString(filename, key); 
-	   	fileWrite.writeString(filename, data);
-	   	fileWrite.writeString(filename, "");
+	   		fileWrite.writeString(filename, data);
+	   		fileWrite.writeString(filename, "");
 		}
-		System.out.println("Records found: " + recordsFound + " Search time: " + duration);
+		System.out.println("Records found: " + recordsFound + " Search time: " + duration + " Microseconds");
 		System.out.println("Record information");
 		System.out.println("key: " + key);
 		System.out.println("data: " + data);

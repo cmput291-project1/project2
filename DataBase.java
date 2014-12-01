@@ -116,14 +116,6 @@ public class DataBase{
 		}
 		
 		System.out.println(DATA_SECONDARY_TABLE + " has been created of type: " + secConfig.getType());
-		
-		if(Interval.testMode || Interval.testDupMode){
-			try{
-				printSecondary();
-			}catch(DatabaseException dbe){
-				dbe.printStackTrace();
-			}
-		}
 	}
 
 	public final boolean createDirectory(String file){
